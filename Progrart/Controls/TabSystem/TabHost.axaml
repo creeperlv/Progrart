@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:progrart="using:Progrart"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="Progrart.Controls.TabSystem.TabHost">
+	<Border>
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+				<Border Margin="12" Background="#2888" CornerRadius="12" Padding="4">
+					<StackPanel Name="TabContainer" Orientation="Horizontal" >
+						<StackPanel.Styles>
+							<Style Selector="Button">
+								<Setter Property="CornerRadius" Value="12"/>
+							</Style>
+						</StackPanel.Styles>
+						<TextBlock/>
+					</StackPanel>
+				</Border>
+			</ScrollViewer>
+			<Border Grid.Row="1" Background="#2888" CornerRadius="6">
+
+				<Grid Name="PageContainer">
+				</Grid>
+			</Border>
+		</Grid>
+	</Border>
+</UserControl>
