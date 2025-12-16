@@ -16,6 +16,7 @@ public partial class TabHost : UserControl
 		this.TabContainer.Children.Add(button);
 		if (page is Control pageControl)
 			PageContainer.Children.Add(pageControl);
+		page.BindButton(button);
 		SelectButton(button);
 	}
 	public void SelectButton(TabButton button)

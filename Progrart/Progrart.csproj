@@ -20,8 +20,8 @@
       <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Devolutions.AvaloniaTheme.DevExpress" />
-    <PackageReference Include="Devolutions.AvaloniaTheme.MacOS" />
+    <!--<PackageReference Include="Devolutions.AvaloniaTheme.DevExpress" />
+    <PackageReference Include="Devolutions.AvaloniaTheme.MacOS" />-->
   </ItemGroup>
 
   <ItemGroup>

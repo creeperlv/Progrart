@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Progrart</string>
 	<key>CFBundleIdentifier</key>
-	<string>io.creeperlv.CINT</string>
+	<string>io.creeperlv.Progrart</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

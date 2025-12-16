@@ -24,8 +24,8 @@
 			</Style>
 		</Grid.Styles>
 		<Grid >
-			<Border HorizontalAlignment="Center" CornerRadius="24" Margin="8,8,8,0" Background="#2888">
-				<Button Padding="8,2" CornerRadius="24">
+			<Border HorizontalAlignment="Center" CornerRadius="14" Margin="8,8,8,0" BorderThickness="1,1,1,0" BorderBrush="#8888" Background="#2888">
+				<Button Padding="16,1" BorderThickness="1,1,1,0" Margin="-1,-1,-1,0" CornerRadius="14">
 					<Button.Flyout>
 						<MenuFlyout>
 							<MenuItem Header="_File">
@@ -34,7 +34,7 @@
 									<MenuItem Header="_File"/>
 								</MenuItem>
 								<MenuItem Header="_Open">
-									<MenuItem Header="_Project"/>
+									<MenuItem Header="_Project" Name="OpenProjectMenuItem"/>
 								</MenuItem>
 								<MenuItem Header="_Save"/>
 								<MenuItem Header="Save _As"/>
@@ -48,7 +48,7 @@
 							<MenuItem Header="_Exit"/>
 						</MenuFlyout>
 					</Button.Flyout>
-					<TextBlock Margin="8,4">Progart</TextBlock>
+					<TextBlock Margin="8,2">Progart</TextBlock>
 				</Button>
 			</Border>
 		</Grid>
@@ -65,9 +65,11 @@
 						<RowDefinition Height="Auto"/>
 						<RowDefinition/>
 					</Grid.RowDefinitions>
-					<TextBlock Margin="8,4">File Explorer</TextBlock>
-					<ScrollViewer Grid.Row="1">
-						<StackPanel Name="FileContainer"></StackPanel>
+					<Border CornerRadius="12" Margin="8" BorderBrush="#8888" BorderThickness="1,1,1,0" Background="#4888">
+						<TextBlock Margin="8,4">File Explorer</TextBlock>
+					</Border>
+					<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
+						<StackPanel Name="FileContainer" Margin="0,0,0,8"></StackPanel>
 					</ScrollViewer>
 				</Grid>
 			</Border>
@@ -82,8 +84,8 @@
 					<RowDefinition Height="Auto"/>
 				</Grid.RowDefinitions>
 				<Grid>
-					<Border Margin="16,8,16,0" Background="#2888" CornerRadius="6">
-						<ScrollViewer Margin="8,0">
+					<Border Margin="16,8,16,0" Background="#2888" BorderBrush="#4888" BorderThickness="1" CornerRadius="16">
+						<ScrollViewer Margin="16,0">
 							<StackPanel Orientation="Horizontal">
 								<Button Name="HomePageButton">
 									<Viewbox Width="22" Height="22">
@@ -104,7 +106,7 @@
 									<PathIcon Foreground="#0A0" Data="F1 M 6 3.799999 C 5.44 3.799999 4.966666 3.993334 4.58 4.379999 C 4.193333 4.766666 4 5.24 4 5.799999 L 4 10.999999 C 4.32 10.919999 4.653333 10.866666 5 10.839999 L 5 5.799999 C 5 5.533333 5.099999 5.299999 5.3 5.1 C 5.5 4.9 5.733333 4.799999 6 4.799999 L 10 4.799999 L 10 8.28 C 10 8.706667 10.146666 9.066667 10.44 9.36 C 10.733334 9.653334 11.093333 9.799999 11.52 9.799999 L 15 9.799999 L 15 17.799999 C 14.999999 18.066666 14.9 18.299999 14.7 18.5 C 14.5 18.699999 14.266666 18.799999 14 18.799999 L 10.4 18.799999 C 10.213333 19.146666 10 19.48 9.76 19.799999 L 14 19.799999 C 14.559999 19.799999 15.033333 19.606667 15.42 19.219999 C 15.806666 18.833332 16 18.360001 16 17.799999 L 16 9.2 C 16 8.8 15.853333 8.453333 15.559999 8.16 L 11.639999 4.24 C 11.346666 3.946667 11 3.799999 10.599999 3.799999 Z M 14.799999 8.799999 L 11.52 8.799999 C 11.36 8.799999 11.233333 8.753333 11.139999 8.66 C 11.046666 8.566667 11 8.453333 11 8.32 L 11 5 Z M 10 16.279999 C 10 17.106667 9.799999 17.866667 9.4 18.559999 C 9 19.253332 8.453333 19.799999 7.76 20.199999 C 7.066666 20.599998 6.313333 20.799999 5.5 20.799999 C 4.686666 20.799999 3.933333 20.599998 3.24 20.199999 C 2.546667 19.799999 2 19.253332 1.6 18.559999 C 1.2 17.866667 1 17.113333 1 16.299999 C 1 15.486666 1.2 14.733334 1.6 14.039999 C 2 13.346666 2.546667 12.799999 3.24 12.4 C 3.933333 12 4.686666 11.799999 5.5 11.799999 C 6.313333 11.799999 7.066666 12 7.76 12.4 C 8.453333 12.799999 9 13.346666 9.4 14.039999 C 9.799999 14.733334 10 15.48 10 16.279999 Z M 6 14.279999 C 6 14.146667 5.953333 14.033333 5.86 13.94 C 5.766666 13.846666 5.646667 13.799999 5.5 13.799999 C 5.353333 13.799999 5.233333 13.846666 5.14 13.94 C 5.046666 14.033333 5 14.146667 5 14.279999 L 5 15.799999 L 3.52 15.799999 C 3.36 15.799999 3.233333 15.846666 3.14 15.94 C 3.046667 16.033333 3 16.153332 3 16.299999 C 3 16.446667 3.046667 16.566666 3.14 16.66 C 3.233333 16.753334 3.36 16.799999 3.52 16.799999 L 5 16.799999 L 5 18.279999 C 5 18.439999 5.046666 18.566666 5.14 18.66 C 5.233333 18.753332 5.353333 18.799999 5.5 18.799999 C 5.646667 18.799999 5.766666 18.753332 5.86 18.66 C 5.953333 18.566666 6 18.439999 6 18.279999 L 6 16.799999 L 7.52 16.799999 C 7.653333 16.799999 7.766666 16.753334 7.86 16.66 C 7.953333 16.566666 8 16.446667 8 16.299999 C 8 16.153332 7.953333 16.033333 7.86 15.94 C 7.766666 15.846666 7.653333 15.799999 7.52 15.799999 L 6 15.799999 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
 								</Button>
 								<Border Margin="4,6" Width="1" Background="#8888"></Border>
-								<ComboBox VerticalAlignment="Center" SelectedIndex="0" Name="ConfigBox" MinHeight="0" Padding="8,2">
+								<ComboBox VerticalAlignment="Center" SelectedIndex="0" Name="ConfigBox" MinHeight="0" Padding="16,2" BorderThickness="1" BorderBrush="#8888" CornerRadius="12">
 									<ComboBoxItem>
 										All
 									</ComboBoxItem>
@@ -123,24 +125,25 @@
 					<Grid.RowDefinitions>
 						<RowDefinition/>
 						<RowDefinition Height="Auto"/>
-						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto" MinHeight="0"/>
 					</Grid.RowDefinitions>
 					<ProgrartTabControls:TabHost Name="MainTabHost" VerticalAlignment="Stretch">
 
 					</ProgrartTabControls:TabHost>
-					<!--
-					-->
 					<Grid Grid.Row="1" IsHitTestVisible="False" Name="SplitterVisual" IsVisible="False">
 						<Border HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="2" MaxWidth="150" Background="#8888"/>
 					</Grid>
 					<GridSplitter Height="10" Grid.Row="1" IsVisible="False" Background="#01000000" Name="Splitter"></GridSplitter>
-					<Border Grid.Row="2" Name="BottomPanel" IsVisible="False" CornerRadius="12" Background="#2888">
+					<Border Grid.Row="2" Name="BottomPanel" IsVisible="False" CornerRadius="12" MinHeight="32" Background="#2888">
 						<Grid>
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto"/>
 								<RowDefinition/>
 							</Grid.RowDefinitions>
-							<TextBlock Margin="8,4">Output</TextBlock>
+
+							<Border CornerRadius="12" Margin="8" BorderBrush="#8888" BorderThickness="1,1,1,0" Background="#4888">
+								<TextBlock Margin="8,4">Output</TextBlock>
+							</Border>
 							<ScrollViewer Grid.Row="1">
 								<TextBlock Name="Output"/>
 							</ScrollViewer>

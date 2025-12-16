@@ -1,4 +1,6 @@
 using Avalonia.Controls;
+using Avalonia.Platform.Storage;
+using Progrart.Controls;
 using Progrart.Core.JSExecution;
 using Progrart.Pages;
 using System;
@@ -31,10 +33,19 @@ public partial class MainView : UserControl
 
 		BottomPanelToggle.IsCheckedChanged += (a, b) =>
 		{
-			BottomPanel.IsVisible = BottomPanelToggle.IsChecked == true;
-			SplitterVisual.IsVisible = BottomPanelToggle.IsChecked == true;
-			Splitter.IsVisible = BottomPanelToggle.IsChecked == true;
+			bool v = BottomPanelToggle.IsChecked == true;
+			BottomPanel.IsVisible = v;
+			SplitterVisual.IsVisible = v;
+			Splitter.IsVisible = v;
 			ContentGrid.RowDefinitions[2].Height = GridLength.Auto;
+			if (v)
+			{
+				ContentGrid.RowDefinitions[2].MinHeight = 48;
+			}
+			else
+			{
+				ContentGrid.RowDefinitions[2].MinHeight = 0;
+			}
 		};
 
 		LeftPanelToggle.IsCheckedChanged += (a, b) =>
@@ -53,6 +64,34 @@ public partial class MainView : UserControl
 		{
 			MainTabHost.AddPage(new AboutPage());
 		};
+		OpenProjectMenuItem.Click += async (_, _) =>
+		{
+			var topLevel = TopLevel.GetTopLevel(this);
+
+			if (topLevel == null) return;
+
+			// Open the folder picker
+			var folders = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
+			{
+				Title = "Select Folder",
+				AllowMultiple = false
+			});
+
+			if (folders.Count >= 1)
+			{
+				// Get the first selected folder path
+				// Note: TryGetLocalPath() returns null if the file isn't on a local disk (e.g., cloud storage)
+				var folderPath = folders[0].TryGetLocalPath();
+				var folder = folders[0];
+				FileContainer.Children.Add(new FileItem(folder));
+				if (folderPath != null)
+				{
+					// Do something with the path
+					System.Diagnostics.Debug.WriteLine($"Picked: {folderPath}");
+				}
+			}
+		};
+		LeftPanelToggle.IsChecked = true;
 	}
 	public void Write(string message)
 	{

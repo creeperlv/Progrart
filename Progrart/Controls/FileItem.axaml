@@ -3,22 +3,35 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			 x:Class="Progrart.Controls.FileItem">
+			 x:Class="Progrart.Controls.FileItem" HorizontalAlignment="Stretch">
 	<StackPanel>
 		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition/>
-				<ColumnDefinition Width="Auto"/>
-			</Grid.ColumnDefinitions>
-			<SplitButton Content="ASD">
-				<SplitButton.Flyout>
-					<MenuFlyout Placement="Bottom">
-						<MenuItem Header="_Open"/>
-						<MenuItem Header="_Export"/>
-					</MenuFlyout>
-				</SplitButton.Flyout>
+			<Button Name="MainButton" HorizontalAlignment="Stretch">
 
-			</SplitButton>
+				<Button.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="_Open"/>
+						<MenuItem Header="_Delete"/>
+					</ContextMenu>
+				</Button.ContextMenu>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<PathIcon Name="FolderIcon" Foreground="#FA0" Data="F1 M 2 7.28 C 2 6.613334 2.246667 6.033334 2.74 5.539999 C 3.233333 5.046665 3.813333 4.799999 4.48 4.799999 L 7 4.799999 C 7.48 4.799999 7.893332 4.973333 8.24 5.32 L 9.52 6.599999 L 7.44 8.639999 C 7.333333 8.746666 7.213333 8.799999 7.08 8.799999 L 2 8.799999 Z M 2 9.799999 L 2 16.279999 C 2 16.973333 2.246667 17.566666 2.74 18.059999 C 3.233333 18.553333 3.826667 18.799999 4.52 18.799999 L 15.52 18.799999 C 16.186666 18.799999 16.766666 18.553333 17.26 18.059999 C 17.753332 17.566666 18 16.986666 18 16.32 L 18 9.28 C 18 8.613334 17.753332 8.033334 17.26 7.54 C 16.766666 7.046667 16.173332 6.8 15.48 6.799999 L 10.719999 6.799999 L 8.16 9.36 C 7.866666 9.653334 7.506666 9.799999 7.08 9.799999 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+					<PathIcon Name="GenericFileIcon" Data="F1 M 10 3.799999 L 10 8.28 C 10 8.706667 10.146666 9.066667 10.44 9.36 C 10.733334 9.653334 11.093333 9.799999 11.52 9.799999 L 16 9.799999 L 16 18.279999 C 16 18.706665 15.853333 19.066666 15.559999 19.359999 C 15.266665 19.653332 14.906666 19.799999 14.48 19.799999 L 5.52 19.799999 C 5.093333 19.799999 4.733334 19.653332 4.44 19.359999 C 4.146667 19.066666 4 18.706665 4 18.279999 L 4 5.279999 C 4 4.880001 4.146667 4.533333 4.44 4.24 C 4.733334 3.946667 5.093333 3.799999 5.52 3.799999 Z M 11 4.039999 L 11 8.28 C 11 8.440001 11.046666 8.566667 11.139999 8.66 C 11.233333 8.753333 11.346666 8.799999 11.48 8.799999 L 15.759999 8.799999 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />
+					<Grid Name="IconContainer">
+					</Grid>
+					<TextBlock Grid.Column="1" Margin="5,0" Name="NameBlock"/>
+				</Grid>
+			</Button>
 		</Grid>
+		<Border Margin="10,0,0,0" BorderThickness="1,0,0,0" BorderBrush="#8888">
+
+			<StackPanel Name="ItemContainer" Margin="10,0,0,0">
+
+			</StackPanel>
+		</Border>
 	</StackPanel>
 </UserControl>
