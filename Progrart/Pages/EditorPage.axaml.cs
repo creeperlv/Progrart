@@ -11,6 +11,8 @@ namespace Progrart.Pages;
 
 public partial class EditorPage : UserControl, ITabPage, IEditorPage
 {
+	IStorageFile? file = null;
+	TabButton? btn = null;
 	public EditorPage()
 	{
 		InitializeComponent();
@@ -18,7 +20,12 @@ public partial class EditorPage : UserControl, ITabPage, IEditorPage
 
 	public void BindButton(TabButton button)
 	{
+		btn = button;
 		button.Title = "Editor Page";
+		if (file is not null)
+		{
+			btn.Title = file.Name;
+		}
 	}
 
 	public void Execute()
@@ -32,6 +39,11 @@ public partial class EditorPage : UserControl, ITabPage, IEditorPage
 
 	public void LoadDocument(IStorageFile file)
 	{
+		this.file = file;
+		if (btn is not null)
+		{
+			btn.Title = file.Name;
+		}
 		Task.Run(async () =>
 		{
 			using var stream = await file.OpenReadAsync();

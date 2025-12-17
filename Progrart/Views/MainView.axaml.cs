@@ -70,7 +70,6 @@ public partial class MainView : UserControl
 
 			if (topLevel == null) return;
 
-			// Open the folder picker
 			var folders = await topLevel.StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions
 			{
 				Title = "Select Folder",
@@ -79,16 +78,10 @@ public partial class MainView : UserControl
 
 			if (folders.Count >= 1)
 			{
-				// Get the first selected folder path
-				// Note: TryGetLocalPath() returns null if the file isn't on a local disk (e.g., cloud storage)
+				FileContainer.Children.Clear();
 				var folderPath = folders[0].TryGetLocalPath();
 				var folder = folders[0];
 				FileContainer.Children.Add(new FileItem(folder));
-				if (folderPath != null)
-				{
-					// Do something with the path
-					System.Diagnostics.Debug.WriteLine($"Picked: {folderPath}");
-				}
 			}
 		};
 		LeftPanelToggle.IsChecked = true;
