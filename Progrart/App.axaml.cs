@@ -6,6 +6,7 @@ using System.Linq;
 using Avalonia.Markup.Xaml;
 using Progrart.Views;
 using Progrart.Icons;
+using Progrart.Pages;
 
 namespace Progrart;
 
@@ -19,12 +20,22 @@ public partial class App : Application
 
 	public override void OnFrameworkInitializationCompleted()
 	{
+		IconProvider.Register(new DefaultIconProvider());
+		EditorProvider.Register("text", "Default Text Editor", typeof(EditorPage));
+		EditorProvider.BindFileType("cs", "text");
+		EditorProvider.BindFileType("c", "text");
+		EditorProvider.BindFileType("cpp", "text");
+		EditorProvider.BindFileType("h", "text");
+		EditorProvider.BindFileType("hpp", "text");
+		EditorProvider.BindFileType("txt", "text");
+		EditorProvider.BindFileType("cpp", "text");
+		EditorProvider.BindFileType("json", "text");
+		EditorProvider.BindFileType("sh", "text");
 		if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
 		{
 			// Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
 			// More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
 			isDesktop = true;
-			IconProvider.Register(new DefaultIconProvider());
 			DisableAvaloniaDataAnnotationValidation();
 			desktop.MainWindow = new MainWindow();
 		}

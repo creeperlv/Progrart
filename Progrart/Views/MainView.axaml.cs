@@ -30,7 +30,7 @@ public partial class MainView : UserControl
 			}
 		};
 		Trace.Listeners.Add(new ConsoleLogger());
-
+		EditorProvider.setHost(MainTabHost);
 		BottomPanelToggle.IsCheckedChanged += (a, b) =>
 		{
 			bool v = BottomPanelToggle.IsChecked == true;

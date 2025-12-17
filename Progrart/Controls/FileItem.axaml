@@ -10,7 +10,7 @@
 
 				<Button.ContextMenu>
 					<ContextMenu>
-						<MenuItem Header="_Open"/>
+						<MenuItem Header="_Open" Name="OpenFileMenuItem"/>
 						<MenuItem Header="_Delete"/>
 					</ContextMenu>
 				</Button.ContextMenu>

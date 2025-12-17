@@ -9,7 +9,5 @@ namespace Progrart.Controls.TabSystem
 		void SetHost(TabHost host);
 		void BindButton(TabButton button);
 		bool IsModified();
-		void Save();
-		void Execute();
 	}
 }

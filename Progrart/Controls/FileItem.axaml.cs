@@ -2,7 +2,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
+using Progrart.Controls.TabSystem;
 using Progrart.Icons;
+using Progrart.Pages;
 using System.Threading.Tasks;
 
 namespace Progrart.Controls;
@@ -11,6 +13,7 @@ public partial class FileItem : UserControl
 {
 	IStorageItem currentItem;
 	bool isOpen = false;
+	string extension = "";
 	public FileItem(IStorageItem storageItem)
 	{
 		InitializeComponent();
@@ -29,7 +32,7 @@ public partial class FileItem : UserControl
 			var dotIndex = file.Name.LastIndexOf('.');
 			if (dotIndex >= 0)
 			{
-				var extension = file.Name[(dotIndex + 1)..];
+				extension = file.Name[(dotIndex + 1)..];
 				if (IconProvider.TryGetIcon(extension, out var icon))
 				{
 					GenericFileIcon.IsVisible = false;
@@ -41,20 +44,45 @@ public partial class FileItem : UserControl
 		NameBlock.Text = storageItem.Name;
 		MainButton.DoubleTapped += async (_, _) =>
 		{
-			if (currentItem is IStorageFolder folder)
+			await OpenItem();
+		};
+		OpenFileMenuItem.Click += async (a, b) =>
+		{
+			await OpenItem();
+		};
+	}
+	async Task OpenItem()
+	{
+
+		if (currentItem is IStorageFolder folder)
+		{
+			if (isOpen)
 			{
-				if (isOpen)
+				RemoveAll();
+				isOpen = false;
+			}
+			else
+			{
+				isOpen = true;
+				await LoadAll(folder);
+			}
+		}
+		else
+			if (currentItem is IStorageFile file)
+			{
+
+				if (EditorProvider.TryGetEditor(extension, out var page))
 				{
-					RemoveAll();
-					isOpen = false;
-				}
-				else
-				{
-					isOpen = true;
-					await LoadAll(folder);
+					if (page is ITabPage editor)
+					{
+						if (page is IEditorPage editor_page)
+						{
+							editor_page.LoadDocument(file);
+						}
+						EditorProvider.OpenEditor(editor);
+					}
 				}
 			}
-		};
 	}
 	async Task LoadAll(IStorageFolder folder)
 	{
