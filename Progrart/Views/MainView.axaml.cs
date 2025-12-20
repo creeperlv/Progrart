@@ -84,6 +84,10 @@ public partial class MainView : UserControl
 				FileContainer.Children.Add(new FileItem(folder));
 			}
 		};
+		FileExplorerCloseButton.Click += (_, _) =>
+		{
+			LeftPanelToggle.IsChecked = false;
+		};
 		LeftPanelToggle.IsChecked = true;
 	}
 	public void Write(string message)

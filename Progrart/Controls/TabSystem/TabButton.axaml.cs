@@ -7,6 +7,7 @@ namespace Progrart.Controls.TabSystem;
 public partial class TabButton : UserControl
 {
 	public string? Title { get => MainButton.Content as string; set => MainButton.Content = value; }
+	public string? TooltipText { get => ToolTip.GetTip(MainButton) as string; set => ToolTip.SetTip(MainButton, value); }
 	public ITabPage page;
 	public TabHost Host;
 	public TabButton(ITabPage page, TabHost host)

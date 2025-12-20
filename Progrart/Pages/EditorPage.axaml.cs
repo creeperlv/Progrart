@@ -25,6 +25,8 @@ public partial class EditorPage : UserControl, ITabPage, IEditorPage
 		if (file is not null)
 		{
 			btn.Title = file.Name;
+			var path = file.TryGetLocalPath();
+			btn.TooltipText = path;
 		}
 	}
 
@@ -43,6 +45,8 @@ public partial class EditorPage : UserControl, ITabPage, IEditorPage
 		if (btn is not null)
 		{
 			btn.Title = file.Name;
+			var path= file.TryGetLocalPath();
+			btn.TooltipText= path;
 		}
 		Task.Run(async () =>
 		{
