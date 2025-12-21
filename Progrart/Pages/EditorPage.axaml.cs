@@ -30,11 +30,11 @@ public partial class EditorPage : UserControl, ITabPage, IEditorPage
 		}
 	}
 
-	public void Execute()
-	{
-	}
+    public void Execute(ExecuteArguments? args = null)
+    {
+    }
 
-	public bool IsModified()
+    public bool IsModified()
 	{
 		return false;
 	}

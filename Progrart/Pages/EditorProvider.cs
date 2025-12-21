@@ -55,6 +55,6 @@ namespace Progrart.Pages
 	{
 		void LoadDocument(IStorageFile file);
 		void Save();
-		void Execute();
+		void Execute(ExecuteArguments? args = null);
 	}
 }

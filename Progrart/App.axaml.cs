@@ -22,15 +22,22 @@ public partial class App : Application
 	{
 		IconProvider.Register(new DefaultIconProvider());
 		EditorProvider.Register("text", "Default Text Editor", typeof(EditorPage));
+		EditorProvider.Register("image", "Default Image Viewer", typeof(ImageViewPage));
 		EditorProvider.BindFileType("cs", "text");
 		EditorProvider.BindFileType("c", "text");
 		EditorProvider.BindFileType("cpp", "text");
 		EditorProvider.BindFileType("h", "text");
 		EditorProvider.BindFileType("hpp", "text");
 		EditorProvider.BindFileType("txt", "text");
+		EditorProvider.BindFileType("ini", "text");
 		EditorProvider.BindFileType("cpp", "text");
 		EditorProvider.BindFileType("json", "text");
 		EditorProvider.BindFileType("sh", "text");
+		EditorProvider.BindFileType("progrart", "text");
+		EditorProvider.BindFileType("bashrc", "text");
+		EditorProvider.BindFileType("png", "image");
+		EditorProvider.BindFileType("bmp", "image");
+		EditorProvider.BindFileType("jpg", "image");
 		if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
 		{
 			// Avoid duplicate validations from both Avalonia and the CommunityToolkit. 

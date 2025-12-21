@@ -1,8 +1,26 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Progrart.ProgrartEditorPage">
+			 xmlns:avaloniaedit="https://github.com/avaloniaui/avaloniaedit"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="Progrart.ProgrartEditorPage">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition Width="Auto"/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
 
+		<avaloniaedit:TextEditor Name="CodeEditBox" Text="" SyntaxHighlighting="JavaScript"
+								 ShowLineNumbers="True"
+								 FontFamily="Sarasa Mono Slab CL,Cascadia Code,Consolas,Menlo,Monospace"/>
+		<Grid Name="VerticalSplitterVisualElement">
+			<Border Width="2" Background="#8888"></Border>
+		</Grid>
+		<GridSplitter Grid.Column="1"/>
+		<Grid Name="PreviewHolder">
+
+		</Grid>
+	</Grid>
 </UserControl>
