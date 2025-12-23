@@ -11,18 +11,18 @@
 				<RowDefinition Height="Auto"/>
 				<RowDefinition/>
 			</Grid.RowDefinitions>
-			<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-				<Border Margin="12" Background="#2888" CornerRadius="12" Padding="4">
-					<StackPanel Name="TabContainer" Orientation="Horizontal" >
+			<Border Margin="12" Background="#2888" CornerRadius="16" Padding="8,0">
+				<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+					<StackPanel Name="TabContainer" Orientation="Horizontal" Margin="4">
 						<StackPanel.Styles>
 							<Style Selector="Button">
 								<Setter Property="CornerRadius" Value="12"/>
 							</Style>
 						</StackPanel.Styles>
-						<TextBlock/>
+						<TextBlock Margin="0,4"/>
 					</StackPanel>
-				</Border>
-			</ScrollViewer>
+				</ScrollViewer>
+			</Border>
 			<Border Grid.Row="1" Background="#2888" CornerRadius="6">
 
 				<Grid Name="PageContainer">

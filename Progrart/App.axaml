@@ -8,6 +8,140 @@
 	<Application.Resources>
 		<ResourceDictionary>
 
+			<x:Double x:Key="ScrollBarSize">7</x:Double>
+			<ControlTheme x:Key="{x:Type NumericUpDown}" TargetType="NumericUpDown">
+				<Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
+				<Setter Property="Background" Value="{DynamicResource TextControlBackground}" />
+				<Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
+				<Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrush}" />
+				<Setter Property="MinHeight" Value="{DynamicResource TextControlThemeMinHeight}" />
+				<Setter Property="MinWidth" Value="{DynamicResource TextControlThemeMinWidth}" />
+				<Setter Property="Padding" Value="{DynamicResource TextControlThemePadding}" />
+				<Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+				<Setter Property="Template">
+					<ControlTemplate>
+						<DataValidationErrors>
+							<ButtonSpinner Name="PART_Spinner"
+										   Background="{TemplateBinding Background}"
+										   BorderThickness="{TemplateBinding BorderThickness}"
+										   BorderBrush="{TemplateBinding BorderBrush}"
+										   CornerRadius="{TemplateBinding CornerRadius}"
+										   IsTabStop="False"
+										   Padding="0"
+										   MinWidth="0"
+										   MinHeight="0"
+										   HorizontalContentAlignment="Stretch"
+										   VerticalContentAlignment="Stretch"
+										   AllowSpin="{TemplateBinding AllowSpin}"
+										   ShowButtonSpinner="{TemplateBinding ShowButtonSpinner}"
+										   ButtonSpinnerLocation="{TemplateBinding ButtonSpinnerLocation}">
+								<TextBox Name="PART_TextBox"
+										 Background="Transparent"
+										 BorderBrush="Transparent"
+										 Margin="-1"
+										 Padding="{TemplateBinding Padding}"
+										 MinWidth="0"
+										 Foreground="{TemplateBinding Foreground}"
+										 Watermark="{TemplateBinding Watermark}"
+										 IsReadOnly="{TemplateBinding IsReadOnly}"
+										 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+										 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+										 Text="{TemplateBinding Text}"
+										 TextAlignment="{TemplateBinding TextAlignment}"
+										 AcceptsReturn="False"
+										 TextWrapping="NoWrap"
+										 MinHeight="0"
+										 InnerLeftContent="{Binding InnerLeftContent, RelativeSource={RelativeSource TemplatedParent}}"
+										 InnerRightContent="{Binding InnerRightContent, RelativeSource={RelativeSource TemplatedParent}}"/>
+							</ButtonSpinner>
+						</DataValidationErrors>
+					</ControlTemplate>
+				</Setter>
+			</ControlTheme>
+			<ControlTheme x:Key="{x:Type ButtonSpinner}" TargetType="ButtonSpinner">
+				<Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
+				<Setter Property="Padding" Value="10, 0" />
+				<Setter Property="Background" Value="{DynamicResource TextControlBackground}" />
+				<Setter Property="BorderBrush" Value="{DynamicResource TextControlBorderBrush}" />
+				<Setter Property="BorderThickness" Value="{DynamicResource TextControlBorderThemeThickness}" />
+				<Setter Property="CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+				<Setter Property="MinHeight" Value="{DynamicResource TextControlThemeMinHeight}" />
+				<Setter Property="MinWidth" Value="{DynamicResource TextControlThemeMinWidth}" />
+				<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+				<Setter Property="VerticalContentAlignment" Value="Center" />
+				<Setter Property="Focusable" Value="True"/>
+				<Setter Property="Template">
+					<ControlTemplate>
+						<DataValidationErrors>
+							<Border Background="{TemplateBinding Background}"
+									BorderBrush="{TemplateBinding BorderBrush}"
+									BorderThickness="{TemplateBinding BorderThickness}"
+									CornerRadius="{TemplateBinding CornerRadius}"
+									MinHeight="{TemplateBinding MinHeight}">
+								<DockPanel>
+									<StackPanel Name="PART_SpinnerPanel"
+												TabIndex="2"
+												DockPanel.Dock="Right"
+												Orientation="Horizontal"
+												IsVisible="{TemplateBinding ShowButtonSpinner}">
+										<RepeatButton Name="PART_IncreaseButton"
+													  IsTabStop="{TemplateBinding IsTabStop}"
+													  Theme="{StaticResource FluentButtonSpinnerRepeatButton}"
+													  Background="{TemplateBinding Background}"
+													  BorderBrush="{TemplateBinding BorderBrush}"
+													  BorderThickness="{TemplateBinding BorderThickness, Converter={StaticResource ButtonSpinnerLeftThickness}}"
+													  VerticalAlignment="Stretch"
+													  VerticalContentAlignment="Center"
+													  MinHeight="0"
+													  Foreground="{TemplateBinding Foreground}"
+													  MinWidth="34">
+											<PathIcon Width="16"
+													  Height="8"
+													  Data="{StaticResource ButtonSpinnerIncreaseButtonIcon}" />
+										</RepeatButton>
+
+										<RepeatButton Name="PART_DecreaseButton"
+													  IsTabStop="{TemplateBinding IsTabStop}"
+													  Theme="{StaticResource FluentButtonSpinnerRepeatButton}"
+													  Background="{TemplateBinding Background}"
+													  BorderBrush="{TemplateBinding BorderBrush}"
+													  BorderThickness="{TemplateBinding BorderThickness, Converter={StaticResource ButtonSpinnerLeftThickness}}"
+													  VerticalAlignment="Stretch"
+													  VerticalContentAlignment="Center"
+													  MinHeight="0"
+													  Foreground="{TemplateBinding Foreground}"
+													  MinWidth="34">
+											<PathIcon Width="16"
+													  Height="8"
+													  Data="{StaticResource ButtonSpinnerDecreaseButtonIcon}" />
+										</RepeatButton>
+									</StackPanel>
+
+									<ContentPresenter Name="PART_ContentPresenter"
+													  Grid.Column="1"
+													  TabIndex="1"
+													  ContentTemplate="{TemplateBinding ContentTemplate}"
+													  Content="{TemplateBinding Content}"
+													  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+													  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+													  Padding="{TemplateBinding Padding}" />
+								</DockPanel>
+							</Border>
+						</DataValidationErrors>
+					</ControlTemplate>
+				</Setter>
+				<Style Selector="^:left">
+					<Style Selector="^ /template/ StackPanel#PART_SpinnerPanel">
+						<Setter Property="DockPanel.Dock" Value="Left"/>
+					</Style>
+					<Style Selector="^ /template/ RepeatButton">
+						<Setter Property="BorderThickness" Value="{TemplateBinding BorderThickness, Converter={StaticResource ButtonSpinnerRightThickness}}"/>
+					</Style>
+				</Style>
+				<Style Selector="^:error">
+					<Setter Property="BorderBrush" Value="{DynamicResource SystemErrorTextColor}" />
+				</Style>
+			</ControlTheme>
 			<ControlTheme x:Key="{x:Type RadioButton}" TargetType="RadioButton">
 				<Setter Property="Background" Value="{DynamicResource RadioButtonBackground}" />
 				<Setter Property="Foreground" Value="{DynamicResource RadioButtonForeground}" />
@@ -78,7 +212,7 @@
 				</Style>
 
 				<Style Selector="^:pointerover /template/ Border#CheckOuterBorder">
-<!--					<Setter Property="Stroke" Value="{DynamicResource RadioButtonOuterBorderCheckedStrokePointerOver}" />
+					<!--					<Setter Property="Stroke" Value="{DynamicResource RadioButtonOuterBorderCheckedStrokePointerOver}" />
 					<Setter Property="Fill" Value="{DynamicResource RadioButtonOuterBorderCheckedFillPointerOver}" />-->
 				</Style>
 
@@ -98,7 +232,7 @@
 				</Style>
 
 				<Style Selector="^:pressed /template/ Border#OuterBorder">
-<!--					<Setter Property="Stroke" Value="{DynamicResource RadioButtonOuterBorderStrokePressed}" />
+					<!--					<Setter Property="Stroke" Value="{DynamicResource RadioButtonOuterBorderStrokePressed}" />
 					<Setter Property="Fill" Value="{DynamicResource RadioButtonOuterBorderFillPressed}" />-->
 				</Style>
 

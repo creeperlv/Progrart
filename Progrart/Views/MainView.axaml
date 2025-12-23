@@ -136,7 +136,9 @@
 									</Button>
 									<Border Margin="4,6" Width="1" Background="#8888"></Border>
 									<NumericUpDown Name="SizeBox" Minimum="1" Maximum="16384" FormatString="00000"
-												   Value="1024" VerticalAlignment="Center" Padding="4,2" VerticalContentAlignment="Center" MinHeight="0"/>
+												   Value="1024" VerticalAlignment="Center" Padding="4,2"
+												   Margin="5,0"
+												   VerticalContentAlignment="Center" MinHeight="0"/>
 									<CheckBox Name="IsDebugBox" Margin="7,0" Content="Is Debug"/>
 									<Button Name="RunButton" ToolTip.Tip="Preview">
 										<PathIcon Foreground="#0A0" Data="F1 M 17.24 10.48 C 17.453333 10.613333 17.633331 10.799999 17.779999 11.039999 C 17.926666 11.28 18 11.533333 18 11.799999 C 18 12.066667 17.926666 12.32 17.779999 12.559999 C 17.633331 12.799999 17.453333 12.986667 17.24 13.12 L 7.24 18.599998 C 7 18.733334 6.746666 18.799999 6.48 18.799999 C 6.213333 18.799999 5.966666 18.733334 5.74 18.599998 C 5.513333 18.466667 5.333333 18.279999 5.2 18.039999 C 5.066667 17.799999 5 17.546665 5 17.279999 L 5 6.32 C 5 6.053333 5.066667 5.799999 5.2 5.559999 C 5.333333 5.32 5.513333 5.133333 5.74 5 C 5.966666 4.866667 6.213333 4.799999 6.48 4.799999 C 6.746666 4.799999 7 4.866667 7.24 5 Z M 16.719999 12.24 C 16.906666 12.133333 17 11.986667 17 11.799999 C 17 11.613333 16.906666 11.466667 16.719999 11.36 L 6.76 5.879999 C 6.573333 5.773333 6.4 5.766666 6.24 5.86 C 6.08 5.953334 6 6.106668 6 6.32 L 6 17.279999 C 6 17.493332 6.08 17.646666 6.24 17.74 C 6.4 17.833332 6.573333 17.826666 6.76 17.719999 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />

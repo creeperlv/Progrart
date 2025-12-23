@@ -6,12 +6,25 @@
 			 x:Class="Progrart.Pages.AboutPage">
 	<ScrollViewer>
 		<StackPanel>
-			<Image Source="/Assets/Icon-FG.png" Width="100" Height="100"/>
-			<TextBlock FontSize="36" TextAlignment="Center" Margin="0,50">Progrart</TextBlock>
+			<StackPanel.Styles>
+				<Style Selector="Image">
+					<Setter Property="Transitions">
+						<Transitions>
+							<TransformOperationsTransition Property="RenderTransform" Duration="0:0:.1" />
+						</Transitions>
+					</Setter>
+				</Style>
+				<Style Selector="Image:pointerover">
+					<Setter Property="RenderTransform" Value="scale(1.25)" />
+				</Style>
+			</StackPanel.Styles>
+			<Image Source="/Assets/Icon-Rounded-FG.png" Margin="0,50" Width="150" Height="150"/>
+			<TextBlock FontSize="36" TextAlignment="Center" Margin="0,0,0,30">Progrart</TextBlock>
 			<TextBlock FontSize="18" TextAlignment="Center">Version: 0.0.0.0-preview</TextBlock>
 			<TextBlock FontSize="24" TextAlignment="Center" Margin="0,25">Third-Party Libs</TextBlock>
 			<TextBlock FontSize="17" TextAlignment="Center">Avalonia - github.com/avaloniaui</TextBlock>
 			<TextBlock FontSize="17" TextAlignment="Center">PanAndZoom - GitHub - wieslawsoltes/PanAndZoom</TextBlock>
+			<TextBlock FontSize="17" TextAlignment="Center">DialogHost - GitHub - AvaloniaUtils/DialogHost.Avalonia</TextBlock>
 		</StackPanel>
 	</ScrollViewer>
 </UserControl>
