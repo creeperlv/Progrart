@@ -3,9 +3,13 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using AvaloniaEdit;
+using AvaloniaEdit.TextMate;
 using Progrart.Controls.TabSystem;
+using Progrart.Icons;
 using System.IO;
 using System.Threading.Tasks;
+using TextMateSharp.Grammars;
 
 namespace Progrart.Pages;
 
@@ -16,6 +20,7 @@ public partial class EditorPage : UserControl, ITabPage, IEditorPage
 	public EditorPage()
 	{
 		InitializeComponent();
+
 	}
 
 	public void BindButton(TabButton button)
@@ -30,11 +35,11 @@ public partial class EditorPage : UserControl, ITabPage, IEditorPage
 		}
 	}
 
-    public void Execute(ExecuteArguments? args = null)
-    {
-    }
+	public void Execute(ExecuteArguments? args = null)
+	{
+	}
 
-    public bool IsModified()
+	public bool IsModified()
 	{
 		return false;
 	}
@@ -45,8 +50,16 @@ public partial class EditorPage : UserControl, ITabPage, IEditorPage
 		if (btn is not null)
 		{
 			btn.Title = file.Name;
-			var path= file.TryGetLocalPath();
-			btn.TooltipText= path;
+			var path = file.TryGetLocalPath();
+			btn.TooltipText = path;
+		}
+		{
+			var dotIndex = file.Name.LastIndexOf('.');
+			if (dotIndex >= 0)
+			{
+				var extension = file.Name[(dotIndex)..];
+				CodeEditBox.SetGrammerByExtension(extension);
+			}
 		}
 		Task.Run(async () =>
 		{

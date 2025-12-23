@@ -10,7 +10,9 @@
 				<ColumnDefinition/>
 				<ColumnDefinition Width="Auto"/>
 			</Grid.ColumnDefinitions>
-			<Border Grid.ColumnSpan="2" Background="#8888" CornerRadius="12" Name="HintBackground" IsVisible="False"/>
+			<Border Grid.ColumnSpan="2" Background="#4888" CornerRadius="12" Name="HintBackground" IsVisible="False">
+				<Border BorderThickness="1,1,1,0" CornerRadius="12" BorderBrush="#8888"></Border>
+			</Border>
 			<Button Name="MainButton" MinWidth="50"  Padding="6,2" VerticalAlignment="Stretch">Blank Page</Button>
 			<Button Name="CloseButton" VerticalAlignment="Stretch" Grid.Column="1" Padding="6,2">
 				<Viewbox Height="10" Width="10">

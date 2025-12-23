@@ -2,7 +2,10 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
+using DialogHostAvalonia;
 using Progrart.Controls.TabSystem;
+using Progrart.Dialogs;
 using Progrart.Icons;
 using Progrart.Pages;
 using System.Threading.Tasks;
@@ -26,6 +29,7 @@ public partial class FileItem : UserControl
 		}
 		else if (storageItem is IStorageFile file)
 		{
+			NewFiles.IsVisible = false;
 			FolderIcon.IsVisible = false;
 			GenericFileIcon.IsVisible = true;
 			IconContainer.Children.Clear();
@@ -44,14 +48,86 @@ public partial class FileItem : UserControl
 		NameBlock.Text = storageItem.Name;
 		MainButton.DoubleTapped += async (_, _) =>
 		{
-			await OpenItem();
+			OpenItem();
 		};
 		OpenFileMenuItem.Click += async (a, b) =>
 		{
-			await OpenItem();
+			OpenItem();
+		};
+		CreateFolderItem.Click += async (a, b) =>
+		{
+			InputDialog content = new();
+			content.SetDialogContent("Create New Folder", "Specify a name that is legal for your filesystem.");
+			content.onOK = async (v) =>
+			{
+				if (currentItem is IStorageFolder folder)
+				{
+					try
+					{
+						var fldr = await folder.CreateFolderAsync(v);
+						if (fldr is not null)
+						{
+							if (isOpen)
+								Dispatcher.UIThread.Invoke(() =>
+								{
+									var fitem = new FileItem(fldr);
+									ItemContainer.Children.Add(fitem);
+								});
+						}
+						else
+						{
+							content.SetErrorMessage($"{v} is not a valid name for target filesystem.");
+							return true;
+						}
+					}
+					catch (System.Exception e)
+					{
+						content.SetErrorMessage($"{v} is not a valid name for target filesystem.\nMsg:{e.Message}");
+						return true;
+					}
+				}
+				return false;
+			};
+			await DialogHost.Show(content);
+		};
+		CreateProgrartItem.Click += async (a, b) =>
+		{
+			InputDialog content = new();
+			content.SetDialogContent("Create A PROGRART Image", "Specify a name that is legal for your filesystem.");
+			content.onOK = async (v) =>
+			{
+				if (currentItem is IStorageFolder folder)
+				{
+					try
+					{
+						var fldr = await folder.CreateFileAsync($"{v}.progrart");
+						if (fldr is not null)
+						{
+							if (isOpen)
+								Dispatcher.UIThread.Invoke(() =>
+								{
+									var fitem = new FileItem(fldr);
+									ItemContainer.Children.Add(fitem);
+								});
+						}
+						else
+						{
+							content.SetErrorMessage($"{v} is not a valid name for target filesystem.");
+							return true;
+						}
+					}
+					catch (System.Exception e)
+					{
+						content.SetErrorMessage($"{v} is not a valid name for target filesystem.\nMsg:{e.Message}");
+						return true;
+					}
+				}
+				return false;
+			};
+			await DialogHost.Show(content);
 		};
 	}
-	async Task OpenItem()
+	void OpenItem()
 	{
 
 		if (currentItem is IStorageFolder folder)
@@ -64,7 +140,10 @@ public partial class FileItem : UserControl
 			else
 			{
 				isOpen = true;
-				await LoadAll(folder);
+				Task.Run(async () =>
+				{
+					await LoadAll(folder);
+				});
 			}
 		}
 		else
@@ -88,7 +167,11 @@ public partial class FileItem : UserControl
 	{
 		await foreach (var item in folder.GetItemsAsync())
 		{
-			ItemContainer.Children.Add(new FileItem(item));
+			Dispatcher.UIThread.Invoke(() =>
+			{
+				var fitem = new FileItem(item);
+				ItemContainer.Children.Add(fitem);
+			});
 		}
 	}
 	void RemoveAll()

@@ -11,6 +11,15 @@
 				<Button.ContextMenu>
 					<ContextMenu>
 						<MenuItem Header="_Open" Name="OpenFileMenuItem"/>
+						<MenuItem Header="_New" Name="NewFiles">
+							<MenuItem Header="_Progrart Image" Name="CreateProgrartItem"/>
+							<MenuItem Header="_Folder" Name="CreateFolderItem"/>
+						</MenuItem>
+						<Separator/>
+						<MenuItem Header="_Copy"/>
+						<MenuItem Header="Cut (_x)"/>
+						<MenuItem Header="_Paste"/>
+						<Separator/>
 						<MenuItem Header="_Delete"/>
 					</ContextMenu>
 				</Button.ContextMenu>

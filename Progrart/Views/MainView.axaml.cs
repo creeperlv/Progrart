@@ -1,5 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using Progrart.Controls;
 using Progrart.Core.JSExecution;
 using Progrart.Pages;
@@ -29,7 +30,7 @@ public partial class MainView : UserControl
 				WriteLine(e.Message);
 			}
 		};
-		Trace.Listeners.Add(new ConsoleLogger());
+		//Trace.Listeners.Add(new ConsoleLogger());
 		EditorProvider.setHost(MainTabHost);
 		BottomPanelToggle.IsCheckedChanged += (a, b) =>
 		{
@@ -47,7 +48,6 @@ public partial class MainView : UserControl
 				ContentGrid.RowDefinitions[2].MinHeight = 0;
 			}
 		};
-
 		LeftPanelToggle.IsCheckedChanged += (a, b) =>
 		{
 			bool v = LeftPanelToggle.IsChecked == true;
@@ -92,11 +92,26 @@ public partial class MainView : UserControl
 	}
 	public void Write(string message)
 	{
-		Output.Text += message;
+		//Dispatcher.UIThread.Invoke(() =>
+		//Output.Text += message);
+		try
+		{
+			Output.Text += message;
+		}
+		catch (Exception)
+		{
+		}
 	}
 	public void WriteLine(string message)
 	{
-		Output.Text += $"{message}\n";
+		//Dispatcher.UIThread.Invoke(() =>);
+		try
+		{
+			Output.Text += $"{message}\n";
+		}
+		catch (Exception)
+		{
+		}
 	}
 	private class ConsoleLogger : TraceListener
 	{

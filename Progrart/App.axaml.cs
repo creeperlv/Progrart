@@ -23,6 +23,7 @@ public partial class App : Application
 		IconProvider.Register(new DefaultIconProvider());
 		EditorProvider.Register("text", "Default Text Editor", typeof(EditorPage));
 		EditorProvider.Register("image", "Default Image Viewer", typeof(ImageViewPage));
+		EditorProvider.Register("progrart", "Default Progrart Editor", typeof(ProgrartEditorPage));
 		EditorProvider.BindFileType("cs", "text");
 		EditorProvider.BindFileType("c", "text");
 		EditorProvider.BindFileType("cpp", "text");
@@ -33,7 +34,7 @@ public partial class App : Application
 		EditorProvider.BindFileType("cpp", "text");
 		EditorProvider.BindFileType("json", "text");
 		EditorProvider.BindFileType("sh", "text");
-		EditorProvider.BindFileType("progrart", "text");
+		EditorProvider.BindFileType("progrart", "progrart");
 		EditorProvider.BindFileType("bashrc", "text");
 		EditorProvider.BindFileType("png", "image");
 		EditorProvider.BindFileType("bmp", "image");
