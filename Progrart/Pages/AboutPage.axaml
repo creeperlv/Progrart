@@ -1,16 +1,17 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Progrart.Pages.AboutPage">
- <ScrollViewer>
-	 <StackPanel>
-		 <TextBlock FontSize="36" TextAlignment="Center" Margin="0,50">Progrart</TextBlock>
-		 <TextBlock FontSize="18" TextAlignment="Center">Version: 0.0.0.0-preview</TextBlock>
-		 <TextBlock FontSize="24" TextAlignment="Center" Margin="0,25">Third-Party Libs</TextBlock>
-		 <TextBlock FontSize="17" TextAlignment="Center">Avalonia - github.com/avaloniaui</TextBlock>
-		 <TextBlock FontSize="17" TextAlignment="Center">PanAndZoom - GitHub - wieslawsoltes/PanAndZoom</TextBlock>
-     </StackPanel>
- </ScrollViewer>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="Progrart.Pages.AboutPage">
+	<ScrollViewer>
+		<StackPanel>
+			<Image Source="/Assets/Icon-FG.png" Width="100" Height="100"/>
+			<TextBlock FontSize="36" TextAlignment="Center" Margin="0,50">Progrart</TextBlock>
+			<TextBlock FontSize="18" TextAlignment="Center">Version: 0.0.0.0-preview</TextBlock>
+			<TextBlock FontSize="24" TextAlignment="Center" Margin="0,25">Third-Party Libs</TextBlock>
+			<TextBlock FontSize="17" TextAlignment="Center">Avalonia - github.com/avaloniaui</TextBlock>
+			<TextBlock FontSize="17" TextAlignment="Center">PanAndZoom - GitHub - wieslawsoltes/PanAndZoom</TextBlock>
+		</StackPanel>
+	</ScrollViewer>
 </UserControl>
