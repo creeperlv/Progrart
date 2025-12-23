@@ -9,6 +9,7 @@ namespace Progrart.Android;
     Label = "Progrart.Android",
     Theme = "@style/MyTheme.NoActionBar",
     Icon = "@drawable/icon",
+    RoundIcon = "@drawable/app_icon",
     MainLauncher = true,
     ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.UiMode)]
 public class MainActivity : AvaloniaMainActivity<App>
