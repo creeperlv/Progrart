@@ -7,7 +7,7 @@
 	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 	<Application.Resources>
 		<ResourceDictionary>
-
+			<FontFamily x:Key="SarasaMonoSlabCLFont">avares://Progrart/Assets/Fonts#Sarasa Mono Slab CL</FontFamily>
 			<x:Double x:Key="ScrollBarSize">7</x:Double>
 			<ControlTheme x:Key="{x:Type NumericUpDown}" TargetType="NumericUpDown">
 				<Setter Property="Foreground" Value="{DynamicResource TextControlForeground}" />
@@ -288,5 +288,11 @@
 		<!--<DevolutionsMacOsTheme/>-->
 		<StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
 		<dialoghostavalonia:DialogHostStyles/>
+		<Style Selector="ContextMenu">
+			<Setter Property="FontFamily" Value="{StaticResource SarasaMonoSlabCLFont}"/>
+		</Style>
+		<Style Selector="MenuItem">
+			<Setter Property="FontFamily" Value="{StaticResource SarasaMonoSlabCLFont}"/>
+		</Style>
 	</Application.Styles>
 </Application>
