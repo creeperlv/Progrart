@@ -8,8 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Jint" />
-    <PackageReference Include="Microsoft.Maui.Graphics" />
-    <PackageReference Include="Microsoft.Maui.Graphics.Skia" />
+    <PackageReference Include="SkiaSharp" />
   </ItemGroup>
 
 </Project>

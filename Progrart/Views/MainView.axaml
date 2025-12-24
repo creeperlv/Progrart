@@ -11,12 +11,6 @@
 			 x:Class="Progrart.Views.MainView">
 
 	<dialogHost:DialogHost Name="MainDialogHost">
-		<dialogHost:DialogHost.DialogContent>
-			<!-- put your dialog content here-->
-			<Grid>
-				<TextBlock Text="AS"/>
-			</Grid>
-		</dialogHost:DialogHost.DialogContent>
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto"/>

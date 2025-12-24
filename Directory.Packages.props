@@ -23,6 +23,7 @@
     <PackageVersion Include="Microsoft.Maui.Graphics" Version="10.0.11" />
     <PackageVersion Include="Microsoft.Maui.Graphics.Skia" Version="10.0.11" />
     <PackageVersion Include="PanAndZoom" Version="11.3.6" />
+    <PackageVersion Include="SkiaSharp" Version="3.116.1" />
     <PackageVersion Include="SkiaSharp.NativeAssets.WebAssembly" Version="3.116.1" />
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.15" />
   </ItemGroup>
