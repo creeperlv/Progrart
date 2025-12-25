@@ -1,27 +1,44 @@
-﻿using Jint.Native;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Jint;
+using Jint.Native;
 
 namespace Progrart.Core.Graphics
 {
-	public class BaseElement
-	{
-		public JsObject? __object = null;
-		public virtual void Add(BaseElement element) { }
-		public virtual void Remove(BaseElement element) { }
-		public virtual void Render(RenderContext context)
-		{
-		}
-		public virtual void SetProperty(string key, string value)
-		{
-
-		}
-	}
 	public class ImageRoot : BaseElement
 	{
 	}
 	public class VisualRoot : BaseElement
 	{
+		public override void Render(RenderContext context)
+		{
+			base.Render(context);
+			foreach (var item in Children)
+			{
+				item.Render(context);
+			}
+		}
+		public override void SetupProperties(Engine engine)
+		{
+			base.SetupProperties(engine);
+			if (__object != null)
+			{
+				{
+					JsObject point = new JsObject(engine);
+					point.Set("x", 0);
+					point.Set("y", 0);
+					__object.Set("translate", point);
+				}
+				{
+					JsObject point = new JsObject(engine);
+					point.Set("x", 0);
+					point.Set("y", 0);
+					__object.Set("scale", point);
+				}
+				{
+					__object.Set("rotation", 0);
+				}
+				__object.Set("Width", 1);
+				__object.Set("Height", 1);
+			}
+		}
 	}
 }

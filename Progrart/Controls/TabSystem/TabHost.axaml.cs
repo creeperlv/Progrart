@@ -10,6 +10,17 @@ public partial class TabHost : UserControl
 	{
 		InitializeComponent();
 	}
+	public ITabPage? GetCurrentPage()
+	{
+		foreach (var item in PageContainer.Children)
+		{
+			if (item.IsVisible)
+			{
+				if (item is ITabPage page) return page;
+			}
+		}
+		return null;
+	}
 	public void AddPage(ITabPage page)
 	{
 		TabButton button = new TabButton(page, this);

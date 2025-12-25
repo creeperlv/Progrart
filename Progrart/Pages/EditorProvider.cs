@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using Progrart.Controls.TabSystem;
+using Progrart.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

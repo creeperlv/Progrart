@@ -11,26 +11,12 @@ namespace Progrart.Views;
 
 public partial class MainView : UserControl
 {
-	ExecutionEngine engine;
 	static MainView? Instance;
 	public MainView()
 	{
 		Instance = this;
 		InitializeComponent();
-		engine = new ExecutionEngine();
-		//engine.Engine.SetValue("log", new Action<string>((s) => { Output.Text += $"{s}\n"; }));
-		RunButton.Click += (_, _) =>
-		{
-			try
-			{
-				//engine.Execute(CodePane.Text);
-			}
-			catch (Exception e)
-			{
-				WriteLine(e.Message);
-			}
-		};
-		//Trace.Listeners.Add(new ConsoleLogger());
+		Trace.Listeners.Add(new ConsoleLogger());
 		EditorProvider.setHost(MainTabHost);
 		BottomPanelToggle.IsCheckedChanged += (a, b) =>
 		{
@@ -89,11 +75,24 @@ public partial class MainView : UserControl
 			LeftPanelToggle.IsChecked = false;
 		};
 		LeftPanelToggle.IsChecked = true;
+		RunButton.Click += (_, _) =>
+		{
+			if (MainTabHost.GetCurrentPage() is IEditorPage editor)
+			{
+				editor.Execute(null);
+			}
+		};
 	}
+
+	private void OutputClear_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		Output.Text = "";
+	}
+
 	public void Write(string message)
 	{
-		//Dispatcher.UIThread.Invoke(() =>
-		//Output.Text += message);
+		Dispatcher.UIThread.Invoke(() =>
+		Output.Text += message);
 		try
 		{
 			Output.Text += message;
@@ -104,10 +103,12 @@ public partial class MainView : UserControl
 	}
 	public void WriteLine(string message)
 	{
-		//Dispatcher.UIThread.Invoke(() =>);
-		try
+		Dispatcher.UIThread.Invoke(() =>
 		{
 			Output.Text += $"{message}\n";
+		});
+		try
+		{
 		}
 		catch (Exception)
 		{

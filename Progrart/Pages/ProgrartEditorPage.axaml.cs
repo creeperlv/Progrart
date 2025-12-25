@@ -4,20 +4,23 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Progrart.Controls.TabSystem;
+using Progrart.Core;
+using Progrart.Core.JSExecution;
 using Progrart.Pages;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace Progrart;
 
-public partial class ProgrartEditorPage : UserControl, ITabPage,IEditorPage
+public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 {
 	IStorageFile? file = null;
 	TabButton? btn = null;
 	public ProgrartEditorPage()
-    {
-        InitializeComponent();
-    }
+	{
+		InitializeComponent();
+	}
 
 	public void BindButton(TabButton button)
 	{
@@ -32,13 +35,23 @@ public partial class ProgrartEditorPage : UserControl, ITabPage,IEditorPage
 	}
 
 	public void Execute(ExecuteArguments? args = null)
-    {
-    }
+	{
+		using ProgrartExecutor executor = new ProgrartExecutor();
+		try
+		{
+			executor.RenderImage(100, CodeEditor.Text, new ExecuteArguments());
 
-    public bool IsModified()
-    {
-        return false;
-    }
+		}
+		catch (System.Exception e)
+		{
+			Trace.WriteLine(e);
+		}
+	}
+
+	public bool IsModified()
+	{
+		return false;
+	}
 
 	public void LoadDocument(IStorageFile file)
 	{

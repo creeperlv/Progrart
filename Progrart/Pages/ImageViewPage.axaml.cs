@@ -5,6 +5,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Progrart.Controls.TabSystem;
+using Progrart.Core;
 using System.Threading.Tasks;
 
 namespace Progrart.Pages;

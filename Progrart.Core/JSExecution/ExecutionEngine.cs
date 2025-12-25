@@ -27,10 +27,6 @@ namespace Progrart.Core.JSExecution
 		{
 			Engine.Evaluate(formSymbol(Symbols));
 			Engine.Evaluate(content);
-			if (Engine.GetValue("config").AsObject().TryGetValue("width", out var w))
-			{
-				Trace.WriteLine(w);
-			}
 		}
 
 		public void Dispose()

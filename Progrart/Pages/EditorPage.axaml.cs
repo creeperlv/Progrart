@@ -6,6 +6,7 @@ using Avalonia.Threading;
 using AvaloniaEdit;
 using AvaloniaEdit.TextMate;
 using Progrart.Controls.TabSystem;
+using Progrart.Core;
 using Progrart.Icons;
 using System.IO;
 using System.Threading.Tasks;
