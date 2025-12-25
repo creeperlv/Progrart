@@ -8,13 +8,54 @@ namespace Progrart.Core.Graphics
 	}
 	public class VisualRoot : BaseElement
 	{
+		float w;
+		float h;
+		float tx;
+		float ty;
+		float scale;
+		float rotate;
+		void Transform(RenderContext context)
+		{
+			context.canvas.Translate(tx, ty);
+			context.canvas.RotateDegrees(rotate, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
+			context.canvas.Scale(scale, scale, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
+		}
+		void Untransform(RenderContext context)
+		{
+			context.canvas.Scale(scale, scale, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
+			context.canvas.RotateDegrees(rotate, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
+			context.canvas.Translate(-tx, -ty);
+		}
+		public override void LoadProperties()
+		{
+			base.LoadProperties();
+			if (__object is null) return;
+			{
+				if (__object.Get("translate") is JsObject translate)
+				{
+					tx = (float)translate.Get("x").AsNumber();
+					ty = (float)translate.Get("y").AsNumber();
+				}
+			}
+			{
+				scale = (float)__object.Get("scale").AsNumber();
+			}
+			{
+				scale = (float)__object.Get("rotation").AsNumber();
+			}
+			w = (float)__object.Get("width").AsNumber();
+			h = (float)__object.Get("height").AsNumber();
+		}
 		public override void Render(RenderContext context)
 		{
 			base.Render(context);
+			this.LoadProperties();
+			Transform(context);
 			foreach (var item in Children)
 			{
 				item.Render(context);
 			}
+			Untransform(context);
 		}
 		public override void SetupProperties(Engine engine)
 		{
@@ -28,16 +69,13 @@ namespace Progrart.Core.Graphics
 					__object.Set("translate", point);
 				}
 				{
-					JsObject point = new JsObject(engine);
-					point.Set("x", 0);
-					point.Set("y", 0);
-					__object.Set("scale", point);
+					__object.Set("scale", 1);
 				}
 				{
 					__object.Set("rotation", 0);
 				}
-				__object.Set("Width", 1);
-				__object.Set("Height", 1);
+				__object.Set("width", 1);
+				__object.Set("height", 1);
 			}
 		}
 	}

@@ -44,6 +44,20 @@ namespace Progrart.Core.Graphics
 			if (__object is not null)
 			{
 				Size = (float)__object.Get("Size").AsNumber();
+				{
+					if (__object.Get("Start") is JsObject Start)
+					{
+						StartX = (float)Start.Get("x").AsNumber();
+						StartY = (float)Start.Get("y").AsNumber();
+					}
+				}
+				{
+					if (__object.Get("End") is JsObject End)
+					{
+						EndX = (float)End.Get("x").AsNumber();
+						EndY = (float)End.Get("y").AsNumber();
+					}
+				}
 			}
 		}
 		public override void Render(RenderContext context)
@@ -56,7 +70,7 @@ namespace Progrart.Core.Graphics
 				{
 					ColorF = new SkiaSharp.SKColorF(ColorR, ColorG, ColorB, ColorA),
 					StrokeWidth = Size,
-					
+
 				}
 			);
 
