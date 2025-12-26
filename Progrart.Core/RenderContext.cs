@@ -35,6 +35,11 @@ namespace Progrart.Core
 			info = new SKImageInfo(W, H);
 			surface = SKSurface.Create(info);
 			canvas = surface.Canvas;
+
+		}
+		public SKData ToData()
+		{
+			return surface.Snapshot().Encode(SKEncodedImageFormat.Png, 100);
 		}
 		public void Dispose()
 		{

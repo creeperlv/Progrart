@@ -16,6 +16,7 @@ namespace Progrart.Core.Graphics
 		float ColorG;
 		float ColorB;
 		float ColorA;
+		SKShader? shader = null;
 		public override void SetupProperties(Engine engine)
 		{
 			base.SetupProperties(engine);
@@ -58,6 +59,9 @@ namespace Progrart.Core.Graphics
 						EndY = (float)End.Get("y").AsNumber();
 					}
 				}
+
+				if (__object.Get("Shader") is JsObject shaderObj)
+					shader = ProgrartConversion.ObtainFromJsObject(shaderObj);
 			}
 		}
 		public override void Render(RenderContext context)
@@ -65,12 +69,12 @@ namespace Progrart.Core.Graphics
 			base.Render(context);
 			context.DrawingCore.canvas.DrawLine(
 				context.TranslatePoint((float)StartX, (float)StartY),
-				context.TranslatePoint((float)StartX, (float)StartY),
-				new SkiaSharp.SKPaint()
+				context.TranslatePoint((float)EndX, (float)EndY),
+				new SKPaint()
 				{
-					ColorF = new SkiaSharp.SKColorF(ColorR, ColorG, ColorB, ColorA),
+					ColorF = new SKColorF(ColorR, ColorG, ColorB, ColorA),
 					StrokeWidth = Size,
-
+					Shader = shader
 				}
 			);
 

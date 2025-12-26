@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Progrart.Controls.TabSystem;
@@ -39,8 +40,12 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 		using ProgrartExecutor executor = new ProgrartExecutor();
 		try
 		{
-			executor.RenderImage(100, CodeEditor.Text, new ExecuteArguments());
-
+			var result = executor.RenderImage(100, CodeEditor.Text, new ExecuteArguments());
+			var data = result.DrawingCore.ToData();
+			using MemoryStream stream = new MemoryStream();
+			data.SaveTo(stream);
+			Bitmap image = new Bitmap(stream);
+			PreviewImage.SetImage(image);
 		}
 		catch (System.Exception e)
 		{

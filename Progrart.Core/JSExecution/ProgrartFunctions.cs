@@ -54,13 +54,6 @@ namespace Progrart.Core.JSExecution
 				));
 			}
 			{
-				obj.Set("Colors", new JsArray(engine, [
-					color(engine, 1, 1, 1, 1) ,
-					color(engine, 1, 1, 1, 1)
-					]
-				));
-			}
-			{
 				obj.Set("Positions", new JsArray(engine, new[] { new JsNumber(0), new JsNumber(1) }));
 			}
 			obj.Set("TileMode", $"{SKShaderTileMode.Repeat}");
@@ -76,13 +69,6 @@ namespace Progrart.Core.JSExecution
 				point.Set("x", 0);
 				point.Set("y", 0);
 				obj.Set("Center", point);
-			}
-			{
-				obj.Set("Colors", new JsArray(engine, [
-					color(engine, 1, 1, 1, 1) ,
-					color(engine, 1, 1, 1, 1)
-					]
-				));
 			}
 			{
 				obj.Set("Colors", new JsArray(engine, [
