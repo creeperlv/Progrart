@@ -1,6 +1,7 @@
 ﻿using Jint;
 using Jint.Native;
 using Jint.Native.Function;
+using Jint.Native.Json;
 using Progrart.Core.Graphics;
 using System.Diagnostics;
 using System.Text.Json;
@@ -62,28 +63,26 @@ namespace Progrart.Core.JSExecution
 		}
 		public RenderContext RenderImage(int Scale, string script, ExecuteArguments arguments)
 		{
-			int width = 1;
-			int height = 1;
-			foreach (var item in arguments.data)
-			{
-				engine.Engine.SetValue(item.Key, item.Value);
-			}
+			float width = 1;
+			float height = 1;
+			engine.Symbols = arguments.data;
+			engine.Execute(script);
 			if (engine.Engine.GetValue("Width") is JsNumber js_width)
 			{
-				width = (int)(js_width.AsNumber());
+				width = (float)(js_width.AsNumber());
 			}
 			if (engine.Engine.GetValue("Height") is JsNumber js_height)
 			{
-				height = (int)(js_height.AsNumber());
+				height = (float)(js_height.AsNumber());
 			}
-			RenderContext renderContext = new RenderContext(width * Scale, width * Scale);
+			RenderContext renderContext = new RenderContext((int)(width * Scale), (int)(width * Scale));
 			ImageRoot imageRoot = new ImageRoot();
 
-			engine.Execute(script);
 			var img = engine.Engine.Call("main");
 			if (ObjectPool[$"{img.Get("id")}"] is BaseElement element)
 				imageRoot.Add(element);
 			imageRoot.Render(renderContext);
+			renderContext.canvas.Flush();
 			return renderContext;
 		}
 		public string RegisterObject(object obj)
@@ -92,8 +91,8 @@ namespace Progrart.Core.JSExecution
 			ObjectPool[v] = obj;
 			return v;
 		}
-		public JsObject linear_gradient()=>ProgrartFunctions.linear_gradient(engine.Engine);
-		public JsObject radial_gradient()=>ProgrartFunctions.radial_gradient(engine.Engine);
+		public JsObject linear_gradient() => ProgrartFunctions.linear_gradient(engine.Engine);
+		public JsObject radial_gradient() => ProgrartFunctions.radial_gradient(engine.Engine);
 		public void Dispose()
 		{
 			engine.Dispose();

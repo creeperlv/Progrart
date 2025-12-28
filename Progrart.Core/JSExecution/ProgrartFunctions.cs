@@ -112,10 +112,10 @@ namespace Progrart.Core.JSExecution
 		}
 		public static JsObject CreateLine(ProgrartExecutor executor)
 		{
-			Line root = new();
-			var obj = WrapObject(executor, executor.RegisterObject(root));
-			root.__object = obj;
-			root.SetupProperties(executor.engine.Engine);
+			Line element = new();
+			var obj = WrapObject(executor, executor.RegisterObject(element));
+			element.__object = obj;
+			element.SetupProperties(executor.engine.Engine);
 			return obj;
 		}
 	}

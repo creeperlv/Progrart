@@ -1,4 +1,5 @@
 ﻿using SkiaSharp;
+using System.Diagnostics;
 
 namespace Progrart.Core
 {
@@ -14,6 +15,10 @@ namespace Progrart.Core
 		public SKPoint TranslatePoint(float x, float y)
 		{
 			return new SKPoint(x * DrawingCore.Width, y * DrawingCore.Height);
+		}
+		public SKPoint TranslatePoint(SKPoint point)
+		{
+			return TranslatePoint(point.X, point.Y);
 		}
 		public RenderContext(int W, int H)
 		{
@@ -32,10 +37,11 @@ namespace Progrart.Core
 		{
 			Width = W;
 			Height = H;
+			Trace.WriteLine($"Createing Surface as: {W} x {H}");
 			info = new SKImageInfo(W, H);
 			surface = SKSurface.Create(info);
 			canvas = surface.Canvas;
-
+			canvas.Clear();
 		}
 		public SKData ToData()
 		{

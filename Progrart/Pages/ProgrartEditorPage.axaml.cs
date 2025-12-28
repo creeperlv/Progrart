@@ -40,11 +40,25 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 		using ProgrartExecutor executor = new ProgrartExecutor();
 		try
 		{
-			var result = executor.RenderImage(100, CodeEditor.Text, new ExecuteArguments());
+			int Scale = 1024;
+			if (args is not null)
+			{
+				if (args.data.TryGetValue("Scale", out var scale))
+				{
+					if (!int.TryParse(scale, out Scale)) Scale = 1024;
+				}
+			}
+			var result = executor.RenderImage(1024, CodeEditor.Text, args ?? new ExecuteArguments());
 			var data = result.DrawingCore.ToData();
-			using MemoryStream stream = new MemoryStream();
-			data.SaveTo(stream);
-			Bitmap image = new Bitmap(stream);
+			var imgFile = Path.GetTempFileName();
+			Trace.WriteLine($"Generated to:{imgFile}");
+			using (var stream = File.OpenWrite(imgFile))
+			{
+				data.SaveTo(stream);
+				stream.Flush();
+				stream.Close();
+			}
+			Bitmap image = new Bitmap(imgFile);
 			PreviewImage.SetImage(image);
 		}
 		catch (System.Exception e)
@@ -84,6 +98,18 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 
 	public void Save()
 	{
+		if (file is not null)
+		{
+			string content = CodeEditor.Text;
+			Task.Run(async () =>
+			{
+				using var stream = await file.OpenWriteAsync();
+				stream.SetLength(0);
+				using var sw = new StreamWriter(stream);
+				await sw.WriteAsync(content);
+				await sw.FlushAsync();
+			});
+		}
 	}
 
 	public void SetHost(TabHost host)

@@ -2,20 +2,16 @@
 using Jint.Native;
 using Progrart.Core.JSExecution;
 using SkiaSharp;
+using System.Diagnostics;
 
 namespace Progrart.Core.Graphics
 {
 	public class Line : BaseElement
 	{
 		float Size;
-		float StartX;
-		float StartY;
-		float EndX;
-		float EndY;
-		float ColorR;
-		float ColorG;
-		float ColorB;
-		float ColorA;
+		SKPoint Start;
+		SKPoint End;
+		SKColorF Color;
 		SKShader? shader = null;
 		public override void SetupProperties(Engine engine)
 		{
@@ -48,15 +44,19 @@ namespace Progrart.Core.Graphics
 				{
 					if (__object.Get("Start") is JsObject Start)
 					{
-						StartX = (float)Start.Get("x").AsNumber();
-						StartY = (float)Start.Get("y").AsNumber();
+						this.Start = ProgrartConversion.ObtainSKPointFromJsObject(Start);
 					}
 				}
 				{
 					if (__object.Get("End") is JsObject End)
 					{
-						EndX = (float)End.Get("x").AsNumber();
-						EndY = (float)End.Get("y").AsNumber();
+						this.End = ProgrartConversion.ObtainSKPointFromJsObject(End);
+					}
+				}
+				{
+					if (__object.Get("Color") is JsObject Color)
+					{
+						this.Color = ProgrartConversion.ObtainSKColorFFromJsObject(Color);
 					}
 				}
 
@@ -67,17 +67,20 @@ namespace Progrart.Core.Graphics
 		public override void Render(RenderContext context)
 		{
 			base.Render(context);
+			LoadProperties();
+			SKPoint FinalStartPos = context.TranslatePoint(Start);
+			SKPoint FinalEndPos = context.TranslatePoint(End);
+			Trace.WriteLine($"Draw Line from {FinalStartPos} to {FinalEndPos} using {Color} with size of {Size}.");
 			context.DrawingCore.canvas.DrawLine(
-				context.TranslatePoint((float)StartX, (float)StartY),
-				context.TranslatePoint((float)EndX, (float)EndY),
+				FinalStartPos,
+				FinalEndPos,
 				new SKPaint()
 				{
-					ColorF = new SKColorF(ColorR, ColorG, ColorB, ColorA),
+					ColorF = Color,
 					StrokeWidth = Size,
 					Shader = shader
 				}
 			);
-
 		}
 	}
 }

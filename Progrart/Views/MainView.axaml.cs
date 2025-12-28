@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
 using Progrart.Controls;
+using Progrart.Core;
 using Progrart.Core.JSExecution;
 using Progrart.Pages;
 using System;
@@ -79,7 +80,10 @@ public partial class MainView : UserControl
 		{
 			if (MainTabHost.GetCurrentPage() is IEditorPage editor)
 			{
-				editor.Execute(null);
+				ExecuteArguments args = new ExecuteArguments();
+				args.data["Scale"] = $"{SizeBox.Value}";
+				args.data["Debug"] = $"{IsDebugBox.IsChecked ?? false}".ToLower();
+				editor.Execute(args);
 			}
 		};
 	}
@@ -93,13 +97,6 @@ public partial class MainView : UserControl
 	{
 		Dispatcher.UIThread.Invoke(() =>
 		Output.Text += message);
-		try
-		{
-			Output.Text += message;
-		}
-		catch (Exception)
-		{
-		}
 	}
 	public void WriteLine(string message)
 	{
@@ -107,12 +104,6 @@ public partial class MainView : UserControl
 		{
 			Output.Text += $"{message}\n";
 		});
-		try
-		{
-		}
-		catch (Exception)
-		{
-		}
 	}
 	private class ConsoleLogger : TraceListener
 	{
@@ -124,6 +115,14 @@ public partial class MainView : UserControl
 		public override void WriteLine(string? message)
 		{
 			Instance?.WriteLine(message ?? "");
+		}
+	}
+
+	private void SaveButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		if (MainTabHost.GetCurrentPage() is IEditorPage editor)
+		{
+			editor.Save();
 		}
 	}
 }

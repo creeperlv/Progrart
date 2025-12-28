@@ -10,6 +10,10 @@ namespace Progrart.Core.JSExecution
 {
 	public static class ProgrartConversion
 	{
+		public static SKPoint ObtainSKPointFromJsObject(JsObject jsObject)
+		{
+			return new SKPoint((float)jsObject.Get("x").AsNumber(), (float)jsObject.Get("y").AsNumber());
+		}
 		public static SKColorF ObtainSKColorFFromJsObject(JsObject jsObject)
 		{
 			var r = (float)jsObject.Get("r").AsNumber();

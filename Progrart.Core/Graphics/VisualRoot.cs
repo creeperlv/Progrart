@@ -5,6 +5,14 @@ namespace Progrart.Core.Graphics
 {
 	public class ImageRoot : BaseElement
 	{
+		public override void Render(RenderContext context)
+		{
+			base.Render(context);
+			foreach (var item in Children)
+			{
+				item.Render(context);
+			}
+		}
 	}
 	public class VisualRoot : BaseElement
 	{
@@ -18,11 +26,13 @@ namespace Progrart.Core.Graphics
 		{
 			context.canvas.Translate(tx, ty);
 			context.canvas.RotateDegrees(rotate, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
-			context.canvas.Scale(scale, scale, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
+			if (scale != 1)
+				context.canvas.Scale(scale, scale, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
 		}
 		void Untransform(RenderContext context)
 		{
-			context.canvas.Scale(scale, scale, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
+			if (scale != 1)
+				context.canvas.Scale(1 / scale, 1 / scale, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
 			context.canvas.RotateDegrees(rotate, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
 			context.canvas.Translate(-tx, -ty);
 		}
@@ -41,7 +51,7 @@ namespace Progrart.Core.Graphics
 				scale = (float)__object.Get("scale").AsNumber();
 			}
 			{
-				scale = (float)__object.Get("rotation").AsNumber();
+				rotate = (float)__object.Get("rotation").AsNumber();
 			}
 			w = (float)__object.Get("width").AsNumber();
 			h = (float)__object.Get("height").AsNumber();
