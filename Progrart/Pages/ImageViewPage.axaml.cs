@@ -12,6 +12,7 @@ namespace Progrart.Pages;
 
 public partial class ImageViewPage : UserControl, ITabPage, IEditorPage
 {
+	IStorageFile? file;
 	public ImageViewPage()
 	{
 		InitializeComponent();
@@ -31,15 +32,16 @@ public partial class ImageViewPage : UserControl, ITabPage, IEditorPage
 	{
 		return false;
 	}
-
 	public void LoadDocument(IStorageFile file)
 	{
+		this.file = file;
 		Task.Run(async () =>
 		{
 
 			using var fs = await file.OpenReadAsync();
 			Bitmap bitmap = new Bitmap(fs);
-			Dispatcher.UIThread.Invoke(() => {
+			Dispatcher.UIThread.Invoke(() =>
+			{
 				this.ImageViewer.SetImage(bitmap);
 			});
 		});
@@ -51,5 +53,10 @@ public partial class ImageViewPage : UserControl, ITabPage, IEditorPage
 
 	public void SetHost(TabHost host)
 	{
+	}
+
+	public bool IsSameFile(IStorageFile file)
+	{
+		return (this.file?.Path == file.Path);
 	}
 }

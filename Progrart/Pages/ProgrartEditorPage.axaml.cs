@@ -21,6 +21,7 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 	public ProgrartEditorPage()
 	{
 		InitializeComponent();
+		CodeEditor.onSaveCmd = Save;
 	}
 
 	public void BindButton(TabButton button)
@@ -72,7 +73,12 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 		return false;
 	}
 
-	public void LoadDocument(IStorageFile file)
+    public bool IsSameFile(IStorageFile file)
+    {
+		return (this.file?.Path==file.Path);
+    }
+
+    public void LoadDocument(IStorageFile file)
 	{
 		this.file = file;
 		if (btn is not null)

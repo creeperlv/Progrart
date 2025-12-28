@@ -29,6 +29,14 @@ namespace Progrart.Pages
 		{
 			ExtensionMapping[type] = id;
 		}
+		public static TabButton? IsOpen(IStorageFile file)
+		{
+			return currentHost?.IsOpen(file);
+		}
+		public static void SelectTabPage(TabButton button)
+		{
+			currentHost?.SelectButton(button);
+		}
 		public static void OpenEditor(ITabPage page)
 		{
 			currentHost?.AddPage(page);
@@ -56,6 +64,7 @@ namespace Progrart.Pages
 	{
 		void LoadDocument(IStorageFile file);
 		void Save();
+		bool IsSameFile(IStorageFile file);
 		void Execute(ExecuteArguments? args = null);
 	}
 }

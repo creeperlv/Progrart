@@ -7,5 +7,13 @@
              x:Class="Progrart.Controls.BaseEditor">
 	<avaloniaedit:TextEditor Name="CodeEditBox" Text="" SyntaxHighlighting="JavaScript"
 							 ShowLineNumbers="True"
-							 FontFamily="Sarasa Mono Slab CL,Cascadia Code,Consolas,Menlo,Monospace"/>
+							 FontFamily="Sarasa Mono Slab CL,Cascadia Code,Consolas,Menlo,Monospace">
+        <avaloniaedit:TextEditor.ContextMenu>
+			<ContextMenu>
+				<MenuItem Name="Copy" Click="Copy_Click"/>
+				<MenuItem Name="Cut" Click="Cut_Click"/>
+				<MenuItem Name="Paste" Click="Paste_Click"/>
+            </ContextMenu>
+        </avaloniaedit:TextEditor.ContextMenu>
+    </avaloniaedit:TextEditor>
 </UserControl>

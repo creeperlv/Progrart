@@ -24,6 +24,10 @@ public partial class EditorPage : UserControl, ITabPage, IEditorPage
 
 	}
 
+	public bool IsSameFile(IStorageFile file)
+	{
+		return (this.file?.Path == file.Path);
+	}
 	public void BindButton(TabButton button)
 	{
 		btn = button;

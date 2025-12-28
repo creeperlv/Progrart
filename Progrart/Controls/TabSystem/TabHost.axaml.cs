@@ -1,6 +1,8 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
+using Progrart.Pages;
 
 namespace Progrart.Controls.TabSystem;
 
@@ -29,6 +31,17 @@ public partial class TabHost : UserControl
 			PageContainer.Children.Add(pageControl);
 		page.BindButton(button);
 		SelectButton(button);
+	}
+	public TabButton? IsOpen(IStorageFile file)
+	{
+
+		foreach (var item in TabContainer.Children)
+		{
+			if (item is TabButton itemBtn)
+				if (itemBtn.page is IEditorPage page)
+					if (page.IsSameFile(file)) return itemBtn;
+		}
+		return null;
 	}
 	public void SelectButton(TabButton button)
 	{

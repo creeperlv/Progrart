@@ -149,18 +149,23 @@ public partial class FileItem : UserControl
 		else
 			if (currentItem is IStorageFile file)
 			{
-
-				if (EditorProvider.TryGetEditor(extension, out var page))
+				var btn = EditorProvider.IsOpen(file);
+				if (btn is not null)
 				{
-					if (page is ITabPage editor)
-					{
-						if (page is IEditorPage editor_page)
-						{
-							editor_page.LoadDocument(file);
-						}
-						EditorProvider.OpenEditor(editor);
-					}
+					EditorProvider.SelectTabPage(btn);
 				}
+				else
+					if (EditorProvider.TryGetEditor(extension, out var page))
+					{
+						if (page is ITabPage editor)
+						{
+							if (page is IEditorPage editor_page)
+							{
+								editor_page.LoadDocument(file);
+							}
+							EditorProvider.OpenEditor(editor);
+						}
+					}
 			}
 	}
 	async Task LoadAll(IStorageFolder folder)
