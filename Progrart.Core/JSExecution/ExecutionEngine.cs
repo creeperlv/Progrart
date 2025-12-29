@@ -32,7 +32,6 @@ namespace Progrart.Core.JSExecution
 		public void Dispose()
 		{
 			Engine.Dispose();
-
 		}
 	}
 }

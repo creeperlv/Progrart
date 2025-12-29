@@ -19,7 +19,6 @@ namespace Progrart.Core.JSExecution
 		}
 		public void SetupCalls()
 		{
-			engine.Engine.SetValue("visual_root", visual_root);
 			Jint.Native.Json.JsonSerializer serializer = new Jint.Native.Json.JsonSerializer(engine.Engine);
 			engine.Engine.SetValue("log", new Action<JsValue>((v) =>
 			{
@@ -30,7 +29,9 @@ namespace Progrart.Core.JSExecution
 				else
 					Trace.WriteLine(v);
 			}));
+			engine.Engine.SetValue("visual_root", visual_root);
 			engine.Engine.SetValue("line", line);
+			engine.Engine.SetValue("rectangle", rectangle);
 			engine.Engine.SetValue("color4", color4);
 			engine.Engine.SetValue("color3", color3);
 			engine.Engine.SetValue("linear_gradient", linear_gradient);
@@ -59,7 +60,13 @@ namespace Progrart.Core.JSExecution
 		}
 		public JsObject line()
 		{
-			return ProgrartFunctions.CreateLine(this);
+			//return ProgrartFunctions.CreateLine(this);
+			return ProgrartFunctions.CreateElement<Line>(this);
+		}
+		public JsObject rectangle()
+		{
+			//return ProgrartFunctions.CreateLine(this);
+			return ProgrartFunctions.CreateElement<Rectangle>(this);
 		}
 		public RenderContext RenderImage(int Scale, string script, ExecuteArguments arguments)
 		{

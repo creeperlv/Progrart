@@ -33,7 +33,7 @@
 						<Border  Effect="blur(25)">
 							<TextBlock Margin="8,2" HorizontalAlignment="Center">Progart</TextBlock>
 						</Border>
-						<Button Padding="16,1" BorderThickness="1,1,1,0" Margin="-1,-1,-1,0" CornerRadius="14">
+						<Button Padding="16,1" BorderThickness="1,1,1,0" Margin="-1,-1,-1,0" CornerRadius="14" Name="MenuButton">
 							<Button.Flyout>
 								<MenuFlyout>
 									<MenuItem Header="_File">

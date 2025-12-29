@@ -1,6 +1,8 @@
+using Acornima.Ast;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using Progrart.Commands;
 using Progrart.Controls;
 using Progrart.Core;
 using Progrart.Core.JSExecution;
@@ -19,6 +21,35 @@ public partial class MainView : UserControl
 		InitializeComponent();
 		Trace.Listeners.Add(new ConsoleLogger());
 		EditorProvider.setHost(MainTabHost);
+		this.KeyBindings.Add(new Avalonia.Input.KeyBinding()
+		{
+			Gesture = new Avalonia.Input.KeyGesture(Avalonia.Input.Key.Space,
+			Avalonia.Input.KeyModifiers.Shift | Avalonia.Input.KeyModifiers.Control),
+			Command = new GenericCommand()
+			{
+				Checker = (_) => true,
+				onExecute = (_) =>
+				{
+					MenuButton.ContextMenu?.Open();
+				}
+			}
+		});
+		this.KeyBindings.Add(new Avalonia.Input.KeyBinding()
+		{
+			Gesture = new Avalonia.Input.KeyGesture(Avalonia.Input.Key.F5,
+			Avalonia.Input.KeyModifiers.None),
+			Command = new GenericCommand()
+			{
+				Checker = (_) => true,
+				onExecute = (_) =>
+				{
+					Execute();
+				}
+			}
+		});
+		ToolTip.SetTip(MenuButton, "Press Shift+Ctrl+Space to open menu");
+		ToolTip.SetIsOpen(MenuButton, true);
+		
 		BottomPanelToggle.IsCheckedChanged += (a, b) =>
 		{
 			bool v = BottomPanelToggle.IsChecked == true;
@@ -77,18 +108,23 @@ public partial class MainView : UserControl
 		};
 		LeftPanelToggle.IsChecked = true;
 		RunButton.Click += (_, _) =>
-		{
-			if (MainTabHost.GetCurrentPage() is IEditorPage editor)
-			{
-				ExecuteArguments args = new ExecuteArguments();
-				args.data["Scale"] = $"{SizeBox.Value}";
-				args.data["Debug"] = $"{IsDebugBox.IsChecked ?? false}".ToLower();
-				editor.Execute(args);
-			}
-		};
+        {
+            Execute();
+        };
 	}
 
-	private void OutputClear_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    private void Execute()
+    {
+        if (MainTabHost.GetCurrentPage() is IEditorPage editor)
+        {
+            ExecuteArguments args = new ExecuteArguments();
+            args.data["Scale"] = $"{SizeBox.Value}";
+            args.data["Debug"] = $"{IsDebugBox.IsChecked ?? false}".ToLower();
+            editor.Execute(args);
+        }
+    }
+
+    private void OutputClear_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
 	{
 		Output.Text = "";
 	}

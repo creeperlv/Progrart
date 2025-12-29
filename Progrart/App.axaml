@@ -291,8 +291,19 @@
 		<Style Selector="ContextMenu">
 			<Setter Property="FontFamily" Value="{StaticResource SarasaMonoSlabCLFont}"/>
 		</Style>
+		<Style Selector="MenuItem:selected">
+			<Style Selector="^ /template/ Border#PART_LayoutRoot">
+				<Setter Property="Background" Value="{DynamicResource AccentButtonBackground}" />
+			</Style>
+		</Style>
+
+		<Style Selector="MenuItem:pressed /template/ Border#PART_LayoutRoot:pointerover">
+			<Setter Property="Background" Value="{DynamicResource AccentButtonBackgroundPressed}" />
+		</Style>
 		<Style Selector="MenuItem">
 			<Setter Property="FontFamily" Value="{StaticResource SarasaMonoSlabCLFont}"/>
+			<Setter Property="Padding" Value="16,2"/>
+			<Setter Property="FontSize" Value="12"/>
 		</Style>
 	</Application.Styles>
 </Application>

@@ -1,19 +1,19 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:avaloniaedit="https://github.com/avaloniaui/avaloniaedit"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Progrart.Controls.BaseEditor">
-	<avaloniaedit:TextEditor Name="CodeEditBox" Text="" SyntaxHighlighting="JavaScript"
+			 xmlns:avaloniaedit="https://github.com/avaloniaui/avaloniaedit"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="Progrart.Controls.BaseEditor">
+	<avaloniaedit:TextEditor Name="CodeEditBox" Text=""
 							 ShowLineNumbers="True"
 							 FontFamily="Sarasa Mono Slab CL,Cascadia Code,Consolas,Menlo,Monospace">
-        <avaloniaedit:TextEditor.ContextMenu>
+		<avaloniaedit:TextEditor.ContextMenu>
 			<ContextMenu>
-				<MenuItem Name="Copy" Click="Copy_Click"/>
-				<MenuItem Name="Cut" Click="Cut_Click"/>
-				<MenuItem Name="Paste" Click="Paste_Click"/>
-            </ContextMenu>
-        </avaloniaedit:TextEditor.ContextMenu>
-    </avaloniaedit:TextEditor>
+				<MenuItem Header="_Copy" Click="Copy_Click"/>
+				<MenuItem Header="Cut (_X)" Click="Cut_Click"/>
+				<MenuItem Header="Paste (_V)" Click="Paste_Click"/>
+			</ContextMenu>
+		</avaloniaedit:TextEditor.ContextMenu>
+	</avaloniaedit:TextEditor>
 </UserControl>

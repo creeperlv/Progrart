@@ -8,6 +8,7 @@ using Progrart.Controls.TabSystem;
 using Progrart.Core;
 using Progrart.Core.JSExecution;
 using Progrart.Pages;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -73,12 +74,12 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 		return false;
 	}
 
-    public bool IsSameFile(IStorageFile file)
-    {
-		return (this.file?.Path==file.Path);
-    }
+	public bool IsSameFile(IStorageFile file)
+	{
+		return (this.file?.Path == file.Path);
+	}
 
-    public void LoadDocument(IStorageFile file)
+	public void LoadDocument(IStorageFile file)
 	{
 		this.file = file;
 		if (btn is not null)
@@ -95,10 +96,16 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 			using var stream = await file.OpenReadAsync();
 			using StreamReader sr = new StreamReader(stream);
 			var text = sr.ReadToEnd();
-			Dispatcher.UIThread.Invoke(() =>
+			if (OperatingSystem.IsBrowser())
 			{
+
 				CodeEditor.Text = text;
-			});
+			}
+			else
+				Dispatcher.UIThread.Invoke(() =>
+				{
+					CodeEditor.Text = text;
+				});
 		});
 	}
 

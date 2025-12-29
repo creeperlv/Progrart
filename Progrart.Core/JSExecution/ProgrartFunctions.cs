@@ -118,5 +118,13 @@ namespace Progrart.Core.JSExecution
 			element.SetupProperties(executor.engine.Engine);
 			return obj;
 		}
+		public static JsObject CreateElement<T>(ProgrartExecutor executor) where T: BaseElement
+		{
+			T element=Activator.CreateInstance<T>() as T;
+			var obj = WrapObject(executor, executor.RegisterObject(element));
+			element.__object = obj;
+			element.SetupProperties(executor.engine.Engine);
+			return obj;
+		}
 	}
 }

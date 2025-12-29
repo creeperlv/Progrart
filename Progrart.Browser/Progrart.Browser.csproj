@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WebAssembly">
-  <PropertyGroup>
-    <TargetFramework>net10.0-browser</TargetFramework>
-    <OutputType>Exe</OutputType>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	  <WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0-browser</TargetFramework>
+		<OutputType>Exe</OutputType>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Avalonia.Browser" />
-    <PackageReference Include="SkiaSharp.NativeAssets.WebAssembly" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia.Browser" />
+		<PackageReference Include="SkiaSharp.NativeAssets.WebAssembly" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Progrart\Progrart.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Progrart\Progrart.csproj" />
+	</ItemGroup>
 </Project>
