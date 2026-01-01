@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Jint" />
+    <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="SkiaSharp" />
   </ItemGroup>
 

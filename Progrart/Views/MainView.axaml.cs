@@ -22,16 +22,17 @@ public partial class MainView : UserControl
 		InitializeComponent();
 		Trace.Listeners.Add(new ConsoleLogger());
 		EditorProvider.setHost(MainTabHost);
+		MenuButton.Focus();
 		this.KeyBindings.Add(new Avalonia.Input.KeyBinding()
 		{
 			Gesture = new Avalonia.Input.KeyGesture(Avalonia.Input.Key.Space,
-			Avalonia.Input.KeyModifiers.Shift | Avalonia.Input.KeyModifiers.Control),
+			Avalonia.Input.KeyModifiers.Control | Avalonia.Input.KeyModifiers.Shift),
 			Command = new GenericCommand()
 			{
 				Checker = (_) => true,
 				onExecute = (_) =>
 				{
-					MenuButton.ContextMenu?.Open();
+					MenuButton.Flyout?.ShowAt(MenuButton);
 				}
 			}
 		});

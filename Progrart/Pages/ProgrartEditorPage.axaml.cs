@@ -19,6 +19,7 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 {
 	IStorageFile? file = null;
 	TabButton? btn = null;
+	Bitmap? image;
 	public ProgrartEditorPage()
 	{
 		InitializeComponent();
@@ -52,16 +53,19 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 			}
 			var result = executor.RenderImage(1024, CodeEditor.Text, args ?? new ExecuteArguments());
 			var data = result.DrawingCore.ToData();
-			var imgFile = Path.GetTempFileName();
-			Trace.WriteLine($"Generated to:{imgFile}");
-			using (var stream = File.OpenWrite(imgFile))
-			{
-				data.SaveTo(stream);
-				stream.Flush();
-				stream.Close();
-			}
-			Bitmap image = new Bitmap(imgFile);
+			using MemoryStream stream = new MemoryStream();
+
+			data.SaveTo(stream);
+			stream.Flush();
+
+			stream.Position = 0;
+			Bitmap image = new Bitmap(stream);
 			PreviewImage.SetImage(image);
+			if (this.image != null)
+			{
+				this.image.Dispose();
+			}
+			this.image = image;
 		}
 		catch (System.Exception e)
 		{
@@ -91,21 +95,17 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 		{
 			CodeEditor.SetGrammerByExtension(".js");
 		}
+		Trace.WriteLine($"File:{file.TryGetLocalPath() ?? "null"}");
 		Task.Run(async () =>
 		{
 			using var stream = await file.OpenReadAsync();
 			using StreamReader sr = new StreamReader(stream);
-			var text = sr.ReadToEnd();
-			if (OperatingSystem.IsBrowser())
+			var text = await sr.ReadToEndAsync();
+			Dispatcher.UIThread.Invoke(() =>
 			{
-
 				CodeEditor.Text = text;
-			}
-			else
-				Dispatcher.UIThread.Invoke(() =>
-				{
-					CodeEditor.Text = text;
-				});
+
+			});
 		});
 	}
 

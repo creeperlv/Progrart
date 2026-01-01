@@ -7,12 +7,14 @@
 			 x:Class="Progrart.Controls.BaseEditor">
 	<avaloniaedit:TextEditor Name="CodeEditBox" Text=""
 							 ShowLineNumbers="True"
-							 FontFamily="Sarasa Mono Slab CL,Cascadia Code,Consolas,Menlo,Monospace">
+							 FontFamily="Sarasa Mono Slab CL,Cascadia Code,Roboto Mono,Consolas,Menlo,Monospace">
 		<avaloniaedit:TextEditor.ContextMenu>
 			<ContextMenu>
 				<MenuItem Header="_Copy" Click="Copy_Click"/>
 				<MenuItem Header="Cut (_X)" Click="Cut_Click"/>
 				<MenuItem Header="Paste (_V)" Click="Paste_Click"/>
+				<Separator/>
+				<MenuItem Header="_Find" Click="Find_Click"/>
 			</ContextMenu>
 		</avaloniaedit:TextEditor.ContextMenu>
 	</avaloniaedit:TextEditor>

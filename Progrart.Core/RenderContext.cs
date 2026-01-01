@@ -24,7 +24,7 @@ namespace Progrart.Core
 		}
 		public float TranslateSize(float s)
 		{
-			return (float)(s *  Math.Sqrt(DrawingCore.Width * DrawingCore.Width + DrawingCore.Height * DrawingCore.Height)/ Math.Sqrt(LogicalH * LogicalH + LogicalW * LogicalW));
+			return (float)(s * Math.Sqrt(DrawingCore.Width * DrawingCore.Width + DrawingCore.Height * DrawingCore.Height) / Math.Sqrt(LogicalH * LogicalH + LogicalW * LogicalW));
 		}
 		public RenderContext(int W, int H)
 		{
@@ -61,10 +61,27 @@ namespace Progrart.Core
 			surface.Dispose();
 		}
 	}
-
+	[Serializable]
 	public class ExecuteArguments
 	{
 		public Dictionary<string, string> data = new Dictionary<string, string>();
+		public ExecuteArguments Clone()
+		{
+			ExecuteArguments args = new ExecuteArguments();
+			foreach (var item in data)
+			{
+				args.data.Add(item.Key, item.Value);
+			}
+			return args;
+		}
+		public void MergeFrom(ExecuteArguments args)
+		{
+
+			foreach (var item in args.data)
+			{
+				args.data.Add(item.Key, item.Value);
+			}
+		}
 	}
 	[Serializable]
 	public class RenderConfig

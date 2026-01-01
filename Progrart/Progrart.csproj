@@ -9,6 +9,10 @@
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Remove="Assets\Styles\JavaScript.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia" />
