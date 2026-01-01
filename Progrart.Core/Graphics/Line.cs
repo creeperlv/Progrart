@@ -77,7 +77,7 @@ namespace Progrart.Core.Graphics
 				new SKPaint()
 				{
 					ColorF = Color,
-					StrokeWidth = Size,
+					StrokeWidth = context.TranslateSize(Size),
 					Shader = shader
 				}
 			);

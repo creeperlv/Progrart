@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Progrart.Pages
 {
@@ -63,7 +64,7 @@ namespace Progrart.Pages
 	public interface IEditorPage
 	{
 		void LoadDocument(IStorageFile file);
-		void Save();
+		Task Save();
 		bool IsSameFile(IStorageFile file);
 		void Execute(ExecuteArguments? args = null);
 	}

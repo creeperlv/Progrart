@@ -109,12 +109,13 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 		});
 	}
 
-	public void Save()
+	public async Task Save()
 	{
 		if (file is not null)
 		{
-			string content = CodeEditor.Text;
-			Task.Run(async () =>
+			string content = "";
+			await Dispatcher.UIThread.InvokeAsync(() => { content = CodeEditor.Text; });
+			await Task.Run(async () =>
 			{
 				using var stream = await file.OpenWriteAsync();
 				stream.SetLength(0);

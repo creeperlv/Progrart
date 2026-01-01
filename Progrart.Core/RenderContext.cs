@@ -8,6 +8,8 @@ namespace Progrart.Core
 		public PrimitiveDrawingCore DrawingCore { get; }
 
 		public SKCanvas canvas { get => DrawingCore.canvas; }
+		public float LogicalW;
+		public float LogicalH;
 		public RenderContext(PrimitiveDrawingCore core)
 		{
 			this.DrawingCore = core;
@@ -19,6 +21,10 @@ namespace Progrart.Core
 		public SKPoint TranslatePoint(SKPoint point)
 		{
 			return TranslatePoint(point.X, point.Y);
+		}
+		public float TranslateSize(float s)
+		{
+			return (float)(s *  Math.Sqrt(DrawingCore.Width * DrawingCore.Width + DrawingCore.Height * DrawingCore.Height)/ Math.Sqrt(LogicalH * LogicalH + LogicalW * LogicalW));
 		}
 		public RenderContext(int W, int H)
 		{

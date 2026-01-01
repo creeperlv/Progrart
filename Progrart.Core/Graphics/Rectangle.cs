@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace Progrart.Core.Graphics
 {
-    public class Rectangle : BaseElement
+	public class Rectangle : BaseElement
 	{
 
 		float StrokeWidth;
@@ -78,7 +78,7 @@ namespace Progrart.Core.Graphics
 				new SKPaint()
 				{
 					ColorF = Color,
-					StrokeWidth = StrokeWidth,
+					StrokeWidth = context.TranslateSize(StrokeWidth),
 					Shader = shader
 				}
 			);

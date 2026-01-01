@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Progrart.Pages;
+using System;
+using System.Threading.Tasks;
 
 namespace Progrart.Controls.TabSystem;
 
@@ -42,6 +44,16 @@ public partial class TabHost : UserControl
 					if (page.IsSameFile(file)) return itemBtn;
 		}
 		return null;
+	}
+	public async Task Foreach(Func<ITabPage, Task<bool>> handler)
+	{
+		foreach (var item in PageContainer.Children)
+		{
+			if (item is ITabPage page)
+			{
+				if (await handler(page)) break;
+			}
+		}
 	}
 	public void SelectButton(TabButton button)
 	{

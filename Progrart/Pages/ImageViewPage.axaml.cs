@@ -47,7 +47,7 @@ public partial class ImageViewPage : UserControl, ITabPage, IEditorPage
 		});
 	}
 
-	public void Save()
+	public async Task Save()
 	{
 	}
 

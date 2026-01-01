@@ -44,7 +44,8 @@
 										<MenuItem Header="_Open">
 											<MenuItem Header="_Project" Name="OpenProjectMenuItem"/>
 										</MenuItem>
-										<MenuItem Header="_Save"/>
+										<MenuItem Header="_Save" Click="MenuItem_Save_Click"/>
+										<MenuItem Header="Save A_ll" Click="MenuItem_SaveAll_Click"/>
 										<MenuItem Header="Save _As"/>
 									</MenuItem>
 									<MenuItem Header="_Tools">

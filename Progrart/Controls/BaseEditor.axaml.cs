@@ -6,6 +6,7 @@ using AvaloniaEdit;
 using AvaloniaEdit.TextMate;
 using Progrart.Commands;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using TextMateSharp.Grammars;
 
@@ -20,7 +21,7 @@ public partial class BaseEditor : UserControl
 		get => CodeEditBox.Text;
 		set => CodeEditBox.Text = value;
 	}
-	public Action? onSaveCmd;
+	public Func<Task>? onSaveCmd;
 	public BaseEditor()
 	{
 		InitializeComponent();
@@ -35,14 +36,15 @@ public partial class BaseEditor : UserControl
 		var saveBinding = new KeyBinding
 		{
 			Gesture = new KeyGesture(Key.S, KeyModifiers.Control),
-			Command = new GenericCommand() { onExecute = (_) => Save() }
+			Command = new GenericCommand() { onExecute = (_) => Task.Run(Save) }
 		};
 
 		CodeEditBox.KeyBindings.Add(saveBinding);
 	}
-	void Save()
+	async Task Save()
 	{
-		onSaveCmd?.Invoke();
+		if (onSaveCmd is not null)
+			await onSaveCmd.Invoke();
 	}
 	public void SetGrammerByExtension(string extension_name)
 	{

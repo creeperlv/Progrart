@@ -9,6 +9,7 @@ using Progrart.Core.JSExecution;
 using Progrart.Pages;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Progrart.Views;
 
@@ -49,7 +50,7 @@ public partial class MainView : UserControl
 		});
 		ToolTip.SetTip(MenuButton, "Press Shift+Ctrl+Space to open menu");
 		ToolTip.SetIsOpen(MenuButton, true);
-		
+
 		BottomPanelToggle.IsCheckedChanged += (a, b) =>
 		{
 			bool v = BottomPanelToggle.IsChecked == true;
@@ -108,23 +109,23 @@ public partial class MainView : UserControl
 		};
 		LeftPanelToggle.IsChecked = true;
 		RunButton.Click += (_, _) =>
-        {
-            Execute();
-        };
+		{
+			Execute();
+		};
 	}
 
-    private void Execute()
-    {
-        if (MainTabHost.GetCurrentPage() is IEditorPage editor)
-        {
-            ExecuteArguments args = new ExecuteArguments();
-            args.data["Scale"] = $"{SizeBox.Value}";
-            args.data["Debug"] = $"{IsDebugBox.IsChecked ?? false}".ToLower();
-            editor.Execute(args);
-        }
-    }
+	private void Execute()
+	{
+		if (MainTabHost.GetCurrentPage() is IEditorPage editor)
+		{
+			ExecuteArguments args = new ExecuteArguments();
+			args.data["Scale"] = $"{SizeBox.Value}";
+			args.data["Debug"] = $"{IsDebugBox.IsChecked ?? false}".ToLower();
+			editor.Execute(args);
+		}
+	}
 
-    private void OutputClear_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	private void OutputClear_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
 	{
 		Output.Text = "";
 	}
@@ -160,5 +161,20 @@ public partial class MainView : UserControl
 		{
 			editor.Save();
 		}
+	}
+
+	private void MenuItem_Save_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		if (MainTabHost.GetCurrentPage() is IEditorPage editor) Task.Run(async () => await editor.Save());
+	}
+
+	private void MenuItem_SaveAll_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		Task.Run(async () => await MainTabHost.Foreach(async (page) =>
+		{
+			if (page is IEditorPage editor)
+				await editor.Save();
+			return false;
+		}));
 	}
 }

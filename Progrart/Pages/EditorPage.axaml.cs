@@ -21,7 +21,6 @@ public partial class EditorPage : UserControl, ITabPage, IEditorPage
 	public EditorPage()
 	{
 		InitializeComponent();
-
 	}
 
 	public bool IsSameFile(IStorageFile file)
@@ -78,7 +77,7 @@ public partial class EditorPage : UserControl, ITabPage, IEditorPage
 		});
 	}
 
-	public void Save()
+	public async Task Save()
 	{
 	}
 

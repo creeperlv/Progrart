@@ -82,7 +82,11 @@ namespace Progrart.Core.JSExecution
 			{
 				height = (float)(js_height.AsNumber());
 			}
-			RenderContext renderContext = new RenderContext((int)(width * Scale), (int)(width * Scale));
+			RenderContext renderContext = new RenderContext((int)(width * Scale), (int)(width * Scale))
+			{
+				LogicalW = width,
+				LogicalH = height
+			};
 			ImageRoot imageRoot = new ImageRoot();
 
 			var img = engine.Engine.Call("main");
