@@ -24,6 +24,7 @@ public partial class App : Application
 		EditorProvider.Register("text", "Default Text Editor", typeof(EditorPage));
 		EditorProvider.Register("image", "Default Image Viewer", typeof(ImageViewPage));
 		EditorProvider.Register("progrart", "Default Progrart Editor", typeof(ProgrartEditorPage));
+		EditorProvider.Register("console", "Console", typeof(Console));
 		EditorProvider.BindFileType("cs", "text");
 		EditorProvider.BindFileType("c", "text");
 		EditorProvider.BindFileType("cpp", "text");
@@ -39,6 +40,7 @@ public partial class App : Application
 		EditorProvider.BindFileType("png", "image");
 		EditorProvider.BindFileType("bmp", "image");
 		EditorProvider.BindFileType("jpg", "image");
+		EditorProvider.BindFileType("wd", "console");
 		if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
 		{
 			// Avoid duplicate validations from both Avalonia and the CommunityToolkit. 

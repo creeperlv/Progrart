@@ -7,6 +7,9 @@
 	<ScrollViewer>
 		<StackPanel>
 			<StackPanel.Styles>
+				<Style Selector="TextBlock">
+				<Setter Property="TextWrapping" Value="Wrap"/>
+				</Style>
 				<Style Selector="Image">
 					<Setter Property="Transitions">
 						<Transitions>

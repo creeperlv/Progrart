@@ -289,7 +289,7 @@
 		<StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
 		<dialoghostavalonia:DialogHostStyles/>
 		<Style Selector="ContextMenu">
-			<Setter Property="FontFamily" Value="{StaticResource SarasaMonoSlabCLFont}"/>
+			<!--<Setter Property="FontFamily" Value="{StaticResource SarasaMonoSlabCLFont}"/>-->
 		</Style>
 		<Style Selector="MenuItem:selected">
 			<Style Selector="^ /template/ Border#PART_LayoutRoot">
