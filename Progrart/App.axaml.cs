@@ -7,12 +7,14 @@ using Avalonia.Markup.Xaml;
 using Progrart.Views;
 using Progrart.Icons;
 using Progrart.Pages;
+using Avalonia.Platform.Storage;
 
 namespace Progrart;
 
 public partial class App : Application
 {
 	public static bool isDesktop = false;
+	public static IStorageFolder? CurrentOpenFolder = null;
 	public override void Initialize()
 	{
 		AvaloniaXamlLoader.Load(this);

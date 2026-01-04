@@ -9,15 +9,16 @@ namespace Progrart.Core.Storage
 {
 	public class AvaloniaStorageProvider : IStorageProvider
 	{
-		IStorageFolder baseFolder;
+		IStorageFolder? baseFolder;
 
-		public AvaloniaStorageProvider(IStorageFolder baseFolder)
+		public AvaloniaStorageProvider(IStorageFolder? baseFolder)
 		{
 			this.baseFolder = baseFolder;
 		}
 
 		public async Task<Stream?> TryOpenRead(string path)
 		{
+			if (baseFolder is null) return null;
 			var file = await baseFolder.GetFileAsync(path);
 			if (file != null)
 			{
@@ -28,6 +29,7 @@ namespace Progrart.Core.Storage
 
 		public async Task<Stream?> TryOpenWrite(string path)
 		{
+			if (baseFolder is null) return null;
 			var file = await baseFolder.GetFileAsync(path);
 			if (file != null)
 			{

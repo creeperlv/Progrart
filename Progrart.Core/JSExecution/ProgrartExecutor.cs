@@ -3,6 +3,7 @@ using Jint.Native;
 using Jint.Native.Function;
 using Jint.Native.Json;
 using Progrart.Core.Graphics;
+using Progrart.Core.Storage;
 using System.Diagnostics;
 using System.Text.Json;
 
@@ -12,12 +13,14 @@ namespace Progrart.Core.JSExecution
 	{
 		public ExecutionEngine engine;
 		public Dictionary<string, object> ObjectPool = new();
-		public ProgrartExecutor()
-		{
-			engine = new ExecutionEngine();
-			SetupCalls();
-		}
-		public void SetupCalls()
+		public IStorageProvider StorageProvider;
+        public ProgrartExecutor(IStorageProvider storageProvider)
+        {
+            engine = new ExecutionEngine();
+            SetupCalls();
+            StorageProvider = storageProvider;
+        }
+        public void SetupCalls()
 		{
 			Jint.Native.Json.JsonSerializer serializer = new Jint.Native.Json.JsonSerializer(engine.Engine);
 			engine.Engine.SetValue("log", new Action<JsValue>((v) =>

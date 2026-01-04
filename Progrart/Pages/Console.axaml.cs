@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Jint;
+using Progrart.Commands;
 using Progrart.Controls.TabSystem;
 using Progrart.Core;
 using System;
@@ -21,7 +22,7 @@ public partial class Console : UserControl, ITabPage, IEditorPage
 		{
 			Output.Text += $"{obj}\n";
 		}));
-		engine.SetValue("getWDName", new Func<string>(() =>
+		engine.SetValue("getWD", new Func<string>(() =>
 		{
 			return workdirectory?.Name ?? "<null>";
 		}));
@@ -30,6 +31,7 @@ public partial class Console : UserControl, ITabPage, IEditorPage
 			if (workdirectory != null)
 			{
 				Task.Run(async () => workdirectory = await workdirectory.GetFolderAsync(str));
+				Output.Text += $"Executed\n";
 			}
 		}));
 		engine.SetValue("mkdir", new Action<string>((str) =>
@@ -37,14 +39,28 @@ public partial class Console : UserControl, ITabPage, IEditorPage
 			if (workdirectory != null)
 			{
 				Task.Run(async () => await workdirectory.CreateFolderAsync(str));
+				Output.Text += $"Executed\n";
 			}
 		}));
+		CommandBox.KeyBindings.Add(new Avalonia.Input.KeyBinding()
+		{
+			Gesture = new Avalonia.Input.KeyGesture(Avalonia.Input.Key.Enter),
+			Command = new GenericCommand()
+			{
+				Checker = (_) => true,
+				onExecute = (_) => executeCmd()
+			}
+		});
 		ExecuteBtn.Click += (_, _) =>
 		{
-			engine.Execute(CommandBox.Text ?? "");
+			executeCmd();
 		};
 	}
+	void executeCmd()
+	{
+		Output.Text += $"{engine.Evaluate(CommandBox.Text ?? "")}\n";
 
+	}
 	public void BindButton(TabButton button)
 	{
 		button.Title = "Console";

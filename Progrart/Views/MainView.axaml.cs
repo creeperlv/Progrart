@@ -99,8 +99,8 @@ public partial class MainView : UserControl
 			if (folders.Count >= 1)
 			{
 				FileContainer.Children.Clear();
-				var folderPath = folders[0].TryGetLocalPath();
 				var folder = folders[0];
+				App.CurrentOpenFolder = folder;
 				FileContainer.Children.Add(new FileItem(folder));
 			}
 		};

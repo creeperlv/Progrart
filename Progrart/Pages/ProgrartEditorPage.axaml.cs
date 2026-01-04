@@ -7,6 +7,7 @@ using Avalonia.Threading;
 using Progrart.Controls.TabSystem;
 using Progrart.Core;
 using Progrart.Core.JSExecution;
+using Progrart.Core.Storage;
 using Progrart.Pages;
 using System;
 using System.Diagnostics;
@@ -40,7 +41,8 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 
 	public void Execute(ExecuteArguments? args = null)
 	{
-		using ProgrartExecutor executor = new ProgrartExecutor();
+		AvaloniaStorageProvider provider = new AvaloniaStorageProvider(App.CurrentOpenFolder);
+		using ProgrartExecutor executor = new ProgrartExecutor(provider);
 		try
 		{
 			int Scale = 1024;
@@ -82,7 +84,6 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 	{
 		return (this.file?.Path == file.Path);
 	}
-
 	public void LoadDocument(IStorageFile file)
 	{
 		this.file = file;
