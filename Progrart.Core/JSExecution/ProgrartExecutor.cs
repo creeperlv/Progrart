@@ -14,13 +14,13 @@ namespace Progrart.Core.JSExecution
 		public ExecutionEngine engine;
 		public Dictionary<string, object> ObjectPool = new();
 		public IStorageProvider StorageProvider;
-        public ProgrartExecutor(IStorageProvider storageProvider)
-        {
-            engine = new ExecutionEngine();
-            SetupCalls();
-            StorageProvider = storageProvider;
-        }
-        public void SetupCalls()
+		public ProgrartExecutor(IStorageProvider storageProvider)
+		{
+			engine = new ExecutionEngine();
+			SetupCalls();
+			StorageProvider = storageProvider;
+		}
+		public void SetupCalls()
 		{
 			Jint.Native.Json.JsonSerializer serializer = new Jint.Native.Json.JsonSerializer(engine.Engine);
 			engine.Engine.SetValue("log", new Action<JsValue>((v) =>
@@ -37,6 +37,7 @@ namespace Progrart.Core.JSExecution
 			engine.Engine.SetValue("rectangle", rectangle);
 			engine.Engine.SetValue("color4", color4);
 			engine.Engine.SetValue("color3", color3);
+			engine.Engine.SetValue("color_hex", color_hex);
 			engine.Engine.SetValue("linear_gradient", linear_gradient);
 			engine.Engine.SetValue("radial_gradient", radial_gradient);
 		}
@@ -56,6 +57,26 @@ namespace Progrart.Core.JSExecution
 				, g.AsNumber()
 				, b.AsNumber()
 				);
+		}
+		float colorFloat(byte b) => ((float)b / (float)byte.MaxValue);
+		public JsObject color_hex(JsString colorString)
+		{
+			byte[] bytes = Convert.FromHexString(colorString.AsString());
+			if (bytes.Length == 4)
+				return ProgrartFunctions.color(engine.Engine
+					, colorFloat(bytes[0])
+					, colorFloat(bytes[1])
+					, colorFloat(bytes[2])
+					);
+			else
+				if (bytes.Length == 3)
+					return ProgrartFunctions.color(engine.Engine
+					, colorFloat(bytes[0])
+					, colorFloat(bytes[1])
+					, colorFloat(bytes[2])
+					, colorFloat(bytes[3])
+					);
+				else throw new FormatException($"{colorString.AsString()} is not a recognizable color string!");
 		}
 		public JsObject visual_root()
 		{
@@ -85,13 +106,12 @@ namespace Progrart.Core.JSExecution
 			{
 				height = (float)(js_height.AsNumber());
 			}
-			RenderContext renderContext = new RenderContext((int)(width * Scale), (int)(width * Scale))
+			RenderContext renderContext = new((int)(width * Scale), (int)(width * Scale), StorageProvider)
 			{
 				LogicalW = width,
 				LogicalH = height
 			};
 			ImageRoot imageRoot = new ImageRoot();
-
 			var img = engine.Engine.Call("main");
 			if (ObjectPool[$"{img.Get("id")}"] is BaseElement element)
 				imageRoot.Add(element);

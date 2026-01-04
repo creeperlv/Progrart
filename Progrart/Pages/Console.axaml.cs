@@ -6,6 +6,7 @@ using Jint;
 using Progrart.Commands;
 using Progrart.Controls.TabSystem;
 using Progrart.Core;
+using Progrart.Core.JSExecution;
 using System;
 using System.Threading.Tasks;
 
@@ -13,10 +14,12 @@ namespace Progrart.Pages;
 
 public partial class Console : UserControl, ITabPage, IEditorPage
 {
+	ExecutionEngine executionEngine;
 	Engine engine;
 	public Console()
 	{
-		engine = new Engine();
+		executionEngine = new ExecutionEngine();
+		engine = executionEngine.Engine;
 		InitializeComponent();
 		engine.SetValue("log", new Action<object>((obj) =>
 		{

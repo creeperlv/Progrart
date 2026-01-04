@@ -5,7 +5,7 @@
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="Progrart.Pages.AboutPage">
 	<ScrollViewer>
-		<StackPanel>
+		<StackPanel Margin="0,0,0,100">
 			<StackPanel.Styles>
 				<Style Selector="TextBlock">
 				<Setter Property="TextWrapping" Value="Wrap"/>
@@ -18,7 +18,7 @@
 					</Setter>
 				</Style>
 				<Style Selector="Image:pointerover">
-					<Setter Property="RenderTransform" Value="scale(1.25)" />
+					<Setter Property="RenderTransform" Value="scale(1.05)" />
 				</Style>
 			</StackPanel.Styles>
 			<Image Source="/Assets/Icon-Rounded-FG.png" Margin="0,50" Width="150" Height="150"/>
@@ -31,8 +31,9 @@
 			<TextBlock FontSize="18" TextAlignment="Center">Version: 0.0.0.0-preview</TextBlock>
 			<TextBlock FontSize="24" TextAlignment="Center" Margin="0,25">Third-Party Libs</TextBlock>
 			<TextBlock FontSize="17" TextAlignment="Center">Avalonia - github.com/avaloniaui</TextBlock>
-			<TextBlock FontSize="17" TextAlignment="Center">PanAndZoom - GitHub - wieslawsoltes/PanAndZoom</TextBlock>
-			<TextBlock FontSize="17" TextAlignment="Center">DialogHost - GitHub - AvaloniaUtils/DialogHost.Avalonia</TextBlock>
+			<TextBlock FontSize="17" TextAlignment="Center">SkiaSharp - github.com/mono/SkiaSharp</TextBlock>
+			<TextBlock FontSize="17" TextAlignment="Center">PanAndZoom - github.com/wieslawsoltes/PanAndZoom</TextBlock>
+			<TextBlock FontSize="17" TextAlignment="Center">DialogHost - github.com/AvaloniaUtils/DialogHost.Avalonia</TextBlock>
 		</StackPanel>
 	</ScrollViewer>
 </UserControl>

@@ -1,12 +1,12 @@
-﻿using SkiaSharp;
-using System.Diagnostics;
+﻿using Progrart.Core.Storage;
+using SkiaSharp;
 
 namespace Progrart.Core
 {
 	public class RenderContext
 	{
 		public PrimitiveDrawingCore DrawingCore { get; }
-
+		public IStorageProvider StorageProvider { get => DrawingCore.StorageProvider; }
 		public SKCanvas canvas { get => DrawingCore.canvas; }
 		public float LogicalW;
 		public float LogicalH;
@@ -26,39 +26,9 @@ namespace Progrart.Core
 		{
 			return (float)(s * Math.Sqrt(DrawingCore.Width * DrawingCore.Width + DrawingCore.Height * DrawingCore.Height) / Math.Sqrt(LogicalH * LogicalH + LogicalW * LogicalW));
 		}
-		public RenderContext(int W, int H)
+		public RenderContext(int W, int H, IStorageProvider StorageProvider)
 		{
-			DrawingCore = new PrimitiveDrawingCore(W, H);
-		}
-	}
-	public class PrimitiveDrawingCore : IDisposable
-	{
-		internal bool isDisposed = false;
-		SKSurface surface;
-		SKImageInfo info;
-		public readonly int Width;
-		public readonly int Height;
-		public SKCanvas canvas { get; }
-		public PrimitiveDrawingCore(int W, int H)
-		{
-			Width = W;
-			Height = H;
-			Trace.WriteLine($"Createing Surface as: {W} x {H}");
-			info = new SKImageInfo(W, H);
-			surface = SKSurface.Create(info);
-			canvas = surface.Canvas;
-			canvas.Clear();
-		}
-		public SKData ToData()
-		{
-			return surface.Snapshot().Encode(SKEncodedImageFormat.Png, 100);
-		}
-		public void Dispose()
-		{
-			if (isDisposed) return;
-			//GC.SuppressFinalize(this);
-			isDisposed = true;
-			surface.Dispose();
+			DrawingCore = new PrimitiveDrawingCore(W, H, StorageProvider);
 		}
 	}
 	[Serializable]
@@ -82,10 +52,5 @@ namespace Progrart.Core
 				args.data.Add(item.Key, item.Value);
 			}
 		}
-	}
-	[Serializable]
-	public class RenderConfig
-	{
-		public int Scale;
 	}
 }

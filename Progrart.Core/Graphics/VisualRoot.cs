@@ -1,5 +1,6 @@
 ﻿using Jint;
 using Jint.Native;
+using System.Diagnostics;
 
 namespace Progrart.Core.Graphics
 {
@@ -24,6 +25,7 @@ namespace Progrart.Core.Graphics
 		float rotate;
 		void Transform(RenderContext context)
 		{
+			Trace.WriteLine($"Visual Root: Rotation:{rotate}");
 			context.canvas.Translate(tx, ty);
 			context.canvas.RotateDegrees(rotate, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
 			if (scale != 1)
@@ -33,7 +35,7 @@ namespace Progrart.Core.Graphics
 		{
 			if (scale != 1)
 				context.canvas.Scale(1 / scale, 1 / scale, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
-			context.canvas.RotateDegrees(rotate, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
+			context.canvas.RotateDegrees(-rotate, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
 			context.canvas.Translate(-tx, -ty);
 		}
 		public override void LoadProperties()
@@ -41,20 +43,20 @@ namespace Progrart.Core.Graphics
 			base.LoadProperties();
 			if (__object is null) return;
 			{
-				if (__object.Get("translate") is JsObject translate)
+				if (__object.Get("Translate") is JsObject translate)
 				{
 					tx = (float)translate.Get("x").AsNumber();
 					ty = (float)translate.Get("y").AsNumber();
 				}
 			}
 			{
-				scale = (float)__object.Get("scale").AsNumber();
+				scale = (float)__object.Get("Scale").AsNumber();
 			}
 			{
-				rotate = (float)__object.Get("rotation").AsNumber();
+				rotate = (float)__object.Get("Rotation").AsNumber();
 			}
-			w = (float)__object.Get("width").AsNumber();
-			h = (float)__object.Get("height").AsNumber();
+			w = (float)__object.Get("Width").AsNumber();
+			h = (float)__object.Get("Height").AsNumber();
 		}
 		public override void Render(RenderContext context)
 		{
@@ -76,16 +78,16 @@ namespace Progrart.Core.Graphics
 					JsObject point = new JsObject(engine);
 					point.Set("x", 0);
 					point.Set("y", 0);
-					__object.Set("translate", point);
+					__object.Set("Translate", point);
 				}
 				{
-					__object.Set("scale", 1);
+					__object.Set("Scale", 1);
 				}
 				{
-					__object.Set("rotation", 0);
+					__object.Set("Rotation", 0);
 				}
-				__object.Set("width", 1);
-				__object.Set("height", 1);
+				__object.Set("Width", 1);
+				__object.Set("Height", 1);
 			}
 		}
 	}

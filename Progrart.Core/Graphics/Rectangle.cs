@@ -13,6 +13,7 @@ namespace Progrart.Core.Graphics
 		SKPoint Start;
 		SKPoint Size;
 		SKColorF Color;
+		bool IsStroke;
 		SKShader? shader = null;
 		public override void SetupProperties(Engine engine)
 		{
@@ -26,6 +27,7 @@ namespace Progrart.Core.Graphics
 					__object.Set("Position", point);
 				}
 				__object.Set("StrokeWidth", 1);
+				__object.Set("IsStroke", true);
 				__object.Set("Color", ProgrartFunctions.color(engine, 1, 1, 1, 1));
 				{
 					JsObject point = new JsObject(engine);
@@ -42,6 +44,7 @@ namespace Progrart.Core.Graphics
 			if (__object is not null)
 			{
 				StrokeWidth = (float)__object.Get("StrokeWidth").AsNumber();
+				IsStroke = (bool)__object.Get("IsStroke").AsBoolean();
 				{
 					if (__object.Get("Position") is JsObject Start)
 					{
@@ -79,7 +82,8 @@ namespace Progrart.Core.Graphics
 				{
 					ColorF = Color,
 					StrokeWidth = context.TranslateSize(StrokeWidth),
-					Shader = shader
+					Shader = shader,
+					IsStroke = true
 				}
 			);
 		}

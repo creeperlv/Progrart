@@ -38,7 +38,7 @@
 								<MenuFlyout>
 									<MenuItem Header="_File">
 										<MenuItem Header="_New">
-											<MenuItem Header="_Project"/>
+											<MenuItem Header="_Project" Name="CreateProjectMenuItem" Click="CreateProjectMenuItem_Click"/>
 											<MenuItem Header="_File"/>
 										</MenuItem>
 										<MenuItem Header="_Open">

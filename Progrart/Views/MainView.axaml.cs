@@ -2,13 +2,17 @@ using Acornima.Ast;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using Newtonsoft.Json;
 using Progrart.Commands;
 using Progrart.Controls;
 using Progrart.Core;
 using Progrart.Core.JSExecution;
+using Progrart.Core.ProjectSystem;
 using Progrart.Pages;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Progrart.Views;
@@ -177,5 +181,31 @@ public partial class MainView : UserControl
 				await editor.Save();
 			return false;
 		}));
+	}
+
+	private async void CreateProjectMenuItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		var topLevel = TopLevel.GetTopLevel(this);
+
+		if (topLevel == null) return;
+
+		var file = await topLevel.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+		{
+			Title = "Save to ...",
+			DefaultExtension = ".progrart-project",
+			FileTypeChoices = new List<FilePickerFileType>() { new FilePickerFileType("Progrart Project"){
+				 Patterns= new List<string>() { ".progrart-project" }
+				}
+			}
+		});
+		if ((file is null))
+		{
+			return;
+		}
+		using var stream = await file.OpenWriteAsync();
+		var txt = JsonConvert.SerializeObject(new Project());
+		using var stream_writer = new StreamWriter(stream);
+		await stream_writer.WriteAsync(txt);
+		await stream.FlushAsync();
 	}
 }
