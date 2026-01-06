@@ -287,6 +287,7 @@
 		<!--<DevolutionsDevExpressTheme />-->
 		<!--<DevolutionsMacOsTheme/>-->
 		<StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+		<StyleInclude Source="avares://AvaloniaProgressRing/Styles/ProgressRing.xaml"/>
 		<dialoghostavalonia:DialogHostStyles/>
 		<Style Selector="ContextMenu">
 			<!--<Setter Property="FontFamily" Value="{StaticResource SarasaMonoSlabCLFont}"/>-->

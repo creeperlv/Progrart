@@ -21,6 +21,7 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 	IStorageFile? file = null;
 	TabButton? btn = null;
 	Bitmap? image;
+	string lastSave = "";
 	public ProgrartEditorPage()
 	{
 		InitializeComponent();
@@ -38,46 +39,57 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 			btn.TooltipText = path;
 		}
 	}
-
+	bool isRunning = false;
 	public void Execute(ExecuteArguments? args = null)
 	{
-		AvaloniaStorageProvider provider = new AvaloniaStorageProvider(App.CurrentOpenFolder);
-		using ProgrartExecutor executor = new ProgrartExecutor(provider);
-		try
+		if (isRunning) return;
+		string src = CodeEditor.Text;
+		ProgressRing.IsVisible = true;
+		Task.Run(() =>
 		{
-			int Scale = 1024;
-			if (args is not null)
+			AvaloniaStorageProvider provider = new AvaloniaStorageProvider(App.CurrentOpenFolder);
+			using ProgrartExecutor executor = new ProgrartExecutor(provider);
+			try
 			{
-				if (args.data.TryGetValue("Scale", out var scale))
+				int Scale = 1024;
+				if (args is not null)
 				{
-					if (!int.TryParse(scale, out Scale)) Scale = 1024;
+					if (args.data.TryGetValue("Scale", out var scale))
+					{
+						if (!int.TryParse(scale, out Scale)) Scale = 1024;
+					}
 				}
+				var result = executor.RenderImage(Scale, src, args ?? new ExecuteArguments());
+				var data = result.DrawingCore.ToData();
+				using MemoryStream stream = new MemoryStream();
+				data.SaveTo(stream);
+				stream.Flush();
+				stream.Position = 0;
+				Bitmap image = new Bitmap(stream);
+				Dispatcher.UIThread.Invoke(() =>
+				{
+					ProgressRing.IsVisible = false;
+					PreviewImage.SetImage(image);
+					this.image?.Dispose();
+					this.image = image;
+					isRunning = false;
+				});
 			}
-			var result = executor.RenderImage(1024, CodeEditor.Text, args ?? new ExecuteArguments());
-			var data = result.DrawingCore.ToData();
-			using MemoryStream stream = new MemoryStream();
-
-			data.SaveTo(stream);
-			stream.Flush();
-
-			stream.Position = 0;
-			Bitmap image = new Bitmap(stream);
-			PreviewImage.SetImage(image);
-			if (this.image != null)
+			catch (System.Exception e)
 			{
-				this.image.Dispose();
+				Trace.WriteLine(e);
+				Dispatcher.UIThread.Invoke(() =>
+				{
+					ProgressRing.IsVisible = false;
+				});
+				isRunning = false;
 			}
-			this.image = image;
-		}
-		catch (System.Exception e)
-		{
-			Trace.WriteLine(e);
-		}
+		});
 	}
 
 	public bool IsModified()
 	{
-		return false;
+		return lastSave == CodeEditor.Text;
 	}
 
 	public bool IsSameFile(IStorageFile file)
@@ -105,7 +117,7 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 			Dispatcher.UIThread.Invoke(() =>
 			{
 				CodeEditor.Text = text;
-
+				lastSave = text;
 			});
 		});
 	}
@@ -116,6 +128,7 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 		{
 			string content = "";
 			await Dispatcher.UIThread.InvokeAsync(() => { content = CodeEditor.Text; });
+			lastSave = content;
 			await Task.Run(async () =>
 			{
 				using var stream = await file.OpenWriteAsync();

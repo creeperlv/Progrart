@@ -40,28 +40,30 @@ namespace Progrart.Core.JSExecution
 		public ExecutionEngine()
 		{
 			Engine = new Engine();
-			Engine.SetValue("abs", MathFunctions.abs);
-			Engine.SetValue("sin", MathFunctions.sin);
-			Engine.SetValue("cos", MathFunctions.cos);
-			Engine.SetValue("tan", MathFunctions.tan);
-			Engine.SetValue("tanh", MathFunctions.tanh);
-			Engine.SetValue("asin", MathFunctions.asin);
-			Engine.SetValue("acos", MathFunctions.acos);
-			Engine.SetValue("atan", MathFunctions.atan);
-			Engine.SetValue("atan2", MathFunctions.atan2);
-			Engine.SetValue("atanh", MathFunctions.atanh);
-			Engine.SetValue("sqrt", MathFunctions.sqrt);
-			Engine.SetValue("cbrt", MathFunctions.cbrt);
-			Engine.SetValue("pow", MathFunctions.pow);
-			Engine.SetValue("log", MathFunctions.log);
-			Engine.SetValue("log_base", MathFunctions.log_base);
-			Engine.SetValue("log2", MathFunctions.log2);
-			Engine.SetValue("log10", MathFunctions.log10);
-			Engine.SetValue("exp", MathFunctions.exp);
-			Engine.SetValue("ceiling", MathFunctions.ceiling);
-			Engine.SetValue("floor", MathFunctions.floor);
-			Engine.SetValue("sinh", MathFunctions.sinh);
-			Engine.SetValue("cosh", MathFunctions.cosh);
+			JsObject _obj = new JsObject(Engine);
+			Engine.SetValue("math", _obj);
+			_obj.Set("abs", JsObject.FromObject(Engine, (object)MathFunctions.abs));
+			_obj.Set("sin", JsObject.FromObject(Engine, (object)MathFunctions.sin));
+			_obj.Set("cos", JsObject.FromObject(Engine, (object)MathFunctions.cos));
+			_obj.Set("tan", JsObject.FromObject(Engine, (object)MathFunctions.tan));
+			_obj.Set("tanh", JsObject.FromObject(Engine, (object)MathFunctions.tanh));
+			_obj.Set("asin", JsObject.FromObject(Engine, (object)MathFunctions.asin));
+			_obj.Set("acos", JsObject.FromObject(Engine, (object)MathFunctions.acos));
+			_obj.Set("atan", JsObject.FromObject(Engine, (object)MathFunctions.atan));
+			_obj.Set("atan2", JsObject.FromObject(Engine, (object)MathFunctions.atan2));
+			_obj.Set("atanh", JsObject.FromObject(Engine, (object)MathFunctions.atanh));
+			_obj.Set("sqrt", JsObject.FromObject(Engine, (object)MathFunctions.sqrt));
+			_obj.Set("cbrt", JsObject.FromObject(Engine, (object)MathFunctions.cbrt));
+			_obj.Set("pow", JsObject.FromObject(Engine, (object)MathFunctions.pow));
+			_obj.Set("log", JsObject.FromObject(Engine, (object)MathFunctions.log));
+			_obj.Set("log_base", JsObject.FromObject(Engine, (object)MathFunctions.log_base));
+			_obj.Set("log2", JsObject.FromObject(Engine, (object)MathFunctions.log2));
+			_obj.Set("log10", JsObject.FromObject(Engine, (object)MathFunctions.log10));
+			_obj.Set("exp", JsObject.FromObject(Engine, (object)MathFunctions.exp));
+			_obj.Set("ceiling", JsObject.FromObject(Engine, (object)MathFunctions.ceiling));
+			_obj.Set("floor", JsObject.FromObject(Engine, (object)MathFunctions.floor));
+			_obj.Set("sinh", JsObject.FromObject(Engine, (object)MathFunctions.sinh));
+			_obj.Set("cosh", JsObject.FromObject(Engine, (object)MathFunctions.cosh));
 		}
 		string formSymbol(Dictionary<string, string> symbols)
 		{

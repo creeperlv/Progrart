@@ -25,6 +25,7 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="AvaloniaEdit.TextMate" />
+    <PackageReference Include="Deadpikle.AvaloniaProgressRing" />
     <PackageReference Include="DialogHost.Avalonia" />
     <PackageReference Include="PanAndZoom" />
     <!--<PackageReference Include="Devolutions.AvaloniaTheme.DevExpress" />

@@ -18,6 +18,7 @@
     <!--<PackageVersion Include="Devolutions.AvaloniaTheme.DevExpress" Version="2025.12.4" />
     <PackageVersion Include="Devolutions.AvaloniaTheme.MacOS" Version="2025.12.4" />-->
     <PackageVersion Include="AvaloniaEdit.TextMate" Version="11.3.0" />
+    <PackageVersion Include="Deadpikle.AvaloniaProgressRing" Version="0.10.11-preview20251127001" />
     <PackageVersion Include="DialogHost.Avalonia" Version="0.10.3" />
     <PackageVersion Include="Jint" Version="4.4.2" />
     <PackageVersion Include="Microsoft.Maui.Graphics" Version="10.0.11" />
