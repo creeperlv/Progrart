@@ -2,16 +2,15 @@
 using Jint.Native;
 using Progrart.Core.JSExecution;
 using SkiaSharp;
-using System.Diagnostics;
 
 namespace Progrart.Core.Graphics
 {
-	public class Rectangle : BaseElement
+    public class Circle : BaseElement
 	{
 
 		float StrokeWidth;
-		SKPoint Start;
-		SKPoint Size;
+		SKPoint Position;
+		float Size;
 		SKColorF Color;
 		bool IsStroke;
 		SKShader? shader = null;
@@ -27,14 +26,9 @@ namespace Progrart.Core.Graphics
 					__object.Set("Position", point);
 				}
 				__object.Set("StrokeWidth", 1);
+				__object.Set("Size", 1);
 				__object.Set("IsStroke", true);
 				__object.Set("Color", ProgrartFunctions.color(engine, 1, 1, 1, 1));
-				{
-					JsObject point = new JsObject(engine);
-					point.Set("x", 0);
-					point.Set("y", 0);
-					__object.Set("Size", point);
-				}
 
 			}
 
@@ -44,17 +38,12 @@ namespace Progrart.Core.Graphics
 			if (__object is not null)
 			{
 				StrokeWidth = (float)__object.Get("StrokeWidth").AsNumber();
+				Size = (float)__object.Get("Size").AsNumber();
 				IsStroke = (bool)__object.Get("IsStroke").AsBoolean();
 				{
 					if (__object.Get("Position") is JsObject Start)
 					{
-						this.Start = ProgrartConversion.ObtainSKPointFromJsObject(Start);
-					}
-				}
-				{
-					if (__object.Get("Size") is JsObject End)
-					{
-						this.Size = ProgrartConversion.ObtainSKPointFromJsObject(End);
+						this.Position = ProgrartConversion.ObtainSKPointFromJsObject(Start);
 					}
 				}
 				{
@@ -72,11 +61,11 @@ namespace Progrart.Core.Graphics
 		{
 			base.Render(context);
 			LoadProperties();
-			SKPoint FinalStartPos = context.TranslatePoint(Start);
-			SKPoint FinalEndPos = context.TranslatePoint(Size);
-			context.DrawingCore.canvas.DrawRect(
-				FinalStartPos.X, FinalStartPos.Y,
-				FinalEndPos.X, FinalEndPos.Y,
+			SKPoint pos = context.TranslatePoint(Position);
+			float Size = context.TranslateSize(this.Size);
+			context.DrawingCore.canvas.DrawCircle(
+				pos.X, pos.Y,
+				Size,
 				new SKPaint()
 				{
 					ColorF = Color,

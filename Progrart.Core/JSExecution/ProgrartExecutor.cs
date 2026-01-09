@@ -1,11 +1,8 @@
 ﻿using Jint;
 using Jint.Native;
-using Jint.Native.Function;
-using Jint.Native.Json;
 using Progrart.Core.Graphics;
 using Progrart.Core.Storage;
 using System.Diagnostics;
-using System.Text.Json;
 
 namespace Progrart.Core.JSExecution
 {
@@ -35,6 +32,9 @@ namespace Progrart.Core.JSExecution
 			engine.Engine.SetValue("visual_root", visual_root);
 			engine.Engine.SetValue("line", line);
 			engine.Engine.SetValue("rectangle", rectangle);
+			engine.Engine.SetValue("roundrect", roundrect);
+			engine.Engine.SetValue("triangle", triangle);
+			engine.Engine.SetValue("circle", circle);
 			engine.Engine.SetValue("color4", color4);
 			engine.Engine.SetValue("color3", color3);
 			engine.Engine.SetValue("color_hex", color_hex);
@@ -62,14 +62,14 @@ namespace Progrart.Core.JSExecution
 		public JsObject color_hex(JsString colorString)
 		{
 			byte[] bytes = Convert.FromHexString(colorString.AsString());
-			if (bytes.Length == 4)
+			if (bytes.Length == 3)
 				return ProgrartFunctions.color(engine.Engine
 					, colorFloat(bytes[0])
 					, colorFloat(bytes[1])
 					, colorFloat(bytes[2])
 					);
 			else
-				if (bytes.Length == 3)
+				if (bytes.Length == 4)
 					return ProgrartFunctions.color(engine.Engine
 					, colorFloat(bytes[0])
 					, colorFloat(bytes[1])
@@ -82,16 +82,12 @@ namespace Progrart.Core.JSExecution
 		{
 			return ProgrartFunctions.CreateVisualRoot(this);
 		}
-		public JsObject line()
-		{
-			//return ProgrartFunctions.CreateLine(this);
-			return ProgrartFunctions.CreateElement<Line>(this);
-		}
-		public JsObject rectangle()
-		{
-			//return ProgrartFunctions.CreateLine(this);
-			return ProgrartFunctions.CreateElement<Rectangle>(this);
-		}
+		public JsObject line() => ProgrartFunctions.CreateElement<Line>(this);
+		public JsObject rectangle() => ProgrartFunctions.CreateElement<Rectangle>(this);
+		public JsObject roundrect() => ProgrartFunctions.CreateElement<RoundRectangle>(this);
+		public JsObject circle() => ProgrartFunctions.CreateElement<Circle>(this);
+		public JsObject triangle() => ProgrartFunctions.CreateElement<Triangle>(this);
+
 		public RenderContext RenderImage(int Scale, string script, ExecuteArguments arguments)
 		{
 			float width = 1;
@@ -106,7 +102,7 @@ namespace Progrart.Core.JSExecution
 			{
 				height = (float)(js_height.AsNumber());
 			}
-			RenderContext renderContext = new((int)(width * Scale), (int)(width * Scale), StorageProvider)
+			RenderContext renderContext = new((int)(width * Scale), (int)(height * Scale), StorageProvider)
 			{
 				LogicalW = width,
 				LogicalH = height

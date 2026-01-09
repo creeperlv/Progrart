@@ -78,7 +78,8 @@ namespace Progrart.Core.Graphics
 				{
 					ColorF = Color,
 					StrokeWidth = context.TranslateSize(Size),
-					Shader = shader
+					Shader = shader,
+					IsAntialias = true
 				}
 			);
 		}

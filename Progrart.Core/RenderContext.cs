@@ -29,6 +29,8 @@ namespace Progrart.Core
 		public RenderContext(int W, int H, IStorageProvider StorageProvider)
 		{
 			DrawingCore = new PrimitiveDrawingCore(W, H, StorageProvider);
+			LogicalW=W;
+			LogicalH=H;
 		}
 	}
 	[Serializable]

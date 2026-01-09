@@ -11,6 +11,7 @@ using Progrart.Core.Storage;
 using Progrart.Pages;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -111,14 +112,28 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 		Trace.WriteLine($"File:{file.TryGetLocalPath() ?? "null"}");
 		Task.Run(async () =>
 		{
-			using var stream = await file.OpenReadAsync();
-			using StreamReader sr = new StreamReader(stream);
-			var text = await sr.ReadToEndAsync();
-			Dispatcher.UIThread.Invoke(() =>
+			try
 			{
-				CodeEditor.Text = text;
-				lastSave = text;
-			});
+				using var stream = await file.OpenReadAsync();
+				using StreamReader sr = new StreamReader(stream);
+				var text = await sr.ReadToEndAsync();
+				Dispatcher.UIThread.Invoke(() =>
+				{
+					try
+					{
+						CodeEditor.Text = text;
+						lastSave = text;
+					}
+					catch (Exception e)
+					{
+						Trace.WriteLine(e);
+					}
+				});
+			}
+			catch (Exception e)
+			{
+				Trace.WriteLine(e);
+			}
 		});
 	}
 

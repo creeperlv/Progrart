@@ -2,16 +2,15 @@
 using Jint.Native;
 using Progrart.Core.JSExecution;
 using SkiaSharp;
-using System.Diagnostics;
 
 namespace Progrart.Core.Graphics
 {
-	public class Rectangle : BaseElement
+	public class Triangle : BaseElement
 	{
-
 		float StrokeWidth;
-		SKPoint Start;
-		SKPoint Size;
+		SKPoint Vertex0;
+		SKPoint Vertex1;
+		SKPoint Vertex2;
 		SKColorF Color;
 		bool IsStroke;
 		SKShader? shader = null;
@@ -24,17 +23,24 @@ namespace Progrart.Core.Graphics
 					JsObject point = new JsObject(engine);
 					point.Set("x", 0);
 					point.Set("y", 0);
-					__object.Set("Position", point);
+					__object.Set("Vertex0", point);
 				}
-				__object.Set("StrokeWidth", 1);
-				__object.Set("IsStroke", true);
-				__object.Set("Color", ProgrartFunctions.color(engine, 1, 1, 1, 1));
 				{
 					JsObject point = new JsObject(engine);
 					point.Set("x", 0);
 					point.Set("y", 0);
-					__object.Set("Size", point);
+					__object.Set("Vertex1", point);
 				}
+				{
+					JsObject point = new JsObject(engine);
+					point.Set("x", 0);
+					point.Set("y", 0);
+					__object.Set("Vertex2", point);
+				}
+				__object.Set("StrokeWidth", 1);
+				__object.Set("IsStroke", true);
+				__object.Set("Color", ProgrartFunctions.color(engine, 1, 1, 1, 1));
+
 
 			}
 
@@ -46,15 +52,21 @@ namespace Progrart.Core.Graphics
 				StrokeWidth = (float)__object.Get("StrokeWidth").AsNumber();
 				IsStroke = (bool)__object.Get("IsStroke").AsBoolean();
 				{
-					if (__object.Get("Position") is JsObject Start)
+					if (__object.Get("Vertex0") is JsObject Start)
 					{
-						this.Start = ProgrartConversion.ObtainSKPointFromJsObject(Start);
+						this.Vertex0 = ProgrartConversion.ObtainSKPointFromJsObject(Start);
 					}
 				}
 				{
-					if (__object.Get("Size") is JsObject End)
+					if (__object.Get("Vertex1") is JsObject Start)
 					{
-						this.Size = ProgrartConversion.ObtainSKPointFromJsObject(End);
+						this.Vertex1 = ProgrartConversion.ObtainSKPointFromJsObject(Start);
+					}
+				}
+				{
+					if (__object.Get("Vertex2") is JsObject Start)
+					{
+						this.Vertex2 = ProgrartConversion.ObtainSKPointFromJsObject(Start);
 					}
 				}
 				{
@@ -72,11 +84,19 @@ namespace Progrart.Core.Graphics
 		{
 			base.Render(context);
 			LoadProperties();
-			SKPoint FinalStartPos = context.TranslatePoint(Start);
-			SKPoint FinalEndPos = context.TranslatePoint(Size);
-			context.DrawingCore.canvas.DrawRect(
-				FinalStartPos.X, FinalStartPos.Y,
-				FinalEndPos.X, FinalEndPos.Y,
+			var v0 = context.TranslatePoint(Vertex0);
+			var v1 = context.TranslatePoint(Vertex1);
+			var v2 = context.TranslatePoint(Vertex2);
+			using var p = new SKPath();
+			p.MoveTo(v0);
+			p.MoveTo(v0);
+			//p.LineTo(v0);
+			p.LineTo(v1);
+			p.LineTo(v2);
+			p.LineTo(v0);
+			p.Close();
+
+			context.DrawingCore.canvas.DrawPath(p,
 				new SKPaint()
 				{
 					ColorF = Color,
@@ -84,8 +104,7 @@ namespace Progrart.Core.Graphics
 					Shader = shader,
 					IsStroke = IsStroke,
 					IsAntialias = true
-				}
-			);
+				});
 		}
 	}
 }

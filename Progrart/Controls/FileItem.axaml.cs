@@ -8,15 +8,21 @@ using Progrart.Controls.TabSystem;
 using Progrart.Dialogs;
 using Progrart.Icons;
 using Progrart.Pages;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Progrart.Controls;
 
 public partial class FileItem : UserControl
 {
-	IStorageItem currentItem;
+	IStorageItem? currentItem;
 	bool isOpen = false;
 	string extension = "";
+	public FileItem()
+	{
+
+		InitializeComponent();
+	}
 	public FileItem(IStorageItem storageItem)
 	{
 		InitializeComponent();
@@ -159,11 +165,18 @@ public partial class FileItem : UserControl
 					{
 						if (page is ITabPage editor)
 						{
-							if (page is IEditorPage editor_page)
+							try
 							{
-								editor_page.LoadDocument(file);
+								if (page is IEditorPage editor_page)
+								{
+									editor_page.LoadDocument(file);
+								}
+								EditorProvider.OpenEditor(editor);
 							}
-							EditorProvider.OpenEditor(editor);
+							catch (System.Exception e)
+							{
+								Trace.WriteLine(e);
+							}
 						}
 					}
 			}

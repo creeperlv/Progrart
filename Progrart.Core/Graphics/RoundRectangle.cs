@@ -6,10 +6,12 @@ using System.Diagnostics;
 
 namespace Progrart.Core.Graphics
 {
-	public class Rectangle : BaseElement
+    public class RoundRectangle : BaseElement
 	{
 
 		float StrokeWidth;
+		float rx;
+		float ry;
 		SKPoint Start;
 		SKPoint Size;
 		SKColorF Color;
@@ -27,6 +29,8 @@ namespace Progrart.Core.Graphics
 					__object.Set("Position", point);
 				}
 				__object.Set("StrokeWidth", 1);
+				__object.Set("rx", 0);
+				__object.Set("ry", 0);
 				__object.Set("IsStroke", true);
 				__object.Set("Color", ProgrartFunctions.color(engine, 1, 1, 1, 1));
 				{
@@ -44,6 +48,8 @@ namespace Progrart.Core.Graphics
 			if (__object is not null)
 			{
 				StrokeWidth = (float)__object.Get("StrokeWidth").AsNumber();
+				rx = (float)__object.Get("rx").AsNumber();
+				ry = (float)__object.Get("ry").AsNumber();
 				IsStroke = (bool)__object.Get("IsStroke").AsBoolean();
 				{
 					if (__object.Get("Position") is JsObject Start)
@@ -72,11 +78,14 @@ namespace Progrart.Core.Graphics
 		{
 			base.Render(context);
 			LoadProperties();
-			SKPoint FinalStartPos = context.TranslatePoint(Start);
-			SKPoint FinalEndPos = context.TranslatePoint(Size);
-			context.DrawingCore.canvas.DrawRect(
-				FinalStartPos.X, FinalStartPos.Y,
-				FinalEndPos.X, FinalEndPos.Y,
+			SKPoint Position = context.TranslatePoint(Start);
+            SKPoint Size = context.TranslatePoint(this.Size);
+			float rx = context.TranslateSize(this.rx);
+			float ry = context.TranslateSize(this.ry);
+			Trace.WriteLine($"Draw Rectangle from {Position} to {Size} using {Color} with size of {StrokeWidth}.");
+			context.DrawingCore.canvas.DrawRoundRect(
+				Position.X, Position.Y,
+				Size.X, Size.Y, rx, ry,
 				new SKPaint()
 				{
 					ColorF = Color,

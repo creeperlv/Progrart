@@ -42,6 +42,15 @@ namespace Progrart.Core.JSExecution
 			Engine = new Engine();
 			JsObject _obj = new JsObject(Engine);
 			Engine.SetValue("math", _obj);
+			Random r = new Random();
+			_obj.Set("random", JsObject.FromObject(Engine, new Func<double>(() =>
+			{
+				return r.NextDouble();
+			})));
+			_obj.Set("seed", JsObject.FromObject(Engine, new Action<JsNumber>((n) =>
+			{
+				r = new Random((int)n.AsNumber());
+			})));
 			_obj.Set("abs", JsObject.FromObject(Engine, (object)MathFunctions.abs));
 			_obj.Set("sin", JsObject.FromObject(Engine, (object)MathFunctions.sin));
 			_obj.Set("cos", JsObject.FromObject(Engine, (object)MathFunctions.cos));
