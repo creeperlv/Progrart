@@ -26,6 +26,7 @@ public partial class App : Application
 		EditorProvider.Register("text", "Default Text Editor", typeof(EditorPage));
 		EditorProvider.Register("image", "Default Image Viewer", typeof(ImageViewPage));
 		EditorProvider.Register("progrart", "Default Progrart Editor", typeof(ProgrartEditorPage));
+		EditorProvider.Register("project", "Progrart Project Editor", typeof(ProjectEditor));
 		EditorProvider.Register("console", "Console", typeof(Console));
 		EditorProvider.BindFileType("cs", "text");
 		EditorProvider.BindFileType("c", "text");
@@ -42,6 +43,7 @@ public partial class App : Application
 		EditorProvider.BindFileType("png", "image");
 		EditorProvider.BindFileType("bmp", "image");
 		EditorProvider.BindFileType("jpg", "image");
+		EditorProvider.BindFileType("progrart-project", "project");
 		EditorProvider.BindFileType("wd", "console");
 		if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
 		{

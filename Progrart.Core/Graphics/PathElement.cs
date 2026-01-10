@@ -9,8 +9,6 @@ namespace Progrart.Core.Graphics
 	public class PathElement : BaseElement
 	{
 		float StrokeWidth;
-		SKPoint Start;
-		SKPoint End;
 		SKColorF Color;
 		SKShader? shader = null;
 		public override void SetupProperties(Engine engine)
