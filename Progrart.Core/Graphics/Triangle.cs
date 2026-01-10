@@ -90,7 +90,6 @@ namespace Progrart.Core.Graphics
 			using var p = new SKPath();
 			p.MoveTo(v0);
 			p.MoveTo(v0);
-			//p.LineTo(v0);
 			p.LineTo(v1);
 			p.LineTo(v2);
 			p.LineTo(v0);

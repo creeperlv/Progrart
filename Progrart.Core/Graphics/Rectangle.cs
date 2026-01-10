@@ -74,7 +74,7 @@ namespace Progrart.Core.Graphics
 			LoadProperties();
 			SKPoint FinalStartPos = context.TranslatePoint(Start);
 			SKPoint FinalEndPos = context.TranslatePoint(Size);
-			context.DrawingCore.canvas.DrawRect(
+			context.canvas.DrawRect(
 				FinalStartPos.X, FinalStartPos.Y,
 				FinalEndPos.X, FinalEndPos.Y,
 				new SKPaint()
