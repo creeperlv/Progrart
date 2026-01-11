@@ -49,6 +49,9 @@ namespace Progrart.Core.JSExecution
 					}
 				});
 			});
+			engine.Engine.SetValue("Left", "left");
+			engine.Engine.SetValue("Center", "center");
+			engine.Engine.SetValue("Right", "right");
 			engine.Engine.SetValue("visual_root", visual_root);
 			engine.Engine.SetValue("line", line);
 			engine.Engine.SetValue("rectangle", rectangle);

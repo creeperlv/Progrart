@@ -16,6 +16,7 @@ namespace Progrart.Core.Graphics
 		bool IsStroke;
 		SKShader? shader = null;
 		string? fontFamily = null;
+		string alignment = "center";
 		public override void SetupProperties(Engine engine)
 		{
 			base.SetupProperties(engine);
@@ -30,6 +31,7 @@ namespace Progrart.Core.Graphics
 				__object.Set("StrokeWidth", 1);
 				__object.Set("Size", 1);
 				__object.Set("Text", "");
+				__object.Set("Alignment", "center");
 				__object.Set("IsStroke", true);
 				__object.Set("Color", ProgrartFunctions.color(engine, 1, 1, 1, 1));
 
@@ -42,6 +44,7 @@ namespace Progrart.Core.Graphics
 			{
 				StrokeWidth = (float)__object.Get("StrokeWidth").AsNumber();
 				str = __object.Get("Text").AsString();
+				alignment = __object.Get("Alignment").AsString();
 				Size = (float)__object.Get("Size").AsNumber();
 				IsStroke = (bool)__object.Get("IsStroke").AsBoolean();
 				{
@@ -69,6 +72,12 @@ namespace Progrart.Core.Graphics
 			LoadProperties();
 			SKPoint pos = context.TranslatePoint(Position);
 			float Size = context.TranslateSize(this.Size);
+			SKTextAlign align = alignment.ToLower() switch
+			{
+				"left" => SKTextAlign.Left,
+				"right" => SKTextAlign.Right,
+				_ => SKTextAlign.Center,
+			};
 			if (fontFamily is not null)
 			{
 				var face = context.GetFont(fontFamily);
@@ -76,7 +85,7 @@ namespace Progrart.Core.Graphics
 				{
 
 					context.canvas.DrawText(str,
-						pos.X, pos.Y, SKTextAlign.Center, new SKFont(face, Size) { },
+						pos.X, pos.Y, align, new SKFont(face, Size) { },
 						new SKPaint()
 						{
 							ColorF = Color,
@@ -90,7 +99,7 @@ namespace Progrart.Core.Graphics
 				}
 			}
 			context.canvas.DrawText(str,
-				pos.X, pos.Y, SKTextAlign.Center, new SKFont(SKTypeface.Default, Size) { },
+				pos.X, pos.Y, align, new SKFont(SKTypeface.Default, Size) { },
 				new SKPaint()
 				{
 					ColorF = Color,
