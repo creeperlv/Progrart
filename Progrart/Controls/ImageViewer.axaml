@@ -5,7 +5,8 @@
 			 xmlns:paz="using:Avalonia.Controls.PanAndZoom"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="Progrart.Controls.ImageViewer">
-	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+	<!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+	</ScrollViewer>-->
 		<paz:ZoomBorder Name="ZoomBorder" Stretch="Uniform" ZoomSpeed="1.2"
 						Background="Transparent" ClipToBounds="True" Focusable="True"
 						EnableGestures="True" EnablePan="True" EnableZoom="True"
@@ -14,5 +15,4 @@
 						VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 			<Image Name="ImagePresenter"></Image>
 		</paz:ZoomBorder>
-	</ScrollViewer>
 </UserControl>

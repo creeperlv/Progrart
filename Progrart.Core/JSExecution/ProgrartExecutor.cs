@@ -29,6 +29,26 @@ namespace Progrart.Core.JSExecution
 				else
 					Trace.WriteLine(v);
 			}));
+			engine.Engine.SetValue("require", (string str) =>
+			{
+				require(str, () =>
+				{
+					if (str.IndexOf(".") < 0)
+					{
+						require(str + ".progrart", () => 
+						{
+							require(str + ".js", () =>
+							{
+								throw new Exception("Module not found: " + str);
+							});
+						});
+					}
+					else
+					{
+						throw new Exception("Module not found: " + str);
+					}
+				});
+			});
 			engine.Engine.SetValue("visual_root", visual_root);
 			engine.Engine.SetValue("line", line);
 			engine.Engine.SetValue("rectangle", rectangle);
@@ -40,10 +60,26 @@ namespace Progrart.Core.JSExecution
 			engine.Engine.SetValue("circle", circle);
 			engine.Engine.SetValue("color4", color4);
 			engine.Engine.SetValue("color3", color3);
+			engine.Engine.SetValue("text", text);
 			engine.Engine.SetValue("color_hex", color_hex);
 			engine.Engine.SetValue("linear_gradient", linear_gradient);
 			engine.Engine.SetValue("radial_gradient", radial_gradient);
 		}
+
+		private void require(string str, Action onNoFound)
+		{
+			var task = StorageProvider.TryOpenRead(str);
+			task.Wait();
+			var stream = task.GetAwaiter().GetResult();
+			if (stream is null)
+			{
+				onNoFound();
+				return;
+			}
+			using var sr = new StreamReader(stream);
+			engine.Engine.Execute(sr.ReadToEnd());
+		}
+
 		public JsObject color4(JsNumber r, JsNumber g, JsNumber b, JsNumber a)
 		{
 			return ProgrartFunctions.color(engine.Engine
@@ -93,6 +129,7 @@ namespace Progrart.Core.JSExecution
 		public JsObject circle() => ProgrartFunctions.CreateElement<Circle>(this);
 		public JsObject oval() => ProgrartFunctions.CreateElement<Oval>(this);
 		public JsObject triangle() => ProgrartFunctions.CreateElement<Triangle>(this);
+		public JsObject text() => ProgrartFunctions.CreateElement<Text>(this);
 
 		public RenderContext RenderImage(int Scale, string script, ExecuteArguments arguments)
 		{

@@ -36,4 +36,10 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Progrart.Core\Progrart.Core.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Controls\TargetEditor.axaml.cs">
+	    <DependentUpon>TargetEditor.axaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
 </Project>

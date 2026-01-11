@@ -1,5 +1,6 @@
 ﻿using Jint;
 using Jint.Native;
+using Jint.Runtime.Modules;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -43,6 +44,7 @@ namespace Progrart.Core.JSExecution
 			JsObject _obj = new JsObject(Engine);
 			Engine.SetValue("math", _obj);
 			Random r = new Random();
+
 			_obj.Set("random", JsObject.FromObject(Engine, new Func<double>(() =>
 			{
 				return r.NextDouble();

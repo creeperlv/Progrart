@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace Progrart.Core
 {
-    public class PrimitiveDrawingCore : IDisposable
+	public class PrimitiveDrawingCore : IDisposable
 	{
 		internal bool isDisposed = false;
 		SKSurface surface;
@@ -13,6 +13,26 @@ namespace Progrart.Core
 		public readonly int Height;
 		public SKCanvas canvas { get; }
 		internal IStorageProvider StorageProvider;
+		Dictionary<string, SKTypeface> Fonts = new Dictionary<string, SKTypeface>();
+		public SKTypeface? GetFont(string fontName)
+		{
+			if (Fonts.ContainsKey(fontName))
+				return Fonts[fontName];
+			else
+			{
+				var task=StorageProvider.TryOpenRead(fontName);
+				task.Wait();
+				var stream=task.Result;
+				if(stream != null)
+				{
+
+					SKTypeface typeface = SKTypeface.FromStream(stream);
+					Fonts[fontName] = typeface;
+					return typeface;
+				}
+			}
+			return null;
+		}
 		public PrimitiveDrawingCore(int W, int H, IStorageProvider storageProvider)
 		{
 			Width = W;

@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="Progrart.Android/Progrart.Android.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+  <Project Path="Progrart.Browser/Progrart.Browser.csproj" />
+  <Project Path="Progrart.Cmd/Progrart.Cmd.csproj" />
+  <Project Path="Progrart.Core/Progrart.Core.csproj" />
+  <Project Path="Progrart.Desktop/Progrart.Desktop.csproj" />
+  <Project Path="Progrart.iOS/Progrart.iOS.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
+  <Project Path="Progrart/Progrart.csproj" />
+</Solution>

@@ -19,13 +19,13 @@
     <PackageVersion Include="Devolutions.AvaloniaTheme.MacOS" Version="2025.12.4" />-->
     <PackageVersion Include="AvaloniaEdit.TextMate" Version="11.3.0" />
     <PackageVersion Include="Deadpikle.AvaloniaProgressRing" Version="0.10.11-preview20251127001" />
-    <PackageVersion Include="DialogHost.Avalonia" Version="0.10.3" />
+    <PackageVersion Include="DialogHost.Avalonia" Version="0.10.4" />
     <PackageVersion Include="Jint" Version="4.4.2" />
     <PackageVersion Include="Microsoft.Maui.Graphics" Version="10.0.11" />
     <PackageVersion Include="Microsoft.Maui.Graphics.Skia" Version="10.0.11" />
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageVersion Include="PanAndZoom" Version="11.3.6" />
+    <PackageVersion Include="PanAndZoom" Version="11.3.9" />
     <PackageVersion Include="SkiaSharp" Version="3.116.1" />
     <PackageVersion Include="SkiaSharp.NativeAssets.WebAssembly" Version="3.116.1" />
     <PackageVersion Include="Xamarin.AndroidX.Core.SplashScreen" Version="1.0.1.15" />

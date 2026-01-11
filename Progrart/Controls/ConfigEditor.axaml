@@ -4,8 +4,7 @@
 			 xmlns:local="using:Progrart.Controls"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-			 x:Class="Progrart.Controls.ConfigEditor">
-
+			 x:Class="Progrart.Controls.ConfigEditor" Margin="5">
 	<StackPanel>
 		<TextBlock Name="NameBlock" FontSize="18" Text="{Binding #NameBox.Text}"/>
 		<Grid>
@@ -31,7 +30,7 @@
 			<TextBlock FontSize="13" VerticalAlignment="Center">Targets</TextBlock>
 			<Button Name="AddButton" Grid.Column="1" Padding="16,2" VerticalAlignment="Center">+</Button>
 		</Grid>
-		<StackPanel Name="ConfigurationHolder">
+		<StackPanel Name="TargetHolder" Margin="5,0">
 		</StackPanel>
 	</StackPanel>
 </UserControl>

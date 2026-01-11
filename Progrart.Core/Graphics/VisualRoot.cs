@@ -25,7 +25,7 @@ namespace Progrart.Core.Graphics
 		float rotate;
 		void Transform(RenderContext context)
 		{
-			Trace.WriteLine($"Visual Root: Rotation:{rotate}");
+			//Trace.WriteLine($"Visual Root: Rotation:{rotate}");
 			context.canvas.Translate(tx, ty);
 			context.canvas.RotateDegrees(rotate, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
 			if (scale != 1)

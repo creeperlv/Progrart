@@ -14,6 +14,10 @@ namespace Progrart.Core
 		{
 			this.DrawingCore = core;
 		}
+		public SKTypeface? GetFont(string fontName)
+		{
+			return DrawingCore.GetFont(fontName);
+		}
 		public SKPoint TranslatePoint(float x, float y)
 		{
 			return new SKPoint(x * DrawingCore.Width, y * DrawingCore.Height);
