@@ -37,7 +37,6 @@ namespace Progrart.Core
 		{
 			Width = W;
 			Height = H;
-			Trace.WriteLine($"Createing Surface as: {W} x {H}");
 			info = new SKImageInfo(W, H);
 			surface = SKSurface.Create(info);
 			canvas = surface.Canvas;

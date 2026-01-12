@@ -44,7 +44,15 @@ namespace Progrart.Core.JSExecution
 			JsObject _obj = new JsObject(Engine);
 			Engine.SetValue("math", _obj);
 			Random r = new Random();
-
+			Engine.SetValue("def", (string k) => { return Symbols.ContainsKey(k); });
+			Engine.SetValue("to_bool", (JsValue v) => { return bool.Parse(v.AsString().ToLower()); });
+			Engine.SetValue("to_float", (JsValue v) => { return float.Parse(v.AsString().ToLower()); });
+			Engine.SetValue("to_int", (JsValue v) => { return int.Parse(v.AsString().ToLower()); });
+			Engine.SetValue("query", (string k, string fallback) =>
+			{
+				if (Symbols.TryGetValue(k, out var val)) return val;
+				return fallback;
+			});
 			_obj.Set("random", JsObject.FromObject(Engine, new Func<double>(() =>
 			{
 				return r.NextDouble();

@@ -10,6 +10,9 @@
 			<Setter Property="Padding" Value="4,2"/>
 			<Setter Property="MinHeight" Value="0"/>
 		</Style>
+		<Style Selector="TextBlock">
+		<Setter Property="Margin" Value="8,0"/>
+		</Style>
 	</UserControl.Styles>
 	<ScrollViewer>
 		<StackPanel>

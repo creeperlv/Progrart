@@ -27,5 +27,5 @@ public partial class ExecuteArgumentItem : UserControl
 			}
 		};
 	}
-	public (string, string) GetItme() => (KeyBox.Text ?? "", ValueBox.Text ?? "");
+	public (string, string) GetItem() => (KeyBox.Text ?? "", ValueBox.Text ?? "");
 }

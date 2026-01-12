@@ -6,31 +6,47 @@
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="Progrart.Controls.ConfigEditor" Margin="5">
 	<StackPanel>
-		<TextBlock Name="NameBlock" FontSize="18" Text="{Binding #NameBox.Text}"/>
-		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition/>
-				<RowDefinition/>
-			</Grid.RowDefinitions>
-			<TextBlock Padding="8,2" VerticalAlignment="Center">Name</TextBlock>
-			<TextBox Grid.Column="1" Name="NameBox"/>
-			<TextBlock Padding="8,2" Grid.Row="1" VerticalAlignment="Center">Output</TextBlock>
-			<TextBox Grid.Column="1" Grid.Row="1" Name="OutputDirBox"/>
-		</Grid>
-		<local:ExecuteArgumentsEditor/>
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition/>
 				<ColumnDefinition Width="Auto"/>
 			</Grid.ColumnDefinitions>
-			<TextBlock FontSize="13" VerticalAlignment="Center">Targets</TextBlock>
-			<Button Name="AddButton" Grid.Column="1" Padding="16,2" VerticalAlignment="Center">+</Button>
+			<ToggleButton Name="NameButton" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+						  Padding="16,0"
+						  IsCheckedChanged="NameButton_IsCheckedChanged">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Text="Configuration:" Opacity="0.75" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+					<TextBlock Name="NameBlock" Text="{Binding #NameBox.Text}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+				</StackPanel>
+			</ToggleButton>
+			<Button Grid.Column="1" Content=" - " Name="RemoveButton"/>
 		</Grid>
-		<StackPanel Name="TargetHolder" Margin="5,0">
+		<StackPanel Name="ConfigContent" IsVisible="False">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<TextBlock Padding="8,2" VerticalAlignment="Center">Name</TextBlock>
+				<TextBox Grid.Column="1" Name="NameBox"/>
+				<TextBlock Padding="8,2" Grid.Row="1" VerticalAlignment="Center">Output</TextBlock>
+				<TextBox Grid.Column="1" Grid.Row="1" Name="OutputDirBox"/>
+			</Grid>
+			<local:ExecuteArgumentsEditor Name="Arguments"/>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<TextBlock FontSize="13" VerticalAlignment="Center">Targets</TextBlock>
+				<Button Name="AddButton" Grid.Column="1" Padding="16,2" VerticalAlignment="Center">+</Button>
+			</Grid>
+			<StackPanel Name="TargetHolder" Margin="5,0">
+			</StackPanel>
 		</StackPanel>
 	</StackPanel>
 </UserControl>

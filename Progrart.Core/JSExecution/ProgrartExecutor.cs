@@ -55,7 +55,7 @@ namespace Progrart.Core.JSExecution
 			engine.Engine.SetValue("visual_root", visual_root);
 			engine.Engine.SetValue("line", line);
 			engine.Engine.SetValue("rectangle", rectangle);
-			engine.Engine.SetValue("rectangle", rectangle);
+			engine.Engine.SetValue("roundrect", roundrect);
 			engine.Engine.SetValue("oval", oval);
 			engine.Engine.SetValue("triangle", triangle);
 			engine.Engine.SetValue("path", path);

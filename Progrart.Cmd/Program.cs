@@ -1,19 +1,25 @@
 ﻿using Progrart.Core.ProjectSystem;
 using Progrart.Core.Storage;
+using System.Diagnostics;
 
 namespace Progrart.Cmd
 {
 	internal class Program
 	{
-		static void Main(string[] args)
+		static async Task Main(string[] args)
 		{
+			Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 			string? project_file = null;
+			bool isParallel = false;
 			string? configuration = null;
 			for (int i = 0; i < args.Length; i++)
 			{
 				string? item = args[i];
 				switch (item)
 				{
+					case "-j":
+						isParallel=true;
+						break;
 					case "-c":
 					case "--config":
 					case "--configuration":
@@ -44,22 +50,24 @@ namespace Progrart.Cmd
 						using var sr = new StreamReader(fs);
 						ClassicStorageProvider provider = new ClassicStorageProvider(di);
 						Builder builder = new Builder(sr, provider);
-						builder.OnProgressUpdate = (v, m) =>
+						builder.OnProgressUpdate = (max, index) =>
 						{
-							Console.WriteLine($"{v}/{m}");
+							Console.WriteLine($"Done {index}/{max}");
 						};
 						builder.OnCompleted = () =>
 						{
 							Environment.Exit(0);
 						};
-						Task.Run(async () =>
-						{
-							await builder.Build(configuration);
-						});
-						while (true)
-						{
-							Thread.Sleep(1000);
-						}
+						Console.WriteLine("Start build...");
+						//Task.Run(async () =>
+						//{
+						//});
+						//while (true)
+						//{
+						//	Thread.Sleep(1000);
+						//}
+
+						await builder.Build(configuration, isParallel);
 					}
 				}
 		}
