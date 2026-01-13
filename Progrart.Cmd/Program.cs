@@ -10,7 +10,7 @@ namespace Progrart.Cmd
 		{
 			Trace.Listeners.Add(new TextWriterTraceListener(Console.Out));
 			string? project_file = null;
-			bool isParallel = false;
+			int jobCount = 1;
 			string? configuration = null;
 			for (int i = 0; i < args.Length; i++)
 			{
@@ -18,7 +18,19 @@ namespace Progrart.Cmd
 				switch (item)
 				{
 					case "-j":
-						isParallel=true;
+						i++;
+						if (i >= args.Length)
+						{
+							jobCount = -1;
+							break;
+						}
+
+						if (!int.TryParse(args[i], out jobCount))
+						{
+							jobCount = -1;
+							i--;
+						}
+
 						break;
 					case "-c":
 					case "--config":
@@ -58,16 +70,7 @@ namespace Progrart.Cmd
 						{
 							Environment.Exit(0);
 						};
-						Console.WriteLine("Start build...");
-						//Task.Run(async () =>
-						//{
-						//});
-						//while (true)
-						//{
-						//	Thread.Sleep(1000);
-						//}
-
-						await builder.Build(configuration, isParallel);
+						await builder.Build(configuration, jobCount);
 					}
 				}
 		}

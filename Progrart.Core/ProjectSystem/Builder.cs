@@ -40,41 +40,38 @@ namespace Progrart.Core.ProjectSystem
 			img.DrawingCore.ToData().SaveTo(img_stream);
 			img_stream.Flush();
 		}
-		public async Task Build(string targetConfig, bool isParallel = false)
+		public async Task Build(string targetConfig, int maxJobCount = 1)
 		{
+			int finalJobCount= Math.Max(maxJobCount < 0 ? Environment.ProcessorCount : maxJobCount, 1);
 			foreach (var config in project.Configurations)
 			{
-				Console.WriteLine(config.Name);
 				if (config.Name == targetConfig)
 				{
 					int index = 0;
-					List<Task> tasks = new List<Task>();
-					foreach (var item in config.Items)
+					//List<Task> tasks = new List<Task>();
+					if (finalJobCount == 1)
 					{
-						if (!isParallel)
+						foreach (var item in config.Items)
 						{
-
 							await Execute(config, item);
 							index++;
 							OnProgressUpdate?.Invoke(config.Items.Count, index);
 						}
-						else
-						{
-
-							var t = Task.Run(async () =>
-							{
-								index++;
-								int i = index;
-								await Execute(config, item);
-								OnProgressUpdate?.Invoke(config.Items.Count, i);
-							});
-							tasks.Add(t);
-						}
-
 					}
-					if (isParallel)
+					else
 					{
-						await Task.WhenAll(tasks);
+						var options = new ParallelOptions
+						{
+							MaxDegreeOfParallelism = finalJobCount
+						};
+
+						await Parallel.ForEachAsync(config.Items, options, async (item, token) =>
+						{
+							await Execute(config, item);
+
+							int currentCount = Interlocked.Increment(ref index);
+							OnProgressUpdate?.Invoke(config.Items.Count, currentCount);
+						});
 					}
 					OnCompleted?.Invoke();
 					return;
