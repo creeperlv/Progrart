@@ -20,10 +20,10 @@ namespace Progrart.Core
 				return Fonts[fontName];
 			else
 			{
-				var task=StorageProvider.TryOpenRead(fontName);
+				var task = StorageProvider.TryOpenRead(fontName);
 				task.Wait();
-				var stream=task.Result;
-				if(stream != null)
+				var stream = task.Result;
+				if (stream != null)
 				{
 
 					SKTypeface typeface = SKTypeface.FromStream(stream);
@@ -46,6 +46,44 @@ namespace Progrart.Core
 		public SKData ToData()
 		{
 			return surface.Snapshot().Encode(SKEncodedImageFormat.Png, 100);
+		}
+		public SKData ToData(SKEncodedImageFormat format)
+		{
+			return surface.Snapshot().Encode(format, 100);
+		}
+		public SKData ToData(string extension)
+		{
+			SKEncodedImageFormat format = SKEncodedImageFormat.Png;
+			if (extension.StartsWith('.'))
+				extension = extension[1..];
+			switch (extension)
+			{
+				case "jpg":
+				case "jpeg":
+					format = SKEncodedImageFormat.Jpeg;
+					break;
+				case "bmp":
+					format = SKEncodedImageFormat.Bmp;
+					break;
+				case "webp":
+					format = SKEncodedImageFormat.Webp;
+					break;
+				case "ico":
+					format = SKEncodedImageFormat.Ico;
+					break;
+				case "heif":
+					format = SKEncodedImageFormat.Heif;
+					break;
+				case "avif":
+					format = SKEncodedImageFormat.Avif;
+					break;
+				case "jxl":
+					format = SKEncodedImageFormat.Jpegxl;
+					break;
+				default:
+					break;
+			}
+			return surface.Snapshot().Encode(format, 100);
 		}
 		public void Dispose()
 		{

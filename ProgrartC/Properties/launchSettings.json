@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ProgrartC": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

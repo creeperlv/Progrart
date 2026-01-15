@@ -13,4 +13,5 @@
     <Deploy Solution="Debug|*" />
   </Project>
   <Project Path="Progrart/Progrart.csproj" />
+  <Project Path="ProgrartC/ProgrartC.csproj" Id="f19950d7-8370-4c11-bb90-0cfd4ab94f57" />
 </Solution>

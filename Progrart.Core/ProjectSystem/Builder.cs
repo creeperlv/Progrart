@@ -34,10 +34,11 @@ namespace Progrart.Core.ProjectSystem
 				return;
 			using var reader = new StreamReader(stream);
 			var img = executor.RenderImage(item.Size, reader.ReadToEnd(), args);
-			using var img_stream = await provider.TryOpenWrite(Path.Combine(project.OutputDir, item.Target ?? item.Source + ".png"));
+			var outputFile= Path.Combine(project.OutputDir, item.Target ?? item.Source + ".png");
+			using var img_stream = await provider.TryOpenWrite(outputFile);
 			if (img_stream is null)
 				return;
-			img.DrawingCore.ToData().SaveTo(img_stream);
+			img.DrawingCore.ToData(Path.GetExtension(outputFile)).SaveTo(img_stream);
 			img_stream.Flush();
 		}
 		public async Task Build(string targetConfig, int maxJobCount = 1)
