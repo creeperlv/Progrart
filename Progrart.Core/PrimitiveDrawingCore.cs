@@ -14,6 +14,24 @@ namespace Progrart.Core
 		public SKCanvas canvas { get; }
 		internal IStorageProvider StorageProvider;
 		Dictionary<string, SKTypeface> Fonts = new Dictionary<string, SKTypeface>();
+		Dictionary<string, SKBitmap> Bitmaps = new Dictionary<string, SKBitmap>();
+		public SKBitmap? GetBitmap(string sourceFile)
+		{
+			if(Bitmaps.ContainsKey(sourceFile))return Bitmaps[sourceFile];
+			else
+			{
+				var task = StorageProvider.TryOpenRead(sourceFile);
+				task.Wait();
+				using var stream = task.Result;
+				if (stream != null)
+				{
+					SKBitmap bitmap = SKBitmap.Decode(stream);
+					Bitmaps[sourceFile] = bitmap;
+					return bitmap;
+				}
+				return null;
+			}
+		}
 		public SKTypeface? GetFont(string fontName)
 		{
 			if (Fonts.ContainsKey(fontName))

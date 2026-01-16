@@ -14,6 +14,22 @@ namespace Progrart.Core.JSExecution
 		{
 			return new SKPoint((float)jsObject.Get("x").AsNumber(), (float)jsObject.Get("y").AsNumber());
 		}
+		public static SKRect ObtainSKRectFromJsObject(JsObject jsObject)
+		{
+			return new SKRect((float)jsObject.Get("x").AsNumber(),
+							 (float)jsObject.Get("y").AsNumber(),
+							 (float)jsObject.Get("w").AsNumber(),
+							 (float)jsObject.Get("h").AsNumber()
+							 );
+		}
+		public static SKRect ObtainSKRectFromJsObject_XYWH_Style(JsObject jsObject)
+		{
+			float x = (float)jsObject.Get("x").AsNumber();
+			float y = (float)jsObject.Get("y").AsNumber();
+			float w = (float)jsObject.Get("w").AsNumber();
+			float h = (float)jsObject.Get("h").AsNumber();
+			return new SKRect(x, y, x + w, y + h);
+		}
 		public static SKColorF ObtainSKColorFFromJsObject(JsObject jsObject)
 		{
 			var r = (float)jsObject.Get("r").AsNumber();

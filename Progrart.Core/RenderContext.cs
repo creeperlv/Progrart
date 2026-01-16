@@ -14,6 +14,10 @@ namespace Progrart.Core
 		{
 			this.DrawingCore = core;
 		}
+		public SKBitmap? GetBitmap(string sourceFile)
+		{
+			return DrawingCore.GetBitmap(sourceFile);
+		}
 		public SKTypeface? GetFont(string fontName)
 		{
 			return DrawingCore.GetFont(fontName);

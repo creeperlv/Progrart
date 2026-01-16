@@ -61,7 +61,9 @@ namespace Progrart.Core.JSExecution
 			engine.Engine.SetValue("path", path);
 			engine.Engine.SetValue("path_element", path_element);
 			engine.Engine.SetValue("circle", circle);
-			engine.Engine.SetValue("color4", color4);
+			engine.Engine.SetValue("circle", circle);
+			engine.Engine.SetValue("piximage", piximage);
+			engine.Engine.SetValue("piximg", piximage);
 			engine.Engine.SetValue("color3", color3);
 			engine.Engine.SetValue("text", text);
 			engine.Engine.SetValue("color_hex", color_hex);
@@ -124,6 +126,7 @@ namespace Progrart.Core.JSExecution
 		{
 			return ProgrartFunctions.CreateVisualRoot(this);
 		}
+		public JsObject piximage() => ProgrartFunctions.CreateElement<PixImage>(this);
 		public JsObject line() => ProgrartFunctions.CreateElement<Line>(this);
 		public JsObject rectangle() => ProgrartFunctions.CreateElement<Rectangle>(this);
 		public JsObject roundrect() => ProgrartFunctions.CreateElement<RoundRectangle>(this);
