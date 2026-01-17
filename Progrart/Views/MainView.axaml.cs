@@ -2,12 +2,14 @@ using Acornima.Ast;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Progrart.Commands;
 using Progrart.Controls;
 using Progrart.Core;
 using Progrart.Core.JSExecution;
 using Progrart.Core.ProjectSystem;
+using Progrart.Core.Settings;
 using Progrart.Core.Storage;
 using Progrart.Pages;
 using System;
@@ -248,7 +250,7 @@ public partial class MainView : UserControl
 			int max = config.Items.Count;
 			ProgressGrid.IsVisible = true;
 			MainProgress.Value = sum;
-			MainProgress.Maximum= max;
+			MainProgress.Maximum = max;
 			builder.OnProgressUpdate = (a, b) =>
 			{
 				Interlocked.Increment(ref sum);
@@ -257,14 +259,22 @@ public partial class MainView : UserControl
 					MainProgress.Value = sum;
 				});
 			};
-			builder.OnCompleted= () =>
+			builder.OnCompleted = () =>
 			{
 				Dispatcher.UIThread.Invoke(() =>
 				{
 					ProgressGrid.IsVisible = false;
 				});
 			};
-			Task.Run(async () => await builder.Build(name, -1));
+			AppConfig app_config = new AppConfig();
+			if (App.SettingsProvider != null)
+				app_config = App.SettingsProvider.LoadSettings();
+			Task.Run(async () => await builder.Build(name, app_config.useParallelBuild == false ? 1 : app_config.JobCount));
 		}
+	}
+
+	private void SettingsMenuItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		MainTabHost.AddPage(new SettingsPage());
 	}
 }

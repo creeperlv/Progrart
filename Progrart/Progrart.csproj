@@ -28,6 +28,8 @@
 		<PackageReference Include="AvaloniaEdit.TextMate" />
 		<PackageReference Include="Deadpikle.AvaloniaProgressRing" />
 		<PackageReference Include="DialogHost.Avalonia" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />
 		<PackageReference Include="PanAndZoom" />
 		<!--<PackageReference Include="Devolutions.AvaloniaTheme.DevExpress" />
     <PackageReference Include="Devolutions.AvaloniaTheme.MacOS" />-->

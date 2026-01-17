@@ -50,7 +50,7 @@
 										<MenuItem Header="Save _As"/>
 									</MenuItem>
 									<MenuItem Header="_Tools">
-										<MenuItem Header="_Settings"/>
+										<MenuItem Header="_Settings" Name="SettingsMenuItem" Click="SettingsMenuItem_Click"/>
 									</MenuItem>
 									<MenuItem Header="_Help">
 										<MenuItem Header="_About" Name="AboutItem"/>

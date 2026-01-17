@@ -2,14 +2,16 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
-using System.Linq;
 using Avalonia.Markup.Xaml;
-using Progrart.Views;
+using Avalonia.Platform.Storage;
+using Microsoft.Extensions.Configuration;
+using Progrart.Core.ProjectSystem;
+using Progrart.Core.Settings;
 using Progrart.Icons;
 using Progrart.Pages;
-using Avalonia.Platform.Storage;
+using Progrart.Views;
 using System;
-using Progrart.Core.ProjectSystem;
+using System.Linq;
 
 namespace Progrart;
 
@@ -19,6 +21,7 @@ public partial class App : Application
 	public static IStorageFolder? CurrentOpenFolder = null;
 	public static Project? LoadedProject = null;
 	internal static Action? ProjectLoadHandler = null;
+	public static ISettingsProvider? SettingsProvider = null;
 	public static void ProjectLoad()
 	{
 		ProjectLoadHandler?.Invoke();
@@ -27,7 +30,6 @@ public partial class App : Application
 	{
 		AvaloniaXamlLoader.Load(this);
 	}
-
 	public override void OnFrameworkInitializationCompleted()
 	{
 		IconProvider.Register(new DefaultIconProvider());
@@ -53,6 +55,10 @@ public partial class App : Application
 		EditorProvider.BindFileType("jpg", "image");
 		EditorProvider.BindFileType("progrart-project", "project");
 		EditorProvider.BindFileType("wd", "console");
+		if (!OperatingSystem.IsBrowser())
+		{
+			App.SettingsProvider = new ClassicSettingsProvider();
+		}
 		if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
 		{
 			// Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
