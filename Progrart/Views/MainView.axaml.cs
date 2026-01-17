@@ -8,11 +8,13 @@ using Progrart.Controls;
 using Progrart.Core;
 using Progrart.Core.JSExecution;
 using Progrart.Core.ProjectSystem;
+using Progrart.Core.Storage;
 using Progrart.Pages;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Progrart.Views;
@@ -106,6 +108,18 @@ public partial class MainView : UserControl
 				var folder = folders[0];
 				App.CurrentOpenFolder = folder;
 				FileContainer.Children.Add(new FileItem(folder));
+				await foreach (var item in folder.GetItemsAsync())
+				{
+					if (item.Name.ToLower().EndsWith(".progrart-project", StringComparison.OrdinalIgnoreCase))
+					{
+						using var stream = await (item as IStorageFile)!.OpenReadAsync();
+						using var reader = new StreamReader(stream);
+						var txt = await reader.ReadToEndAsync();
+						App.LoadedProject = JsonConvert.DeserializeObject<Project>(txt);
+						App.ProjectLoad();
+						break;
+					}
+				}
 			}
 		};
 		FileExplorerCloseButton.Click += (_, _) =>
@@ -116,6 +130,18 @@ public partial class MainView : UserControl
 		RunButton.Click += (_, _) =>
 		{
 			Execute();
+		};
+
+		ConfigBox.Items.Clear();
+		App.ProjectLoadHandler = () =>
+		{
+			ConfigBox.Items.Clear();
+			if (App.LoadedProject is null) return;
+			foreach (var item in App.LoadedProject.Configurations)
+			{
+				ConfigBox.Items.Add(item.Name);
+			}
+			ConfigBox.SelectedIndex = 0;
 		};
 	}
 
@@ -207,5 +233,38 @@ public partial class MainView : UserControl
 		using var stream_writer = new StreamWriter(stream);
 		await stream_writer.WriteAsync(txt);
 		await stream.FlushAsync();
+	}
+
+	private void BuildButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		if (App.LoadedProject is not null)
+		{
+			Builder builder = new Builder(App.LoadedProject, new AvaloniaStorageProvider(App.CurrentOpenFolder));
+			var config = App.LoadedProject.Configurations[ConfigBox.SelectedIndex];
+			var name = config.Name;
+			if (config is null) return;
+			if (name is null) return;
+			int sum = 0;
+			int max = config.Items.Count;
+			ProgressGrid.IsVisible = true;
+			MainProgress.Value = sum;
+			MainProgress.Maximum= max;
+			builder.OnProgressUpdate = (a, b) =>
+			{
+				Interlocked.Increment(ref sum);
+				Dispatcher.UIThread.Invoke(() =>
+				{
+					MainProgress.Value = sum;
+				});
+			};
+			builder.OnCompleted= () =>
+			{
+				Dispatcher.UIThread.Invoke(() =>
+				{
+					ProgressGrid.IsVisible = false;
+				});
+			};
+			Task.Run(async () => await builder.Build(name, -1));
+		}
 	}
 }

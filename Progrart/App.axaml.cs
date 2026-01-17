@@ -8,6 +8,8 @@ using Progrart.Views;
 using Progrart.Icons;
 using Progrart.Pages;
 using Avalonia.Platform.Storage;
+using System;
+using Progrart.Core.ProjectSystem;
 
 namespace Progrart;
 
@@ -15,6 +17,12 @@ public partial class App : Application
 {
 	public static bool isDesktop = false;
 	public static IStorageFolder? CurrentOpenFolder = null;
+	public static Project? LoadedProject = null;
+	internal static Action? ProjectLoadHandler = null;
+	public static void ProjectLoad()
+	{
+		ProjectLoadHandler?.Invoke();
+	}
 	public override void Initialize()
 	{
 		AvaloniaXamlLoader.Load(this);
@@ -27,7 +35,7 @@ public partial class App : Application
 		EditorProvider.Register("image", "Default Image Viewer", typeof(ImageViewPage));
 		EditorProvider.Register("progrart", "Default Progrart Editor", typeof(ProgrartEditorPage));
 		EditorProvider.Register("project", "Progrart Project Editor", typeof(ProjectEditor));
-		EditorProvider.Register("console", "Console", typeof(Console));
+		EditorProvider.Register("console", "Console", typeof(Pages.Console));
 		EditorProvider.BindFileType("cs", "text");
 		EditorProvider.BindFileType("c", "text");
 		EditorProvider.BindFileType("cpp", "text");
