@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,22 +14,28 @@ namespace Progrart.Pages
 {
 	static public class EditorProvider
 	{
-		static Dictionary<string, string> Names = new();
-		static Dictionary<string, string> ExtensionMapping = new();
-		static Dictionary<string, Type> EditorTypes = new();
+		static Dictionary<string, FileHandler> handlers = new();
+		static Dictionary<string, List<string>> ExtensionMapping = new();
+		//static Dictionary<string, Type> EditorTypes = new();
 		static TabHost? currentHost = null;
 		public static void setHost(TabHost host)
 		{
 			currentHost = host;
 		}
-		public static void Register(string id, string name, Type t)
+		public static void Register(string id, FileHandler handler)
 		{
-			Names[id] = name;
-			EditorTypes[id] = t;
+			handlers[id] = handler;
 		}
 		public static void BindFileType(string type, string id)
 		{
-			ExtensionMapping[type] = id;
+			if (ExtensionMapping.TryGetValue(type, out var list))
+			{
+				list.Add(id);
+			}
+			else
+			{
+				ExtensionMapping[type] = [id];
+			}
 		}
 		public static TabButton? IsOpen(IStorageFile file)
 		{
@@ -42,23 +49,32 @@ namespace Progrart.Pages
 		{
 			currentHost?.AddPage(page);
 		}
-		public static bool TryGetEditor(string extension, [MaybeNullWhen(false)] out Control editorPage)
+
+		public static bool TryGetHandler(string extension, [MaybeNullWhen(false)] out FileHandler handler)
 		{
 			if (ExtensionMapping.TryGetValue(extension.ToLower(), out var id))
 			{
 
-				if (EditorTypes.TryGetValue(id, out var editorType))
+				if (handlers.TryGetValue(id.First(), out var editorType))
 				{
-					var obj = Activator.CreateInstance(editorType);
-					if (obj is Control control)
-					{
-						editorPage = control;
-						return true;
-					}
+					handler = editorType;
+					return true;
 				}
 			}
-			editorPage = null;
+			handler = null;
 			return false;
+		}
+		public static List<FileHandler> GetHandlerCollection(string extension)
+		{
+			List<FileHandler> handlersList = new();
+			if (ExtensionMapping.TryGetValue(extension.ToLower(), out var id))
+			{
+				foreach (var item in id)
+				{
+					handlersList.Add(handlers[item]);
+				}
+			}
+			return handlersList;
 		}
 	}
 	public interface IEditorPage

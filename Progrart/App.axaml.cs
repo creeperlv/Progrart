@@ -5,13 +5,17 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using Progrart.Core;
 using Progrart.Core.ProjectSystem;
 using Progrart.Core.Settings;
 using Progrart.Icons;
 using Progrart.Pages;
 using Progrart.Views;
 using System;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Progrart;
 
@@ -30,14 +34,27 @@ public partial class App : Application
 	{
 		AvaloniaXamlLoader.Load(this);
 	}
+	public async Task LoadProject(IStorageFile item)
+	{
+
+		using var stream = await (item).OpenReadAsync();
+		using var reader = new StreamReader(stream);
+		var txt = await reader.ReadToEndAsync();
+		App.LoadedProject = JsonConvert.DeserializeObject<Project>(txt);
+	}
 	public override void OnFrameworkInitializationCompleted()
 	{
 		IconProvider.Register(new DefaultIconProvider());
-		EditorProvider.Register("text", "Default Text Editor", typeof(EditorPage));
-		EditorProvider.Register("image", "Default Image Viewer", typeof(ImageViewPage));
-		EditorProvider.Register("progrart", "Default Progrart Editor", typeof(ProgrartEditorPage));
-		EditorProvider.Register("project", "Progrart Project Editor", typeof(ProjectEditor));
-		EditorProvider.Register("console", "Console", typeof(Pages.Console));
+		EditorProvider.Register("text", new EditorFileHandler<EditorPage>("Default Text Editor"));
+		EditorProvider.Register("image", new EditorFileHandler<ImageViewPage>("Default Image Viewer"));
+		EditorProvider.Register("progrart", new EditorFileHandler<ProgrartEditorPage>("Default Progrart Editor"));
+		EditorProvider.Register("as_project", new FileHandler("Load Project",async (item) =>
+		{
+			await LoadProject(item);
+			ProjectLoadHandler?.Invoke();
+		}));
+		EditorProvider.Register("project_editor", new EditorFileHandler<ProjectEditor>("Progrart Project Editor"));
+		EditorProvider.Register("console", new EditorFileHandler<Pages.Console>("Console"));
 		EditorProvider.BindFileType("cs", "text");
 		EditorProvider.BindFileType("c", "text");
 		EditorProvider.BindFileType("cpp", "text");
@@ -49,11 +66,14 @@ public partial class App : Application
 		EditorProvider.BindFileType("json", "text");
 		EditorProvider.BindFileType("sh", "text");
 		EditorProvider.BindFileType("progrart", "progrart");
+		EditorProvider.BindFileType("progrart", "text");
 		EditorProvider.BindFileType("bashrc", "text");
 		EditorProvider.BindFileType("png", "image");
 		EditorProvider.BindFileType("bmp", "image");
 		EditorProvider.BindFileType("jpg", "image");
-		EditorProvider.BindFileType("progrart-project", "project");
+		EditorProvider.BindFileType("progrart-project", "as_project");
+		EditorProvider.BindFileType("progrart-project", "project_editor");
+		EditorProvider.BindFileType("progrart-project", "text");
 		EditorProvider.BindFileType("wd", "console");
 		if (!OperatingSystem.IsBrowser())
 		{

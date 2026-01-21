@@ -32,6 +32,7 @@ public partial class FileItem : UserControl
 			FolderIcon.IsVisible = true;
 			GenericFileIcon.IsVisible = false;
 			IconContainer.IsVisible = false;
+			OpenWithMenu.IsVisible = false;
 		}
 		else if (storageItem is IStorageFile file)
 		{
@@ -48,17 +49,27 @@ public partial class FileItem : UserControl
 					GenericFileIcon.IsVisible = false;
 					IconContainer.Children.Add(icon);
 				}
+				foreach (var item in EditorProvider.GetHandlerCollection(extension))
+				{
+					MenuItem mItem = new() { Header = item.Name };
+					mItem.Click += async (a, b) =>
+					{
+						if (item.OpenAction is not null)
+							await item.OpenAction(file);
+					};
+					OpenWithMenu.Items.Add(mItem);
+				}
 			}
 			IconContainer.IsVisible = true;
 		}
 		NameBlock.Text = storageItem.Name;
 		MainButton.DoubleTapped += async (_, _) =>
 		{
-			OpenItem();
+			await OpenItem();
 		};
 		OpenFileMenuItem.Click += async (a, b) =>
 		{
-			OpenItem();
+			await OpenItem();
 		};
 		CreateFolderItem.Click += async (a, b) =>
 		{
@@ -133,7 +144,7 @@ public partial class FileItem : UserControl
 			await DialogHost.Show(content);
 		};
 	}
-	void OpenItem()
+	public async Task OpenItem()
 	{
 
 		if (currentItem is IStorageFolder folder)
@@ -146,7 +157,7 @@ public partial class FileItem : UserControl
 			else
 			{
 				isOpen = true;
-				Task.Run(async () =>
+				await Task.Run(async () =>
 				{
 					await LoadAll(folder);
 				});
@@ -161,23 +172,25 @@ public partial class FileItem : UserControl
 					EditorProvider.SelectTabPage(btn);
 				}
 				else
-					if (EditorProvider.TryGetEditor(extension, out var page))
+					if (EditorProvider.TryGetHandler(extension, out var page))
 					{
-						if (page is ITabPage editor)
-						{
-							try
-							{
-								if (page is IEditorPage editor_page)
-								{
-									editor_page.LoadDocument(file);
-								}
-								EditorProvider.OpenEditor(editor);
-							}
-							catch (System.Exception e)
-							{
-								Trace.WriteLine(e);
-							}
-						}
+						if (page.OpenAction is not null)
+							await page.OpenAction(file);
+						//if (page is ITabPage editor)
+						//{
+						//	try
+						//	{
+						//		if (page is IEditorPage editor_page)
+						//		{
+						//			editor_page.LoadDocument(file);
+						//		}
+						//		EditorProvider.OpenEditor(editor);
+						//	}
+						//	catch (System.Exception e)
+						//	{
+						//		Trace.WriteLine(e);
+						//	}
+						//}
 					}
 			}
 	}

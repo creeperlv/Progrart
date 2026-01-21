@@ -63,10 +63,47 @@ public partial class TabHost : UserControl
 				itemBtn.SetSelectState(item == button);
 		}
 	}
+	public void SelectButton(int index)
+	{
+		for (int i = 0; i < TabContainer.Children.Count; i++)
+		{
+			Control? item = TabContainer.Children[i];
+			if (item is TabButton itemBtn)
+				itemBtn.SetSelectState(i == index);
+		}
+	}
+	private int GetOpenIndex()
+	{
+		for (int i = 0; i < TabContainer.Children.Count; i++)
+		{
+			Control item = TabContainer.Children[i];
+			if (item is TabButton itemBtn)
+			{
+				if (itemBtn.IsVisibleInHost()) return i;
+			}
+		}
+		return -1;
+	}
 	public void RemoveButton(TabButton button)
 	{
+		var index = TabContainer.Children.IndexOf(button);
+		int v = GetOpenIndex();
 		TabContainer.Children.Remove(button);
 		if (button.page is Control pageControl)
 			PageContainer.Children.Remove(pageControl);
+
+		if (index == v)
+		{
+			if (index - 1 > 0)
+				SelectButton(index - 1);
+			else
+			{
+				SelectButton(1);
+			}
+		}
+		if (v == -1)
+		{
+			SelectButton(0);
+		}
 	}
 }

@@ -8,8 +8,8 @@ public partial class TabButton : UserControl
 {
 	public string? Title { get => MainButton.Content as string; set => MainButton.Content = value; }
 	public string? TooltipText { get => ToolTip.GetTip(MainButton) as string; set => ToolTip.SetTip(MainButton, value); }
-	public ITabPage? page=null;
-	public TabHost? Host=null;
+	public ITabPage? page = null;
+	public TabHost? Host = null;
 	public TabButton()
 	{
 		InitializeComponent();
@@ -35,6 +35,12 @@ public partial class TabButton : UserControl
 		{
 			Host.RemoveButton(this);
 		};
+	}
+	public bool IsVisibleInHost()
+	{
+		if (page is Control pageControl)
+			return pageControl.IsVisible;
+		return false;
 	}
 	public void SetSelectState(bool v)
 	{

@@ -33,13 +33,13 @@ public partial class BaseEditor : UserControl
 		InitializeComponent();
 		var uri = new Uri("avares://Progrart/Assets/Styles/JavaScript.xml");
 
-			if (AssetLoader.Exists(uri))
-			{
-                using Stream stream = AssetLoader.Open(uri);
-                using XmlReader reader = XmlReader.Create(stream);
-                var xshd = HighlightingLoader.LoadXshd(reader);
-                CodeEditBox.SyntaxHighlighting = HighlightingLoader.Load(xshd, HighlightingManager.Instance);
-            }
+		if (AssetLoader.Exists(uri))
+		{
+			using Stream stream = AssetLoader.Open(uri);
+			using XmlReader reader = XmlReader.Create(stream);
+			var xshd = HighlightingLoader.LoadXshd(reader);
+			CodeEditBox.SyntaxHighlighting = HighlightingLoader.Load(xshd, HighlightingManager.Instance);
+		}
 		if (!OperatingSystem.IsBrowser())
 		{
 			{
@@ -68,11 +68,19 @@ public partial class BaseEditor : UserControl
 		{
 			return;
 		}
-		_textMateInstallation?.SetGrammar(
-		_registryOptions?.GetScopeByLanguageId(
-			_registryOptions.GetLanguageByExtension(extension_name).Id
-			)
-		);
+		if (extension_name == ".progrart") extension_name = ".js";
+		if (extension_name == ".progrart-project") extension_name = ".json";
+		try
+		{
+			_textMateInstallation?.SetGrammar(
+			_registryOptions?.GetScopeByLanguageId(
+				_registryOptions.GetLanguageByExtension(extension_name).Id
+				)
+			);
+		}
+		catch (Exception)
+		{
+		}
 
 	}
 

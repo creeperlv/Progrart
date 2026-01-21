@@ -109,7 +109,8 @@ public partial class MainView : UserControl
 				FileContainer.Children.Clear();
 				var folder = folders[0];
 				App.CurrentOpenFolder = folder;
-				FileContainer.Children.Add(new FileItem(folder));
+				FileItem item1 = new(folder);
+				FileContainer.Children.Add(item1);
 				await foreach (var item in folder.GetItemsAsync())
 				{
 					if (item.Name.ToLower().EndsWith(".progrart-project", StringComparison.OrdinalIgnoreCase))
@@ -122,6 +123,7 @@ public partial class MainView : UserControl
 						break;
 					}
 				}
+				await item1.OpenItem();
 			}
 		};
 		FileExplorerCloseButton.Click += (_, _) =>
