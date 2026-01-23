@@ -62,6 +62,7 @@ namespace Progrart.Core.JSExecution
 		public static JsObject radial_gradient(Engine engine)
 		{
 			var obj = new JsObject(engine);
+			obj.Set("Radius", 1);
 
 			{
 				JsObject point = new JsObject(engine);
@@ -79,7 +80,7 @@ namespace Progrart.Core.JSExecution
 			{
 				obj.Set("Positions", new JsArray(engine, new[] { new JsNumber(0), new JsNumber(1) }));
 			}
-			obj.Set("TileMode", $"{SKShaderTileMode.Repeat}");
+			obj.Set("TileMode", $"{SKShaderTileMode.Clamp}");
 			obj.Set("Type", $"{ShaderType.RadialGradient}");
 			return obj;
 		}

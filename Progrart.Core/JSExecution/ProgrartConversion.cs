@@ -86,6 +86,7 @@ namespace Progrart.Core.JSExecution
 							var sy = (float)jsObject.Get("Center").Get("y").AsNumber();
 							var s = context.TranslatePoint(sx, sy);
 							var radius = (float)jsObject.Get("Radius").AsNumber();
+							radius = context.TranslateSize(radius);
 							SKColor C0 = SKColors.Black;
 							SKColor C1 = SKColors.White;
 							float p0 = 0;
