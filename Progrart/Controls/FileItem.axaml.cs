@@ -8,6 +8,7 @@ using Progrart.Controls.TabSystem;
 using Progrart.Dialogs;
 using Progrart.Icons;
 using Progrart.Pages;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -18,14 +19,23 @@ public partial class FileItem : UserControl
 	IStorageItem? currentItem;
 	bool isOpen = false;
 	string extension = "";
+	FileItem? root = null;
+	bool isSelectOnly = false;
+	public IStorageItem? CurrentItem => currentItem;
+	public Action<FileItem>? onSelected = null;
 	public FileItem()
 	{
-
 		InitializeComponent();
 	}
-	public FileItem(IStorageItem storageItem)
+	public FileItem(IStorageItem storageItem, FileItem? RootItem, bool SelectOnly = false)
 	{
 		InitializeComponent();
+		this.root = RootItem;
+		isSelectOnly = SelectOnly;
+		if (isSelectOnly)
+		{
+			MainButton.ContextMenu = null;
+		}
 		currentItem = storageItem;
 		if (storageItem is IStorageFolder folder)
 		{
@@ -63,6 +73,11 @@ public partial class FileItem : UserControl
 			IconContainer.IsVisible = true;
 		}
 		NameBlock.Text = storageItem.Name;
+		if (isSelectOnly)
+			MainButton.Click += (a, b) =>
+			{
+				(root ?? this).SelectFileItem(this);
+			};
 		MainButton.DoubleTapped += async (_, _) =>
 		{
 			await OpenItem();
@@ -87,7 +102,7 @@ public partial class FileItem : UserControl
 							if (isOpen)
 								Dispatcher.UIThread.Invoke(() =>
 								{
-									var fitem = new FileItem(fldr);
+									var fitem = new FileItem(fldr, root ?? this, SelectOnly);
 									ItemContainer.Children.Add(fitem);
 								});
 						}
@@ -107,6 +122,8 @@ public partial class FileItem : UserControl
 			};
 			await DialogHost.Show(content);
 		};
+		CopyToMenuItem.Click += CopyToMenuItem_Click;
+		MoveToMenuItem.Click += MoveToMenuItem_Click;
 		CreateProgrartItem.Click += async (a, b) =>
 		{
 			InputDialog content = new();
@@ -123,7 +140,7 @@ public partial class FileItem : UserControl
 							if (isOpen)
 								Dispatcher.UIThread.Invoke(() =>
 								{
-									var fitem = new FileItem(fldr);
+									var fitem = new FileItem(fldr, root ?? this, SelectOnly);
 									ItemContainer.Children.Add(fitem);
 								});
 						}
@@ -144,6 +161,46 @@ public partial class FileItem : UserControl
 			await DialogHost.Show(content);
 		};
 	}
+
+	private async void MoveToMenuItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		var content = new BrowserDialog();
+		content.Title = "";
+		content.onOK = async (si) =>
+		{
+			if (si is IStorageFolder destFolder)
+			{
+
+				if (currentItem is not null)
+				{
+					await currentItem.MoveAsync(destFolder);
+				}
+			}
+			return true;
+		};
+		if ((root ?? this).CurrentItem is IStorageItem item)
+			content.SetFileITem(new FileItem(item, null, true));
+		await DialogHost.Show(content);
+	}
+
+	private async void CopyToMenuItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		var content = new BrowserDialog();
+		content.onOK = async (si) =>
+		{
+			if (currentItem is IStorageFolder folder)
+			{
+			}
+			else if (currentItem is IStorageFile file)
+			{
+			}
+			return true;
+		};
+		if ((root ?? this).CurrentItem is IStorageItem item)
+			content.SetFileITem(new FileItem(item, null, true));
+		await DialogHost.Show(content);
+	}
+
 	public async Task OpenItem()
 	{
 
@@ -198,9 +255,14 @@ public partial class FileItem : UserControl
 	{
 		await foreach (var item in folder.GetItemsAsync())
 		{
+			if (isSelectOnly)
+			{
+				if (item is IStorageFile)
+					continue;
+			}
 			Dispatcher.UIThread.Invoke(() =>
 			{
-				var fitem = new FileItem(item);
+				var fitem = new FileItem(item, root ?? this, isSelectOnly);
 				ItemContainer.Children.Add(fitem);
 			});
 		}
@@ -208,5 +270,17 @@ public partial class FileItem : UserControl
 	void RemoveAll()
 	{
 		ItemContainer.Children.Clear();
+	}
+	public void SelectFileItem(FileItem item)
+	{
+		if (root == null) onSelected?.Invoke(item);
+		SelectIndicator.IsVisible = this == item;
+		foreach (var citem in ItemContainer.Children)
+		{
+			if (citem is FileItem fi)
+			{
+				fi.SelectFileItem(item);
+			}
+		}
 	}
 }

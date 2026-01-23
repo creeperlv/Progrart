@@ -6,8 +6,8 @@
 			 x:Class="Progrart.Controls.FileItem" HorizontalAlignment="Stretch">
 	<StackPanel>
 		<Grid>
+			<Border Background="#2288EE" Margin="2,5" Width="4" CornerRadius="4" HorizontalAlignment="Left" Name="SelectIndicator" IsVisible="False"/>
 			<Button Name="MainButton" HorizontalAlignment="Stretch">
-
 				<Button.ContextMenu>
 					<ContextMenu>
 						<MenuItem Header="_Open" Name="OpenFileMenuItem">
@@ -30,9 +30,9 @@
 							<MenuItem Header="_Folder" Name="CreateFolderItem"/>
 						</MenuItem>
 						<Separator/>
-						<MenuItem Header="_Copy"/>
-						<MenuItem Header="Cut (_x)"/>
-						<MenuItem Header="_Paste"/>
+						<MenuItem Header="_Copy To" Name="CopyToMenuItem"/>
+						<MenuItem Header="_Move to" Name="MoveToMenuItem"/>
+						<!--<MenuItem Header="_Paste"/>-->
 						<Separator/>
 						<MenuItem Header="_Delete"/>
 					</ContextMenu>

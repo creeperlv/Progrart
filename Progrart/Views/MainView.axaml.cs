@@ -109,7 +109,7 @@ public partial class MainView : UserControl
 				FileContainer.Children.Clear();
 				var folder = folders[0];
 				App.CurrentOpenFolder = folder;
-				FileItem item1 = new(folder);
+				FileItem item1 = new(folder, null, false);
 				FileContainer.Children.Add(item1);
 				await foreach (var item in folder.GetItemsAsync())
 				{
