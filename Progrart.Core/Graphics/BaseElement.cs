@@ -18,7 +18,7 @@ namespace Progrart.Core.Graphics
 		public virtual void Render(RenderContext context)
 		{
 		}
-		public virtual void LoadProperties() { }
+		public virtual void LoadProperties(RenderContext context) { }
 		public virtual void SetupProperties(Engine engine) { }
 	}
 }

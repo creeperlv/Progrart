@@ -7,7 +7,7 @@
     <!-- Avalonia packages -->
     <!-- Important: keep version in sync! -->
     <PackageVersion Include="Avalonia" Version="11.3.11" />
-    <PackageVersion Include="Avalonia.AvaloniaEdit" Version="11.3.0" />
+    <PackageVersion Include="Avalonia.AvaloniaEdit" Version="11.4.0-rc1" />
     <PackageVersion Include="Avalonia.Themes.Fluent" Version="11.3.11" />
     <PackageVersion Include="Avalonia.Fonts.Inter" Version="11.3.11" />
     <PackageVersion Include="Avalonia.Diagnostics" Version="11.3.11" />
@@ -15,7 +15,7 @@
     <PackageVersion Include="Avalonia.iOS" Version="11.3.11" />
     <PackageVersion Include="Avalonia.Browser" Version="11.3.11" />
     <PackageVersion Include="Avalonia.Android" Version="11.3.11" />
-    <PackageVersion Include="AvaloniaEdit.TextMate" Version="11.3.0" />
+    <PackageVersion Include="AvaloniaEdit.TextMate" Version="11.4.0-rc1" />
     <PackageVersion Include="Deadpikle.AvaloniaProgressRing" Version="0.10.11-preview20251127001" />
     <PackageVersion Include="DialogHost.Avalonia" Version="0.10.4" />
     <PackageVersion Include="Jint" Version="4.5.0" />

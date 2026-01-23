@@ -47,11 +47,10 @@ namespace Progrart.Core.JSExecution
 				obj.Set("End", point);
 			}
 			{
-				obj.Set("Colors", new JsArray(engine, [
-					color(engine, 1, 1, 1, 1) ,
-					color(engine, 1, 1, 1, 1)
-					]
-				));
+				obj.Set("ColorStart", color(engine, 1, 1, 1, 1));
+			}
+			{
+				obj.Set("ColorEnd", color(engine, 1, 1, 1, 1));
 			}
 			{
 				obj.Set("Positions", new JsArray(engine, new[] { new JsNumber(0), new JsNumber(1) }));

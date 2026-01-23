@@ -33,7 +33,7 @@ namespace Progrart.Core.Graphics
 			}
 
 		}
-		public override void LoadProperties()
+		public override void LoadProperties(RenderContext context)
 		{
 			if (__object is not null)
 			{
@@ -54,13 +54,13 @@ namespace Progrart.Core.Graphics
 				}
 
 				if (__object.Get("Shader") is JsObject shaderObj)
-					shader = ProgrartConversion.ObtainFromJsObject(shaderObj);
+					shader = ProgrartConversion.ObtainFromJsObject(context,shaderObj);
 			}
 		}
 		public override void Render(RenderContext context)
 		{
 			base.Render(context);
-			LoadProperties();
+			LoadProperties(context);
 			SKPoint pos = context.TranslatePoint(Position);
 			float Size = context.TranslateSize(this.Size);
 			context.DrawingCore.canvas.DrawCircle(

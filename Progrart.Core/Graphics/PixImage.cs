@@ -51,7 +51,7 @@ namespace Progrart.Core.Graphics
 			}
 
 		}
-		public override void LoadProperties()
+		public override void LoadProperties(RenderContext context)
 		{
 			if (__object is not null)
 			{
@@ -84,7 +84,7 @@ namespace Progrart.Core.Graphics
 				}
 
 				if (__object.Get("Shader") is JsObject shaderObj)
-					shader = ProgrartConversion.ObtainFromJsObject(shaderObj);
+					shader = ProgrartConversion.ObtainFromJsObject(context, shaderObj);
 
 				if (__object.Get("Source") is JsString source)
 					this.imgFile = source.AsString();
@@ -93,7 +93,7 @@ namespace Progrart.Core.Graphics
 		public override void Render(RenderContext context)
 		{
 			base.Render(context);
-			LoadProperties();
+			LoadProperties(context);
 			SKPoint FinalStartPos = context.TranslatePoint(Start);
 			SKPoint Size = context.TranslatePoint(this.Size);
 			if (imgFile == null) return;

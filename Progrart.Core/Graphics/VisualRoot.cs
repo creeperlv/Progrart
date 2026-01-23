@@ -38,9 +38,9 @@ namespace Progrart.Core.Graphics
 			context.canvas.RotateDegrees(-rotate, context.DrawingCore.Width / 2, context.DrawingCore.Height / 2);
 			context.canvas.Translate(-tx, -ty);
 		}
-		public override void LoadProperties()
+		public override void LoadProperties(RenderContext context)
 		{
-			base.LoadProperties();
+			base.LoadProperties(context);
 			if (__object is null) return;
 			{
 				if (__object.Get("Translate") is JsObject translate)
@@ -61,7 +61,7 @@ namespace Progrart.Core.Graphics
 		public override void Render(RenderContext context)
 		{
 			base.Render(context);
-			this.LoadProperties();
+			this.LoadProperties(context);
 			Transform(context);
 			foreach (var item in Children)
 			{

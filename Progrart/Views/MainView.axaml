@@ -55,7 +55,8 @@
 									<MenuItem Header="_Help">
 										<MenuItem Header="_About" Name="AboutItem"/>
 									</MenuItem>
-									<MenuItem Header="_Exit"/>
+									<Separator/>
+									<MenuItem Header="_Exit" Name="ExitItem" Click="ExitItem_Click"/>
 								</MenuFlyout>
 							</Button.Flyout>
 							<TextBlock Margin="8,2">Progart</TextBlock>

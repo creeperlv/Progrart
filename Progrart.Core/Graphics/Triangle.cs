@@ -45,7 +45,7 @@ namespace Progrart.Core.Graphics
 			}
 
 		}
-		public override void LoadProperties()
+		public override void LoadProperties(RenderContext context)
 		{
 			if (__object is not null)
 			{
@@ -77,13 +77,13 @@ namespace Progrart.Core.Graphics
 				}
 
 				if (__object.Get("Shader") is JsObject shaderObj)
-					shader = ProgrartConversion.ObtainFromJsObject(shaderObj);
+					shader = ProgrartConversion.ObtainFromJsObject(context, shaderObj);
 			}
 		}
 		public override void Render(RenderContext context)
 		{
 			base.Render(context);
-			LoadProperties();
+			LoadProperties(context);
 			var v0 = context.TranslatePoint(Vertex0);
 			var v1 = context.TranslatePoint(Vertex1);
 			var v2 = context.TranslatePoint(Vertex2);

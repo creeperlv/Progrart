@@ -65,6 +65,7 @@ namespace Progrart.Core.JSExecution
 			engine.Engine.SetValue("piximage", piximage);
 			engine.Engine.SetValue("piximg", piximage);
 			engine.Engine.SetValue("color3", color3);
+			engine.Engine.SetValue("color4", color4);
 			engine.Engine.SetValue("text", text);
 			engine.Engine.SetValue("color_hex", color_hex);
 			engine.Engine.SetValue("linear_gradient", linear_gradient);

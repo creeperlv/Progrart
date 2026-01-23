@@ -42,7 +42,7 @@ namespace Progrart.Core.JSExecution
 			}
 			return new SKColorF(r, g, b, a);
 		}
-		public static SKShader? ObtainFromJsObject(JsObject jsObject)
+		public static SKShader? ObtainFromJsObject(RenderContext context, JsObject jsObject)
 		{
 			var type_str = jsObject.Get("Type").AsString();
 			if (Enum.TryParse<ShaderType>(type_str, out var type))
@@ -55,21 +55,16 @@ namespace Progrart.Core.JSExecution
 							var sy = (float)jsObject.Get("Start").Get("y").AsNumber();
 							var ex = (float)jsObject.Get("End").Get("x").AsNumber();
 							var ey = (float)jsObject.Get("End").Get("y").AsNumber();
+							var s = context.TranslatePoint(sx, sy);
+							var e = context.TranslatePoint(ex, ey);
 							SKColor C0 = SKColors.Black;
 							SKColor C1 = SKColors.White;
 							float p0 = 0;
 							float p1 = 1;
-							if (jsObject.Get("Colors") is JsArray color_array)
-							{
-								if (color_array[0] is JsObject c0)
-									if (color_array[1] is JsObject c1)
-									{
-
-										C0 = (SKColor)ObtainSKColorFFromJsObject(c0);
-										C1 = (SKColor)ObtainSKColorFFromJsObject(c1);
-
-									}
-							}
+							if (jsObject.Get("ColorStart") is JsObject colorStart)
+								C0 = (SKColor)ObtainSKColorFFromJsObject(colorStart);
+							if (jsObject.Get("ColorEnd") is JsObject colorEnd)
+								C1 = (SKColor)ObtainSKColorFFromJsObject(colorEnd);
 							if (jsObject.Get("Positions") is JsArray pos_array)
 							{
 								if (pos_array[0] is JsNumber P0)
@@ -81,7 +76,7 @@ namespace Progrart.Core.JSExecution
 							}
 							var TileMode_str = jsObject.Get("TileMode").AsString();
 							if (Enum.TryParse<SKShaderTileMode>(TileMode_str, out var SKShaderTileMode))
-								return SKShader.CreateLinearGradient(new SKPoint(sx, sy), new SKPoint(ex, ey),
+								return SKShader.CreateLinearGradient(s, e,
 								[C0, C1], [p0, p1], SKShaderTileMode);
 						}
 						break;
@@ -89,6 +84,7 @@ namespace Progrart.Core.JSExecution
 						{
 							var sx = (float)jsObject.Get("Center").Get("x").AsNumber();
 							var sy = (float)jsObject.Get("Center").Get("y").AsNumber();
+							var s = context.TranslatePoint(sx, sy);
 							var radius = (float)jsObject.Get("Radius").AsNumber();
 							SKColor C0 = SKColors.Black;
 							SKColor C1 = SKColors.White;
@@ -116,7 +112,7 @@ namespace Progrart.Core.JSExecution
 							}
 							var TileMode_str = jsObject.Get("TileMode").AsString();
 							if (Enum.TryParse<SKShaderTileMode>(TileMode_str, out var SKShaderTileMode))
-								return SKShader.CreateRadialGradient(new SKPoint(sx, sy), radius,
+								return SKShader.CreateRadialGradient(s, radius,
 								[C0, C1], [p0, p1], SKShaderTileMode);
 						}
 						break;

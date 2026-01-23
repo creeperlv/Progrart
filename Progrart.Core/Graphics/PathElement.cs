@@ -20,7 +20,7 @@ namespace Progrart.Core.Graphics
 				__object.Set("Color", ProgrartFunctions.color(engine, 1, 1, 1, 1));
 			}
 		}
-		public override void LoadProperties()
+		public override void LoadProperties(RenderContext context)
 		{
 			if (__object is not null)
 			{
@@ -33,13 +33,13 @@ namespace Progrart.Core.Graphics
 				}
 
 				if (__object.Get("Shader") is JsObject shaderObj)
-					shader = ProgrartConversion.ObtainFromJsObject(shaderObj);
+					shader = ProgrartConversion.ObtainFromJsObject(context, shaderObj);
 			}
 		}
 		public override void Render(RenderContext context)
 		{
 			base.Render(context);
-			LoadProperties();
+			LoadProperties(context);
 			foreach (var item in this.Children)
 			{
 				if (item is Path p)

@@ -279,4 +279,8 @@ public partial class MainView : UserControl
 	{
 		MainTabHost.AddPage(new SettingsPage());
 	}
+
+	private void ExitItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+	}
 }

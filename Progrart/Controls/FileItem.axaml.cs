@@ -165,7 +165,6 @@ public partial class FileItem : UserControl
 	private async void MoveToMenuItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
 	{
 		var content = new BrowserDialog();
-		content.Title = "";
 		content.onOK = async (si) =>
 		{
 			if (si is IStorageFolder destFolder)
@@ -176,7 +175,7 @@ public partial class FileItem : UserControl
 					await currentItem.MoveAsync(destFolder);
 				}
 			}
-			return true;
+			return false;
 		};
 		if ((root ?? this).CurrentItem is IStorageItem item)
 			content.SetFileITem(new FileItem(item, null, true));
@@ -194,7 +193,7 @@ public partial class FileItem : UserControl
 			else if (currentItem is IStorageFile file)
 			{
 			}
-			return true;
+			return false;
 		};
 		if ((root ?? this).CurrentItem is IStorageItem item)
 			content.SetFileITem(new FileItem(item, null, true));
