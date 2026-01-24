@@ -2,6 +2,7 @@ using Acornima.Ast;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using DialogHostAvalonia;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Progrart.Commands;
@@ -11,6 +12,7 @@ using Progrart.Core.JSExecution;
 using Progrart.Core.ProjectSystem;
 using Progrart.Core.Settings;
 using Progrart.Core.Storage;
+using Progrart.Dialogs;
 using Progrart.Pages;
 using System;
 using System.Collections.Generic;
@@ -147,6 +149,21 @@ public partial class MainView : UserControl
 			}
 			ConfigBox.SelectedIndex = 0;
 		};
+		Task.Run(async () =>
+		{
+			while (true)
+			{
+				await Task.Delay(500);
+				await Dispatcher.UIThread.InvokeAsync(async () =>
+				{
+					await MainTabHost.ForeachButton(async (btn) =>
+					{
+						btn.ModificationCheck();
+						return false;
+					});
+				});
+			}
+		});
 	}
 
 	private void Execute()
@@ -279,8 +296,31 @@ public partial class MainView : UserControl
 	{
 		MainTabHost.AddPage(new SettingsPage());
 	}
-
+	internal bool CloseCheck()
+	{
+		bool v = false;
+		MainTabHost.ForeachButton((btn) =>
+		{
+			if (btn.IsModified())
+			{
+				v = true;
+				return true;
+			}
+			return false;
+		});
+		return v;
+	}
 	private void ExitItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
 	{
+		if (CloseCheck())
+		{
+			CloseConfirmationDialog dialog = new CloseConfirmationDialog();
+
+			DialogHost.Show(dialog);
+		}
+		else
+		{
+			Environment.Exit(0);
+		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Progrart.Controls.TabSystem;
 
 public partial class TabButton : UserControl
 {
-	public string? Title { get => MainButton.Content as string; set => MainButton.Content = value; }
+	public string? Title { get => TitleBlock.Text; set => TitleBlock.Text = value; }
 	public string? TooltipText { get => ToolTip.GetTip(MainButton) as string; set => ToolTip.SetTip(MainButton, value); }
 	public ITabPage? page = null;
 	public TabHost? Host = null;
@@ -47,5 +47,20 @@ public partial class TabButton : UserControl
 		if (page is Control pageControl)
 			pageControl.IsVisible = v;
 		this.HintBackground.IsVisible = v;
+	}
+	public void ModificationCheck()
+	{
+		if (page is ITabPage tabPage)
+		{
+			ModificationIndicator.IsVisible= tabPage.IsModified();
+		}
+	}
+	public bool IsModified()
+	{
+		if (page is ITabPage tabPage)
+		{
+			return tabPage.IsModified();
+		}
+		return false;
 	}
 }

@@ -55,6 +55,26 @@ public partial class TabHost : UserControl
 			}
 		}
 	}
+	public async Task ForeachButton(Func<TabButton, Task<bool>> handler)
+	{
+		foreach (var item in TabContainer.Children)
+		{
+			if (item is TabButton btn)
+			{
+				if (await handler(btn)) break;
+			}
+		}
+	}
+	public void ForeachButton(Func<TabButton, bool> handler)
+	{
+		foreach (var item in TabContainer.Children)
+		{
+			if (item is TabButton btn)
+			{
+				if (handler(btn)) break;
+			}
+		}
+	}
 	public void SelectButton(TabButton button)
 	{
 		foreach (var item in TabContainer.Children)

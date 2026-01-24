@@ -13,7 +13,12 @@
 			<Border Grid.ColumnSpan="2" Background="#4888" CornerRadius="12" Name="HintBackground" IsVisible="False">
 				<Border BorderThickness="1,1,1,0" CornerRadius="12" BorderBrush="#8888"></Border>
 			</Border>
-			<Button Name="MainButton" MinWidth="50"  Padding="6,2" VerticalAlignment="Stretch">Blank Page</Button>
+			<Button Name="MainButton" MinWidth="50"  Padding="6,2" VerticalAlignment="Stretch">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock Name="ModificationIndicator" IsVisible="False">*</TextBlock>
+					<TextBlock Name="TitleBlock">Blank Page</TextBlock>
+				</StackPanel>
+			</Button>
 			<Button Name="CloseButton" VerticalAlignment="Stretch" Grid.Column="1" Padding="6,2">
 				<Viewbox Height="10" Width="10">
 					<PathIcon Data="F1 M 4.08 6 L 4.16 5.96 C 4.24 5.853333 4.34 5.799999 4.46 5.799999 C 4.58 5.799999 4.693333 5.826666 4.8 5.879999 L 10 11.08 L 15.16 5.96 C 15.239999 5.853333 15.339999 5.799999 15.46 5.799999 C 15.579999 5.799999 15.693332 5.826666 15.799999 5.879999 L 15.839999 5.96 C 15.946666 6.040001 16 6.14 16 6.259999 C 16 6.38 15.973333 6.493334 15.92 6.599999 L 10.719999 11.799999 L 15.839999 16.959999 C 15.946666 17.040001 16 17.139999 16 17.259998 C 16 17.379999 15.973333 17.493332 15.92 17.599998 L 15.839999 17.639999 C 15.759998 17.746666 15.659999 17.799999 15.54 17.799999 C 15.419999 17.799999 15.306665 17.773333 15.2 17.719999 L 10 12.52 L 4.84 17.639999 C 4.759999 17.746666 4.66 17.799999 4.54 17.799999 C 4.42 17.799999 4.306666 17.773333 4.2 17.719999 L 4.16 17.639999 C 4.053333 17.559999 4 17.459999 4 17.34 C 4 17.219999 4.026667 17.106667 4.08 17 L 9.28 11.799999 L 4.16 6.639999 C 4.053333 6.56 4 6.46 4 6.339999 C 4 6.22 4.026667 6.106668 4.08 6 L 4.16 5.96 Z " VerticalAlignment="Center" HorizontalAlignment="Center" />

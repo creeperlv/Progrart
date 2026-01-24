@@ -90,7 +90,7 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 
 	public bool IsModified()
 	{
-		return lastSave == CodeEditor.Text;
+		return lastSave != CodeEditor.Text;
 	}
 
 	public bool IsSameFile(IStorageFile file)

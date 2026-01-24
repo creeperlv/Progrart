@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Progrart.Dialogs.CloseConfirmationDialog">
+	<StackPanel>
+		<TextBlock FontSize="18" Name="TitleBlock" TextWrapping="Wrap"/>
+		<TextBlock Name="MessageBlock" TextWrapping="Wrap"/>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Classes="accent" Name="OKBtn" Content="Save All"/>
+			<Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Classes="accent" Grid.Column="1" Name="DiscardBtn" Content="Discard And Close"/>
+			<Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Name="CancelBtn" Grid.Column="2" Content="Cancel"/>
+		</Grid>
+	</StackPanel>
+</UserControl>
