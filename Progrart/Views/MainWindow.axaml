@@ -8,5 +8,5 @@
         x:Class="Progrart.Views.MainWindow"
         Icon="/Assets/Background.png"
         Title="Progrart">
-        <views:MainView />
+        <views:MainView Name="MainAppView"/>
 </Window>

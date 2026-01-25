@@ -222,12 +222,21 @@ public partial class MainView : UserControl
 
 	private void MenuItem_SaveAll_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
 	{
-		Task.Run(async () => await MainTabHost.Foreach(async (page) =>
+		SaveAll();
+	}
+
+	private void SaveAll(Action? OnDone = null)
+	{
+		Task.Run(async () =>
 		{
-			if (page is IEditorPage editor)
-				await editor.Save();
-			return false;
-		}));
+			await MainTabHost.Foreach(async (page) =>
+					{
+						if (page is IEditorPage editor)
+							await editor.Save();
+						return false;
+					});
+			OnDone?.Invoke();
+		});
 	}
 
 	private async void CreateProjectMenuItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
@@ -310,17 +319,36 @@ public partial class MainView : UserControl
 		});
 		return v;
 	}
-	private void ExitItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	public bool TryExit()
 	{
+
 		if (CloseCheck())
 		{
 			CloseConfirmationDialog dialog = new CloseConfirmationDialog();
-
+			dialog.onOK = async () =>
+			{
+				SaveAll(() =>
+				{
+					Environment.Exit(0);
+				});
+				return false;
+			};
+			dialog.onDiscard = async () =>
+			{
+				Environment.Exit(0);
+				return false;
+			};
 			DialogHost.Show(dialog);
+			return false;
 		}
 		else
 		{
 			Environment.Exit(0);
+			return true;
 		}
+	}
+	private void ExitItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		TryExit();
 	}
 }
