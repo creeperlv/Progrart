@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using Jint.Runtime;
 using Newtonsoft.Json;
 using Progrart.Controls;
 using Progrart.Controls.TabSystem;
@@ -85,7 +86,51 @@ public partial class ProjectEditor : UserControl, ITabPage, IEditorPage
 		sw.Flush();
 		sw.Close();
 	}
-
+	public async Task SaveAs()
+	{
+		var provider = TopLevel.GetTopLevel(this)?.StorageProvider;
+		if (provider is null)
+		{
+			return;
+		}
+		var file = await provider.SaveFilePickerAsync(new FilePickerSaveOptions
+		{
+			SuggestedStartLocation = App.CurrentOpenFolder,
+			FileTypeChoices =
+			[
+				new FilePickerFileType("Progrart Project File")
+				{
+					Patterns = ["*.progrart-project"],
+					MimeTypes = ["application/json"]
+				}
+			],
+			Title = "Save Progrart Project"
+		});
+		if (file is not null)
+		{
+			Project project = new Project();
+			await Dispatcher.UIThread.InvokeAsync(() =>
+			{
+				project.OutputDir = this.OutputDirBox.Text ?? "";
+				project.Arguments = ProjectWideArguments.ObtainArguments();
+				foreach (var item in ConfigurationHolder.Children)
+				{
+					if (item is ConfigEditor editor)
+					{
+						project.Configurations.Add(editor.ObtainConfiguration());
+					}
+				}
+			});
+			this.file = file;
+			using var stream = await file.OpenWriteAsync();
+			stream.SetLength(0);
+			using var sw = new StreamWriter(stream);
+			sw.WriteLine(JsonConvert.SerializeObject(project, Formatting.Indented));
+			sw.Flush();
+			sw.Close();
+		}
+		return;
+	}
 	public void SetHost(TabHost host)
 	{
 	}

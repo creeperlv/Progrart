@@ -153,8 +153,43 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 				await sw.FlushAsync();
 			});
 		}
+		else await SaveAs();
 	}
 
+	public async Task SaveAs()
+	{
+		var provider = TopLevel.GetTopLevel(this)?.StorageProvider;
+		if (provider is null)
+		{
+			return;
+		}
+		var file = await provider.SaveFilePickerAsync(new FilePickerSaveOptions
+		{
+			SuggestedStartLocation = App.CurrentOpenFolder,
+			FileTypeChoices = new[]
+			{
+				new FilePickerFileType("Progrart File")
+				{
+					Patterns = new[] { "*.progrart" },
+					MimeTypes = new[] { "text/plain" }
+				}
+			},
+			Title = "Save Progrart File"
+		});
+		if (file is not null)
+		{
+
+			string content = "";
+			await Dispatcher.UIThread.InvokeAsync(() => { content = CodeEditor.Text; });
+			this.file = file;
+			using var stream = await file.OpenWriteAsync();
+			stream.SetLength(0);
+			using var sw = new StreamWriter(stream);
+			await sw.WriteAsync(content);
+			await sw.FlushAsync();
+		}
+		return;
+	}
 	public void SetHost(TabHost host)
 	{
 

@@ -40,8 +40,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Controls\TargetEditor.axaml.cs">
-	    <DependentUpon>TargetEditor.axaml</DependentUpon>
-	  </Compile>
+		<Compile Update="Controls\TargetEditor.axaml.cs">
+			<DependentUpon>TargetEditor.axaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 </Project>

@@ -81,6 +81,7 @@ namespace Progrart.Pages
 	{
 		void LoadDocument(IStorageFile file);
 		Task Save();
+		async Task SaveAs() { return;}
 		bool IsSameFile(IStorageFile file);
 		void Execute(ExecuteArguments? args = null);
 	}

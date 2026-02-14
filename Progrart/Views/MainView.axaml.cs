@@ -164,6 +164,11 @@ public partial class MainView : UserControl
 				});
 			}
 		});
+		if (OperatingSystem.IsBrowser())
+		{
+			ExitItem.IsVisible = false;
+			ExitItemSeparator.IsVisible = false;
+		}
 	}
 
 	private void Execute()
@@ -350,5 +355,15 @@ public partial class MainView : UserControl
 	private void ExitItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
 	{
 		TryExit();
+	}
+
+	private void MenuItem_SaveAs_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		if (MainTabHost.GetCurrentPage() is IEditorPage editor) Task.Run(async () => await editor.SaveAs());
+	}
+
+	private void SaveAsButton_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		if (MainTabHost.GetCurrentPage() is IEditorPage editor) Task.Run(async () => await editor.SaveAs());
 	}
 }
