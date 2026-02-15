@@ -23,10 +23,13 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 	TabButton? btn = null;
 	Bitmap? image;
 	string lastSave = "";
+	LayoutDirection direction = LayoutDirection.Vertical;
+	LayoutMode mode = LayoutMode.Splitted;
 	public ProgrartEditorPage()
 	{
 		InitializeComponent();
 		CodeEditor.onSaveCmd = Save;
+		ApplyLayout();
 	}
 
 	public void BindButton(TabButton button)
@@ -193,5 +196,136 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 	public void SetHost(TabHost host)
 	{
 
+	}
+
+	private void LayoutButtonV_IsCheckedChanged(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		if (LayoutButtonV.IsChecked == true)
+		{
+
+			direction = LayoutDirection.Vertical;
+			ApplyLayout();
+		}
+	}
+
+	private void LayoutButtonH_IsCheckedChanged(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		if (LayoutButtonH.IsChecked == true)
+		{
+
+			direction = LayoutDirection.Horizontal;
+			ApplyLayout();
+		}
+	}
+
+	private void LayoutSplited_IsCheckedChanged(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		if (LayoutSplited?.IsChecked == true)
+		{
+			mode = LayoutMode.Splitted;
+			ApplyLayout();
+		}
+	}
+
+	private void LayoutCodeOnly_IsCheckedChanged(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		if (LayoutCodeOnly.IsChecked == true)
+		{
+			mode = LayoutMode.Code;
+			ApplyLayout();
+		}
+	}
+
+	private void LayoutImageOnly_IsCheckedChanged(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		if (LayoutImageOnly.IsChecked == true)
+		{
+			mode = LayoutMode.Image;
+			ApplyLayout();
+		}
+	}
+	public void ApplyLayout()
+	{
+		switch (mode)
+		{
+			case LayoutMode.Splitted:
+				CodeEditor.IsVisible = true;
+				PreviewHolder.IsVisible = true;
+				if (direction == LayoutDirection.Vertical)
+				{
+					Grid.SetColumn(Splitter, 1);
+					Grid.SetRow(Splitter, 0);
+					Grid.SetRowSpan(Splitter, 3);
+					Grid.SetColumnSpan(Splitter, 1);
+
+					Grid.SetRow(CodeEditor, 0);
+					Grid.SetColumn(CodeEditor, 0);
+					Grid.SetRowSpan(CodeEditor, 3);
+					Grid.SetColumnSpan(CodeEditor, 1);
+
+					Grid.SetColumn(PreviewHolder, 2);
+					Grid.SetRow(PreviewHolder, 0);
+					Grid.SetRowSpan(PreviewHolder, 3);
+					Grid.SetColumnSpan(PreviewHolder, 1);
+					VerticalSplitterVisualElement.IsVisible = true;
+					HorizontalSplitterVisualElement.IsVisible = false;
+				}
+				else
+				{
+					Grid.SetColumn(Splitter, 0);
+					Grid.SetRow(Splitter, 1);
+					Grid.SetRowSpan(Splitter, 1);
+					Grid.SetColumnSpan(Splitter, 3);
+
+					Grid.SetRow(CodeEditor, 0);
+					Grid.SetColumn(CodeEditor, 0);
+					Grid.SetRowSpan(CodeEditor, 1);
+					Grid.SetColumnSpan(CodeEditor, 3);
+
+					Grid.SetRow(PreviewHolder, 2);
+					Grid.SetColumn(PreviewHolder, 0);
+					Grid.SetRowSpan(PreviewHolder, 1);
+					Grid.SetColumnSpan(PreviewHolder, 3);
+					VerticalSplitterVisualElement.IsVisible = false;
+					HorizontalSplitterVisualElement.IsVisible = true;
+				}
+				break;
+			case LayoutMode.Code:
+				CodeEditor.IsVisible = true;
+				PreviewHolder.IsVisible = false;
+				Grid.SetRow(CodeEditor, 0);
+				Grid.SetRow(PreviewHolder, 0);
+				Grid.SetColumn(CodeEditor, 0);
+				Grid.SetColumn(PreviewHolder, 0);
+				Grid.SetRowSpan(CodeEditor, 3);
+				Grid.SetRowSpan(PreviewHolder, 3);
+				Grid.SetColumnSpan(CodeEditor, 3);
+				Grid.SetColumnSpan(PreviewHolder, 3);
+				VerticalSplitterVisualElement.IsVisible = false;
+				HorizontalSplitterVisualElement.IsVisible = false;
+				break;
+			case LayoutMode.Image:
+				CodeEditor.IsVisible = false;
+				PreviewHolder.IsVisible = true;
+				Grid.SetRow(CodeEditor, 0);
+				Grid.SetRow(PreviewHolder, 0);
+				Grid.SetColumn(CodeEditor, 0);
+				Grid.SetColumn(PreviewHolder, 0);
+				Grid.SetRowSpan(CodeEditor, 3);
+				Grid.SetRowSpan(PreviewHolder, 3);
+				Grid.SetColumnSpan(CodeEditor, 3);
+				Grid.SetColumnSpan(PreviewHolder, 3);
+				VerticalSplitterVisualElement.IsVisible = false;
+				HorizontalSplitterVisualElement.IsVisible = false;
+				break;
+		}
+	}
+	enum LayoutDirection
+	{
+		Vertical, Horizontal
+	}
+	enum LayoutMode
+	{
+		Splitted, Code, Image
 	}
 }
