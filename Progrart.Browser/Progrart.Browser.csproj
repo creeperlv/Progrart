@@ -5,6 +5,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<WasmAllowUndefinedSymbols>true</WasmAllowUndefinedSymbols>
 		<Nullable>enable</Nullable>
+		<WasmBuildNative>true</WasmBuildNative>
 	</PropertyGroup>
 
 	<ItemGroup>
