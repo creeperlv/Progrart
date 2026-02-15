@@ -88,7 +88,7 @@ public partial class MainView : UserControl
 		};
 		NewFileButton.Click += (_, _) =>
 		{
-			MainTabHost.AddPage(new EditorPage());
+			MainTabHost.AddPage(new ProgrartEditorPage());
 		};
 		AboutItem.Click += (_, _) =>
 		{

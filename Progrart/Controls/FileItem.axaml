@@ -34,7 +34,7 @@
 						<MenuItem Header="_Move to" Name="MoveToMenuItem"/>
 						<!--<MenuItem Header="_Paste"/>-->
 						<Separator/>
-						<MenuItem Header="_Delete"/>
+						<MenuItem Header="_Delete" Name="DeleteMenuItem" Click="DeleteMenuItem_Click"/>
 					</ContextMenu>
 				</Button.ContextMenu>
 				<Grid>

@@ -282,4 +282,20 @@ public partial class FileItem : UserControl
 			}
 		}
 	}
+
+	private async void DeleteMenuItem_Click(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+	{
+		var content = new ConfirmationDialog("Are you sure?", "This operation cannot be undone.");
+		content.onOK = async () =>
+		{
+			if (currentItem is not null)
+				await currentItem.DeleteAsync();
+			if (this.Parent is StackPanel panel)
+			{
+				panel.Children.Remove(this);
+			}
+			return false;
+		};
+		await DialogHost.Show(content);
+	}
 }

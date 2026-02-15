@@ -3,22 +3,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Progrart.Dialogs.CloseConfirmationDialog">
-	<StackPanel>
+             x:Class="Progrart.Dialogs.ConfirmationDialog">
+    	<StackPanel>
 		<TextBlock FontSize="18" Name="TitleBlock" TextWrapping="Wrap">
-			Unsaved Changes
+			Title
 		</TextBlock>
 		<TextBlock Name="MessageBlock" TextWrapping="Wrap">
-			Save all files or discard changes?
+			Content
 		</TextBlock>
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition/>
 				<ColumnDefinition/>
-				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
-			<Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Classes="accent" Name="OKBtn" Content="Save All"/>
-			<Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Column="1" Name="DiscardBtn" Content="Discard And Close"/>
+			<Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Classes="accent" Name="OKBtn" Content="OK"/>
 			<Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Name="CancelBtn" Grid.Column="2" Content="Cancel"/>
 		</Grid>
 	</StackPanel>
