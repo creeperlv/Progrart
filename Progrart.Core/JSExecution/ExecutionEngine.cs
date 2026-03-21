@@ -83,6 +83,36 @@ namespace Progrart.Core.JSExecution
 			_obj.Set("floor", JsObject.FromObject(Engine, (object)MathFunctions.floor));
 			_obj.Set("sinh", JsObject.FromObject(Engine, (object)MathFunctions.sinh));
 			_obj.Set("cosh", JsObject.FromObject(Engine, (object)MathFunctions.cosh));
+			Engine.SetValue("random", JsObject.FromObject(Engine, (int seed) =>
+			{
+				var obj = new JsObject(Engine);
+				Random random = new Random(seed);
+				obj.Set("Next", JsObject.FromObject(Engine, () =>
+				{
+					return random.Next();
+				}));
+				obj.Set("NextMax", JsObject.FromObject(Engine, (int max) =>
+				{
+					return random.Next(max);
+				}));
+				obj.Set("NextFloat", JsObject.FromObject(Engine, () => random.NextDouble()));
+				return obj;
+			}));
+			Engine.SetValue("random_undetermined", JsObject.FromObject(Engine, () =>
+			{
+				var obj = new JsObject(Engine);
+				Random random = new Random();
+				obj.Set("Next", JsObject.FromObject(Engine, () =>
+				{
+					return random.Next();
+				}));
+				obj.Set("NextMax", JsObject.FromObject(Engine, (int max) =>
+				{
+					return random.Next(max);
+				}));
+				obj.Set("NextFloat", JsObject.FromObject(Engine, () => random.NextDouble()));
+				return obj;
+			}));
 		}
 		string formSymbol(Dictionary<string, string> symbols)
 		{

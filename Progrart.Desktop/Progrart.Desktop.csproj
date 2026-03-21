@@ -1,39 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<!--If you are willing to use platform-specific APIs, use conditional compilation.
+		<OutputType>WinExe</OutputType><!--If you are willing to use platform-specific APIs, use conditional compilation.
     See https://docs.avaloniaui.net/docs/guides/platforms/platform-specific-code/dotnet for more details.-->
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<PublishAot>true</PublishAot>
+		<AssemblyName>ProgrartDesktop</AssemblyName>
 	</PropertyGroup>
-
 	<PropertyGroup>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<ApplicationIcon>progrart_app_icon.ico</ApplicationIcon>
 	</PropertyGroup>
-
 	<ItemGroup>
-		<Content Include="progrart_app_icon.ico" />
+		<Content Include="progrart_app_icon.ico"/>
 	</ItemGroup>
-
 	<ItemGroup>
-		<TrimmerRootAssembly Include="Progrart" />
-		<TrimmerRootAssembly Include="Progrart.Core" />
-		<TrimmerRootAssembly Include="Jint" />
+		<TrimmerRootAssembly Include="Progrart"/>
+		<TrimmerRootAssembly Include="Progrart.Core"/>
+		<TrimmerRootAssembly Include="Jint"/>
 	</ItemGroup>
-
 	<ItemGroup>
-		<PackageReference Include="Avalonia.Desktop" />
-		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+		<PackageReference Include="Avalonia.Desktop"/><!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
 		<PackageReference Include="Avalonia.Diagnostics">
-			<IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
-			<PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+			<IncludeAssets Condition="&apos;$(Configuration)&apos; != &apos;Debug&apos;">None</IncludeAssets>
+			<PrivateAssets Condition="&apos;$(Configuration)&apos; != &apos;Debug&apos;">All</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux"/>
 	</ItemGroup>
-
 	<ItemGroup>
-		<ProjectReference Include="..\Progrart\Progrart.csproj" />
+		<ProjectReference Include="..\Progrart\Progrart.csproj"/>
 	</ItemGroup>
 </Project>
