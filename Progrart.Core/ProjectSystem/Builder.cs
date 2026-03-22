@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics;
+using Newtonsoft.Json;
 using Progrart.Core.JSExecution;
 using Progrart.Core.Storage;
 
@@ -33,7 +34,14 @@ namespace Progrart.Core.ProjectSystem
 				return;
 			using var reader = new StreamReader(stream);
 			var img = executor.RenderImage(item.Size, reader.ReadToEnd(), args);
-			var outputFile= Path.Combine(project.OutputDir, item.Target ?? item.Source + ".png");
+			string outputFile;
+			if (config.OutputDir != null)
+				outputFile = Path.Combine(project.OutputDir, config.OutputDir ?? "", item.Target ?? item.Source + ".png");
+			else
+			{
+				outputFile = Path.Combine(project.OutputDir, item.Target ?? item.Source + ".png");
+			}
+
 			using var img_stream = await provider.TryOpenWrite(outputFile);
 			if (img_stream is null)
 				return;
@@ -42,7 +50,7 @@ namespace Progrart.Core.ProjectSystem
 		}
 		public async Task Build(string targetConfig, int maxJobCount = 1)
 		{
-			int finalJobCount= Math.Max(maxJobCount < 0 ? Environment.ProcessorCount : maxJobCount, 1);
+			int finalJobCount = Math.Max(maxJobCount < 0 ? Environment.ProcessorCount : maxJobCount, 1);
 			foreach (var config in project.Configurations)
 			{
 				if (config.Name == targetConfig)
@@ -67,7 +75,14 @@ namespace Progrart.Core.ProjectSystem
 
 						await Parallel.ForEachAsync(config.Items, options, async (item, token) =>
 						{
-							await Execute(config, item);
+							try
+							{
+								await Execute(config, item);
+							}
+							catch (Exception e)
+							{
+								Trace.WriteLine(e);
+							}
 
 							int currentCount = Interlocked.Increment(ref index);
 							OnProgressUpdate?.Invoke(config.Items.Count, currentCount);

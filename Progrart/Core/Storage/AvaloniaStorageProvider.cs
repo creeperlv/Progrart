@@ -1,6 +1,7 @@
 ﻿using Avalonia.Platform.Storage;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,12 @@ namespace Progrart.Core.Storage
 			{
 				return await file.OpenWriteAsync();
 			}
+			var parentPath = Path.GetDirectoryName(path);
+			if (parentPath is not null)
+				if ((await baseFolder.GetFolderAsync(parentPath)) == null)
+				{
+					await baseFolder.CreateFolderAsync(parentPath);
+				}
 			file = await baseFolder.CreateFileAsync(path);
 			if (file is not null)
 				return await file.OpenWriteAsync();

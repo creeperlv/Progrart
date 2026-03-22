@@ -274,7 +274,16 @@ public partial class MainView : UserControl
 	{
 		if (App.LoadedProject is not null)
 		{
-			Builder builder = new Builder(App.LoadedProject, new AvaloniaStorageProvider(App.CurrentOpenFolder));
+			Builder builder;
+
+			var localPath = App.CurrentOpenFolder?.TryGetLocalPath();
+			if (localPath != null)
+			{
+				builder = new Builder(App.LoadedProject, new ClassicStorageProvider(new DirectoryInfo(localPath)));
+			}
+			else
+				builder = new Builder(App.LoadedProject, new AvaloniaStorageProvider(App.CurrentOpenFolder));
+
 			var config = App.LoadedProject.Configurations[ConfigBox.SelectedIndex];
 			var name = config.Name;
 			if (config is null) return;
