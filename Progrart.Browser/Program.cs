@@ -11,6 +11,9 @@ internal sealed partial class Program
 		App.SettingsProvider=new BrowserSettingsProvider();
 		return BuildAvaloniaApp()
 			.WithInterFont()
+#if DEBUG
+			.WithDeveloperTools()
+#endif
 			.StartBrowserAppAsync("out");
 	}
 

@@ -202,7 +202,6 @@ public partial class ProgrartEditorPage : UserControl, ITabPage, IEditorPage
 	{
 		if (LayoutButtonV.IsChecked == true)
 		{
-
 			direction = LayoutDirection.Vertical;
 			ApplyLayout();
 		}

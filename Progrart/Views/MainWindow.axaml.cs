@@ -8,7 +8,8 @@ public partial class MainWindow : Window
 	{
 		InitializeComponent();
 		this.ExtendClientAreaToDecorationsHint = true;
-		this.ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.PreferSystemChrome;
+		//this.WindowDecorations= WindowDecorations.
+		//this.ExtendClientAreaChromeHints = Avalonia.Platform.ExtendClientAreaChromeHints.PreferSystemChrome;
 		this.Closing += MainWindow_Closing;
 	}
 
